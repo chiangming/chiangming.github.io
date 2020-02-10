@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    8.事件绑定 |  Matt&#39;s Blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+</html>
+
+  <body>
+    <div id="app">
+      <main class="content">
+        <section class="outer">
+  <article id="post-vue源码/8.event" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  8.事件绑定
+</h1>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/" class="article-date">
+  <time datetime="2019-12-21T16:15:33.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.3k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">10分钟</span>
+        </span>
+    </span>
+</div>
+
+                    
+          </div>
+          
+
+            
+              
+    <div class="tocbot"></div>
+
+
+
+
+
+                
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h4 id="生成-ast树"><a href="#生成-ast树" class="headerlink" title="生成 ast树"></a>生成 ast树</h4><p> 根据 assts的属性来提取出其中的 事件属性<br> <a id="more"></a><br> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> el.events = &#123;</span><br><span class="line">  select: &#123;</span><br><span class="line">    value: <span class="string">'selectHandler'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">el.nativeEvents = &#123;</span><br><span class="line">  click: &#123;</span><br><span class="line">    value: <span class="string">'clickHandler'</span>,</span><br><span class="line">    modifiers: &#123;</span><br><span class="line">      prevent: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="生成代码"><a href="#生成代码" class="headerlink" title="生成代码"></a>生成代码</h4> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">template: <span class="string">'&lt;button @click="clickHandler($event)" @select="selecHandler"&gt;'</span> +</span><br><span class="line"> <span class="string">'click me'</span> +</span><br><span class="line"> <span class="string">'&lt;/button&gt;'</span>,</span><br></pre></td></tr></table></figure>
+<p>对于这种 <code>@click=&quot;clickHandler($event)&quot;</code>，即不满足是一个变量表达式，也不是一个函数表达式，在生成render函数时，会对回调函数进行包装， 如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params">$event</span>)</span>&#123;</span><br><span class="line">    value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">$event</span>)</span>&#123;</span><br><span class="line">  clickHandler($event)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//传入的data参数</span></span><br><span class="line">&#123;</span><br><span class="line">  on: &#123;<span class="string">"select"</span>: selectHandler&#125;,</span><br><span class="line">  nativeOn: &#123;<span class="string">"click"</span>: <span class="function"><span class="keyword">function</span>(<span class="params">$event</span>) </span>&#123;  <span class="comment">//native 只用在component上</span></span><br><span class="line">      $event.preventDefault();</span><br><span class="line">      <span class="keyword">return</span> clickHandler($event)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="补充知识点"><a href="#补充知识点" class="headerlink" title="补充知识点"></a>补充知识点</h4><p>vue的事件修饰符</p>
+<ul>
+<li>capture  添加事件侦听器时使用事件捕获模式 , 即元素自身触发的事件先在此处理，然后才交由内部元素进行处理 捕获模式下触发事件</li>
+<li>prevent 阻止默认事件发生</li>
+<li>passive listener 永远不会调用 preventDefault()。</li>
+<li>stop 阻止单击事件继续传播</li>
+<li>self 只当在 event.target 是当前元素自身时触发处理函数</li>
+<li>once </li>
+</ul>
+<blockquote>
+<p>事件捕获和事件冒泡是两个公司提出的为了解决页面中事件流（从页面中接受事件的顺序，事件发生顺序）的问题，<strong>先事件捕获再事件冒泡</strong>，现在默认情况下使用的是<strong>事件冒泡</strong>阶段调用事件处理函数</p>
+</blockquote>
+<blockquote>
+<p>addEventListener 第三个参数默认值为配置对象{capture:false} 以及第四个参数useCapture默认为false，表示在<strong>事件冒泡</strong>阶段调用事件处理函数;如果参数为true，则表示在事件捕获阶段调用处理函数</p>
+</blockquote>
+<p>target.addEventListener(type, listener, options);<br>target.addEventListener(type, listener, useCapture);</p>
+<ul>
+<li><p>option:{capture,once,passive} </p>
+<ul>
+<li>capture:  Boolean，表示 listener 会在该类型的事件捕获阶段传播到该 EventTarget 时触发。</li>
+<li>once:  Boolean，表示 listener 在添加之后最多只调用一次。如果是 true， listener 会在其被调用之后自动移除。</li>
+<li>passive: Boolean，设置为true时，表示 listener 永远不会调用 preventDefault()。</li>
+</ul>
+</li>
+<li><p>useCapture:同capture</p>
+</li>
+<li><p>e.targer 事件真正发出的dom </p>
+</li>
+<li><p>e.currentTarget 在事件冒泡阶段 捕获事件的dom</p>
+</li>
+</ul>
+<h2 id="DOM事件"><a href="#DOM事件" class="headerlink" title="DOM事件"></a>DOM事件</h2><p>patch 阶段 执行 <strong>invokeCreateHooks</strong> -&gt; updateDOMListeners （先子后父）</p>
+<h4 id="初始化事件"><a href="#初始化事件" class="headerlink" title="初始化事件"></a>初始化事件</h4><p>传入的是 vnode.data.on</p>
+<ul>
+<li>updateListeners(vnode.data.on) 会  先遍历 新的事件，为每一个事件进行包装生成真正的执行函数invoker，事件的回调函数存储在 fns = invoker.fns</li>
+<li>调用add方法，用过 target.addEventListene 真正添加监听事件， </li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 封装回调函数 绑定到 invoker.fns 以便后期更换回调函数</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createFnInvoker</span> (<span class="params">fns: Function | Array&lt;Function&gt;, vm: ?Component</span>): <span class="title">Function</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">invoker</span> (<span class="params"></span>) </span>&#123; <span class="comment">//事件执行的回调函数</span></span><br><span class="line">    <span class="keyword">const</span> fns = invoker.fns</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(fns)) &#123;</span><br><span class="line">      <span class="keyword">const</span> cloned = fns.slice()</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; cloned.length; i++) &#123;</span><br><span class="line">        invokeWithErrorHandling(cloned[i], <span class="literal">null</span>, <span class="built_in">arguments</span>, vm, <span class="string">`v-on handler`</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// return handler return value for single handlers</span></span><br><span class="line">      <span class="keyword">return</span> invokeWithErrorHandling(fns, <span class="literal">null</span>, <span class="built_in">arguments</span>, vm, <span class="string">`v-on handler`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  invoker.fns = fns</span><br><span class="line">  <span class="keyword">return</span> invoker</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="更新事件"><a href="#更新事件" class="headerlink" title="更新事件"></a>更新事件</h4><ul>
+<li>遍历新的事件对象，如果旧的有该事件，比较新旧 事件的回调函数是否相同，如果不同，那么执行 <code>old.fns = cur</code>，改变旧的<code>invoker.fns</code> 为新的回调函数，这样就可以直接改变真正执行的函数中的fns，<code>on[name] = old</code>，保存旧的invoker 到 新的 vnode.data.on 事件对象上。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">updateListeners</span> (<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  on: Object,</span></span></span><br><span class="line"><span class="function"><span class="params">  oldOn: Object,</span></span></span><br><span class="line"><span class="function"><span class="params">  add: Function,</span></span></span><br><span class="line"><span class="function"><span class="params">  remove: Function,</span></span></span><br><span class="line"><span class="function"><span class="params">  vm: Component</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">for</span> (name <span class="keyword">in</span> on) &#123;</span><br><span class="line">    def = cur = on[name]</span><br><span class="line">    old = oldOn[name]</span><br><span class="line">    event = normalizeEvent(name)</span><br><span class="line">    <span class="comment">/* istanbul ignore if */</span></span><br><span class="line">    <span class="keyword">if</span> (__WEEX__ &amp;&amp; isPlainObject(def)) &#123;</span><br><span class="line">      cur = def.handler</span><br><span class="line">      event.params = def.params</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (isUndef(cur)) &#123;</span><br><span class="line">      process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; warn(</span><br><span class="line">        <span class="string">`Invalid handler for event "<span class="subst">$&#123;event.name&#125;</span>": got `</span> + <span class="built_in">String</span>(cur),</span><br><span class="line">        vm</span><br><span class="line">      )</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isUndef(old)) &#123;</span><br><span class="line">      <span class="keyword">if</span> (isUndef(cur.fns)) &#123;</span><br><span class="line">        cur = on[name] = createFnInvoker(cur, vm)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (isTrue(event.once)) &#123;</span><br><span class="line">        cur = on[name] = createOnceHandler(event.name, cur, event.capture)</span><br><span class="line">      &#125;</span><br><span class="line">      add(event.name, cur, event.capture, event.passive, event.params)</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cur !== old) &#123;</span><br><span class="line">      old.fns = cur  <span class="comment">//invoker中执行的函数</span></span><br><span class="line">      on[name] = old</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (name <span class="keyword">in</span> oldOn) &#123;</span><br><span class="line">    <span class="keyword">if</span> (isUndef(on[name])) &#123;</span><br><span class="line">      event = normalizeEvent(name)</span><br><span class="line">      remove(event.name, oldOn[name], event.capture)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+add(event.name, cur, event.capture, event.passive, event.params) =&gt;<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target.addEventListener(name, handler, supportsPassive? &#123; capture, passive &#125;: capture)</span><br></pre></td></tr></table></figure></li>
+<li>遍历 旧的事件对象，如果新的事件对象上未定义，那么就删去 监听事件 <code>target.removeEventListener</code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// listener 必须为先前定义的同一个事件回调函数</span></span><br><span class="line"><span class="built_in">document</span>.removeEventListener(name, handler, capture);</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h2><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//传入的data参数</span></span><br><span class="line">&#123;</span><br><span class="line">  on: &#123;<span class="string">"select"</span>: selectHandler&#125;,</span><br><span class="line">  nativeOn: &#123;<span class="string">"click"</span>: <span class="function"><span class="keyword">function</span>(<span class="params">$event</span>) </span>&#123;  <span class="comment">//native 只用在component上</span></span><br><span class="line">      $event.preventDefault();</span><br><span class="line">      <span class="keyword">return</span> clickHandler($event)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成组件占位vnode时，并传入listeners<br>在vnode中</p>
+<ul>
+<li>listeners = data.on 保存自定义事件</li>
+<li>data.on = data.nativeOn ，来初始化DOM事件 通过 updateDomListener来实现</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CreateComponent</span></span><br><span class="line"><span class="keyword">var</span> listeners = data.on;</span><br><span class="line">    <span class="comment">// replace with listeners with .native modifier</span></span><br><span class="line">    <span class="comment">// so it gets processed during parent component patch.</span></span><br><span class="line">    data.on = data.nativeOn;</span><br><span class="line"><span class="keyword">var</span> vnode = <span class="keyword">new</span> VNode(</span><br><span class="line">      (<span class="string">"vue-component-"</span> + (Ctor.cid) + (name ? (<span class="string">"-"</span> + name) : <span class="string">''</span>)),</span><br><span class="line">      data, <span class="literal">undefined</span>, <span class="literal">undefined</span>, <span class="literal">undefined</span>, context,</span><br><span class="line">      &#123; <span class="attr">Ctor</span>: Ctor, <span class="attr">propsData</span>: propsData, <span class="attr">listeners</span>: listeners, <span class="attr">tag</span>: tag, <span class="attr">children</span>: children &#125;, <span class="comment">//componentOptions</span></span><br><span class="line">      asyncFactory</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<p>是在 patch的过程中，生成 组件占位符vnode vue实例的过程中，执行了 vue.init</p>
+<ul>
+<li>首先是合并options，其中 opts 即 vm.$options  <code>vm.$options._parentListeners = vnode.componentOptions.listeners</code></li>
+</ul>
+<p><code>vnodeComponentOptions = parentVnode.componentOptions</code><br><code>opts._parentListeners = vnodeComponentOptions.listeners</code>就是用户自定义的事件</p>
+<ul>
+<li><p>initEvents(vm) 就是对自定义事件的实现，同样调用updateComponentListeners(<strong>vm.$options._parentListeners</strong>) <code>target = vm;</code>-&gt; updateListeners但是传入的add和remove方法不同，分别执行 target.$on(event, fn)，target.$off(event, fn)</p>
+<ul>
+<li><p>target.$on(event, fn) ，存储 event（事件名）事件，fn（回调函数invoker） 到  <strong>vm._events[event]</strong>，通过调用 Vue.prototype.$emit 来遍历执行 <code>vm._events[event]</code>中的回调函数。</p>
+</li>
+<li><p>target.$emit,根据event名，遍历 <code>vm._events[event]</code>，来执行所对应的所有回调函数</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//initEvent() 只处理 组件事件</span></span><br><span class="line"><span class="keyword">var</span> listeners = vm.$options._parentListeners;</span><br><span class="line">    <span class="keyword">if</span> (listeners) &#123;</span><br><span class="line">      updateComponentListeners(vm, listeners);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//add</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">event, fn</span>) </span>&#123;</span><br><span class="line">    target.$on(event, fn);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">Vue.prototype.$on = <span class="function"><span class="keyword">function</span> (<span class="params">event, fn</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> vm = <span class="keyword">this</span>;</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(event)) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, l = event.length; i &lt; l; i++) &#123;</span><br><span class="line">          vm.$on(event[i], fn);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        (vm._events[event] || (vm._events[event] = [])).push(fn);</span><br><span class="line">        <span class="comment">// optimize hook:event cost by using a boolean flag marked at registration</span></span><br><span class="line">        <span class="comment">// instead of a hash lookup</span></span><br><span class="line">        <span class="keyword">if</span> (hookRE.test(event)) &#123;</span><br><span class="line">          vm._hasHookEvent = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> vm</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// remove</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">remove</span> (<span class="params">event, fn</span>) </span>&#123;</span><br><span class="line">    target.$off(event, fn);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">Vue.prototype.$off = <span class="function"><span class="keyword">function</span> (<span class="params">event, fn</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> vm = <span class="keyword">this</span>;</span><br><span class="line">      <span class="comment">// all</span></span><br><span class="line">      <span class="keyword">if</span> (!<span class="built_in">arguments</span>.length) &#123;</span><br><span class="line">        vm._events = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</span><br><span class="line">        <span class="keyword">return</span> vm</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// array of events</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(event)) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i$<span class="number">1</span> = <span class="number">0</span>, l = event.length; i$<span class="number">1</span> &lt; l; i$<span class="number">1</span>++) &#123;</span><br><span class="line">          vm.$off(event[i$<span class="number">1</span>], fn);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> vm</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// specific event</span></span><br><span class="line">      <span class="keyword">var</span> cbs = vm._events[event];</span><br><span class="line">      <span class="keyword">if</span> (!cbs) &#123;</span><br><span class="line">        <span class="keyword">return</span> vm</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (!fn) &#123;</span><br><span class="line">        vm._events[event] = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">return</span> vm</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// specific handler</span></span><br><span class="line">      <span class="keyword">var</span> cb;</span><br><span class="line">      <span class="keyword">var</span> i = cbs.length;</span><br><span class="line">      <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">        cb = cbs[i];</span><br><span class="line">        <span class="keyword">if</span> (cb === fn || cb.fn === fn) &#123;</span><br><span class="line">          cbs.splice(i, <span class="number">1</span>);</span><br><span class="line">          <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> vm</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//emit</span></span><br><span class="line">Vue.prototype.$emit = <span class="function"><span class="keyword">function</span> (<span class="params">event: string</span>): <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> vm: Component = <span class="keyword">this</span></span><br><span class="line">    <span class="keyword">let</span> cbs = vm._events[event]</span><br><span class="line">    <span class="keyword">if</span> (cbs) &#123;</span><br><span class="line">      cbs = cbs.length &gt; <span class="number">1</span> ? toArray(cbs) : cbs</span><br><span class="line">      <span class="keyword">const</span> args = toArray(<span class="built_in">arguments</span>, <span class="number">1</span>)</span><br><span class="line">      <span class="keyword">const</span> info = <span class="string">`event handler for "<span class="subst">$&#123;event&#125;</span>"`</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, l = cbs.length; i &lt; l; i++) &#123;</span><br><span class="line">        invokeWithErrorHandling(cbs[i], vm, args, vm, info)<span class="comment">//执行</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> vm</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><p>更新方式和dom events 相同，都是比较新旧 listeners对象，只是添加和移除事件的方式不同</p>
+<p><strong>对于父子组件通信的理解</strong></p>
+<blockquote>
+<p> <code>this.$emit</code>是 子组件抛出事件。在实现父子组件的通信时通常都这么写。</p>
+</blockquote>
+<p><code>&lt;child @select=&quot;selectHandler&quot; @click.native.prevent=&quot;clickHandler&quot;&gt;&lt;/child&gt;</code>。<br> native表示像原生事件一样通过addEventListener实现</p>
+<blockquote>
+<p>其实是 组件 将事件注册在了占位符组件的 componentOptions.listeners 上，在组件实例化的过程中，占位符vnode 注册的事件通过options，注册到组件的vue实例上<code>vm.$options._parentListeners</code>，然后生成回调函数绑定在 <code>vm._events[event]</code>。在组件执行 this.$emit函数时，其实是执行了 自身 vue实例上的 中的回调函数。但是 回调函数是在父组件定义的，执行的环境还是在 父组件中。在当前例子中，当子组件的 button 被点击了，它通过 this.$emit(‘select’) 派发事件，那么子组件的实例就监听到了这个 select 事件，并执行它的回调函数————定义在父组件中的 selectHandler 方法，这样就相当于完成了一次父子组件的通讯。</p>
+</blockquote>
+<blockquote>
+<p>render 生成的render函数开头是 with(this),用来绑定内部的作用域，所以在任何数据时，都是在当前作用域下取值，在调用 <code>vnode = render.call(vm._renderProxy, vm.$createElement)</code>传入了<code>vm._renderProxy</code>，在生产环境下 <code>vm._renderProxy = vm</code>,所以在子组件触发事件，调用父组件提供的回调函数时，其作用域还是父组件</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span>(<span class="keyword">this</span>)&#123;_c(<span class="string">'child'</span>,&#123;<span class="attr">on</span>:&#123;<span class="string">"myclick"</span>:mycb&#125;)&#125;</span><br><span class="line"><span class="comment">// 取 mycb，其实就是 this.mycb ，也就是在当前 vm 取mycb</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>vue实例下的 methods中的方法都在 initState的过程中被绑定到了vue实例vm上，可以通过vm.methodName 直接访问 </p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Child = &#123;</span><br><span class="line">  template: <span class="string">'&lt;button @click="clickHandler($event)"&gt;'</span> +</span><br><span class="line">  <span class="string">'click me'</span> +</span><br><span class="line">  <span class="string">'&lt;/button&gt;'</span>,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    clickHandler(e) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'Button clicked!'</span>, e)</span><br><span class="line">      <span class="keyword">this</span>.$emit(<span class="string">'select'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>target.$off(event, fn)</code><br><code>vm._events[event] = null</code>,从vm实例的 <code>_events[event]</code>数组中删去该回调函数</li>
+</ul>
+<h3 id="dom-事件-和-component-事件-的区别"><a href="#dom-事件-和-component-事件-的区别" class="headerlink" title="dom 事件 和 component 事件 的区别"></a>dom 事件 和 component 事件 的区别</h3><ol>
+<li>初始化的时间不同，dom是在patch创建dom时，调用created钩子函数时；component事件是在生成组件实例的初始化过程</li>
+<li>实现方式不同，dom是通过原生的addEventListener添加事件；component事件是通过将回调函数挂载在vm实例上，并配合$emit实现</li>
+</ol>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            9.双向绑定
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">7.编译</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+
+          <div class="to_top">
+            <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+          </div>
+      </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Matt&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/resume">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9001/" target="_blank" rel="noopener">项目展示</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+        
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['https://github.com/chiangming/','sa517144@mail.ustc.edu.cn',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+    </div>
+  </body>
+
+  </html>

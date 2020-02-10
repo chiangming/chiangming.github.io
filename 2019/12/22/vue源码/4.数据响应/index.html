@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    4.数据响应 |  Matt&#39;s Blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+</html>
+
+  <body>
+    <div id="app">
+      <main class="content">
+        <section class="outer">
+  <article id="post-vue源码/4.数据响应" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  4.数据响应
+</h1>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/4.%E6%95%B0%E6%8D%AE%E5%93%8D%E5%BA%94/" class="article-date">
+  <time datetime="2019-12-21T16:15:31.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.7k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">16分钟</span>
+        </span>
+    </span>
+</div>
+
+                    
+          </div>
+          
+
+            
+              
+    <div class="tocbot"></div>
+
+
+
+
+
+                
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <p>Vue源码中实现依赖收集，实现了三个类：<br><img src="http://103.14.34.148:9000/imgs/blog/img/a.png" alt=""></p>
+<ul>
+<li>Dep：扮演观察目标的角色，每一个数据都会有Dep类实例，它内部有个subs队列，subs就是subscribers的意思，保存着依赖本数据的观察者，当本数据变更时，调用dep.notify()通知观察者</li>
+<li>Watcher：扮演观察者的角色，进行观察者函数的包装处理。如render()函数，会被进行包装成一个Watcher实例</li>
+<li>Observer：辅助的可观测类，数组/对象通过它的转化，可成为可观测数据<br>参考：<a href="https://ruphi.cn/archives/336/" target="_blank" rel="noopener">Vue依赖收集原理</a>  </li>
+</ul>
+<a id="more"></a>
+
+
+
+<h2 id="创建响应式对象"><a href="#创建响应式对象" class="headerlink" title="创建响应式对象"></a>创建响应式对象</h2><p>init =&gt; initState =&gt; initData =&gt; observe =&gt; new Observer()</p>
+<blockquote>
+<p>initState 包含了对 data props methods computed watch</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data()&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        msg:<span class="string">''</span>,</span><br><span class="line">        show:<span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中 value 为 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    msg:<span class="string">''</span>,</span><br><span class="line">    show:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 value 对象 上定义 <code>__ob__</code> 属性，来保存当前数据的 Observer实例<ul>
+<li>创建 Dep 对象，其中 subs 数组 来保存该数据的所有watcher</li>
+</ul>
+</li>
+<li>walk 遍历 value<ul>
+<li>value 中的每一个属性，都执行 defineReactive =&gt; oberve() 重复上述步骤，直到value不再是一个对象或Vnode</li>
+<li>为每一个属性 defineProperty() 定义 setter getter方法</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>用户自定义watcher在init阶段就生成了，而渲染watcher是在 mount过程中生成，所以用户自定义的 watcher id 小于 渲染 watcher<br><img src="http://103.14.34.148:9000/imgs/blog/img/%E9%85%8D%E7%BD%AE%E4%BE%9D%E8%B5%96%E8%A7%82%E6%B5%8B.png" alt="配置依赖观测"></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="comment">/* 不是对象 或 是 vnode*/</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">new</span> Observe(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Observe</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dep = <span class="keyword">new</span> Dep(); <span class="comment">// Observe.dep</span></span><br><span class="line">    value.__ob__ = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="comment">/*数组*/</span>)&#123;</span><br><span class="line">        <span class="comment">//处理数组</span></span><br><span class="line">        <span class="comment">//数组添加增强后的 会改变原数组的操作（pop，push，shift，unshift，reverse，sort，splice）</span></span><br><span class="line">        <span class="keyword">this</span>.observeArray(value);<span class="comment">//数组没有defineReactive的操作 </span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.walk(value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Observe.prototype.walk = <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 遍历 value 的每一个属性</span></span><br><span class="line">    defineReactive(value,key);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">obj,key</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> dep = <span class="keyword">new</span> Dep() <span class="comment">//闭包dep</span></span><br><span class="line">    childob = observe(obj[key]);</span><br><span class="line">    <span class="comment">//定义 getter settter</span></span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">        <span class="keyword">get</span>()&#123;</span><br><span class="line"></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="keyword">set</span>()&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">observeArray (items: <span class="built_in">Array</span>&lt;any&gt;) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, l = items.length; i &lt; l; i++) &#123;</span><br><span class="line">      observe(items[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">get</span>: function reactiveGetter () &#123;</span><br><span class="line">      <span class="keyword">const</span> value = getter ? getter.call(obj) : val</span><br><span class="line">      <span class="keyword">if</span> (Dep.target) &#123;  <span class="comment">//判断是否在渲染阶段</span></span><br><span class="line">        dep.depend() <span class="comment">// 对象内容（数据）闭包dep 的依赖收集</span></span><br><span class="line">        <span class="keyword">if</span> (childOb) &#123;</span><br><span class="line">          childOb.dep.depend()  <span class="comment">//  如果属性的值是个对象就要对其 对象 __ob__.dep 进行依赖收集 针对 数组和对象增加 删除属性</span></span><br><span class="line">          <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value)) &#123;</span><br><span class="line">            dependArray(value)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> value</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="keyword">set</span>: function reactiveSetter (newVal) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> value = getter ? getter.call(obj) : val</span><br><span class="line">      <span class="comment">/* eslint-disable no-self-compare */</span></span><br><span class="line">      <span class="keyword">if</span> (newVal === value || (newVal !== newVal &amp;&amp; value !== value)) &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">/* eslint-enable no-self-compare */</span></span><br><span class="line">      <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; customSetter) &#123;</span><br><span class="line">        customSetter()</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// #7981: for accessor properties without setter</span></span><br><span class="line">      <span class="keyword">if</span> (getter &amp;&amp; !setter) <span class="keyword">return</span></span><br><span class="line">      <span class="keyword">if</span> (setter) &#123;</span><br><span class="line">        setter.call(obj, newVal)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        val = newVal</span><br><span class="line">      &#125;</span><br><span class="line">      childOb = !shallow &amp;&amp; observe(newVal) <span class="comment">// 如果是对象，则响应式</span></span><br><span class="line">      dep.notify() <span class="comment">//</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="依赖收集"><a href="#依赖收集" class="headerlink" title="依赖收集"></a>依赖收集</h2><p><img src="http://103.14.34.148:9000/imgs/blog/img/%E6%94%B6%E9%9B%86%E4%BE%9D%E8%B5%96.png" alt="收集依赖"></p>
+<ul>
+<li>在创建响应式对象Observer实例，其中创建的Dep对象用来保存 data 和 watcher 之间的依赖关系</li>
+<li>在渲染的过程中，实例化watcher对象的构造函数中会执行 <code>watcher.get()</code>，生成的渲染watcher对象会在 将全局遍历Dep.targer设为自身，（在targetStack栈中保存递归调用生成的watcher），接着执行 <code>watcher.getter</code>,也就是（<code>vm._update(vm._render())</code>）,</li>
+<li>render的过程 中触发数据 data 的 getter方法，（也就是在initData中通过 defineProperty 绑定的get方法）,执行 <code>dep.depend()</code> 会将当前数据的 Dep 实例中的 subs 数组中添加 watcher （订阅者）。watcher实例中 deps数组会添加 dep 对象（用于比较 新旧 dep）<ul>
+<li>cleanupDeps，根据 watcher 中保存的 新旧 deps，如果新添加的dep在旧deps中不存在，就要删除 当前旧dep.subs 中的 当前watcher，这样就不会触发不必要的更新</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Dep 对象</span></span><br><span class="line">depend () &#123;</span><br><span class="line">    <span class="keyword">if</span> (Dep.target) &#123;</span><br><span class="line">      Dep.target.addDep(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Watcher 对象</span></span><br><span class="line">  <span class="keyword">get</span> () &#123; <span class="comment">//依赖收集</span></span><br><span class="line">    pushTarget(<span class="keyword">this</span>)  <span class="comment">//修改 Dep.Target</span></span><br><span class="line">    <span class="keyword">let</span> value</span><br><span class="line">    <span class="keyword">const</span> vm = <span class="keyword">this</span>.vm</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">       </span><br><span class="line">      value = <span class="keyword">this</span>.getter.call(vm, vm)  <span class="comment">//渲染dom   watcher key值</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.user) &#123;</span><br><span class="line">        handleError(e, vm, <span class="string">`getter for watcher "<span class="subst">$&#123;<span class="keyword">this</span>.expression&#125;</span>"`</span>)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> e</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="comment">// "touch" every property so they are all tracked as</span></span><br><span class="line">      <span class="comment">// dependencies for deep watching</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.deep) &#123;  <span class="comment">// 深度遍历对象</span></span><br><span class="line">        traverse(value)</span><br><span class="line">      &#125;</span><br><span class="line">      popTarget()</span><br><span class="line">      <span class="keyword">this</span>.cleanupDeps()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> addDep (dep: Dep) &#123;</span><br><span class="line">    <span class="keyword">const</span> id = dep.id</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.newDepIds.has(id)) &#123;</span><br><span class="line">      <span class="keyword">this</span>.newDepIds.add(id)</span><br><span class="line">      <span class="keyword">this</span>.newDeps.push(dep)</span><br><span class="line">      <span class="keyword">if</span> (!<span class="keyword">this</span>.depIds.has(id)) &#123;</span><br><span class="line">        dep.addSub(<span class="keyword">this</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">cleanupDeps () &#123;  <span class="comment">// 删除新页面中不会再用到的 watcher</span></span><br><span class="line">    <span class="keyword">let</span> i = <span class="keyword">this</span>.deps.length</span><br><span class="line">    <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">      <span class="keyword">const</span> dep = <span class="keyword">this</span>.deps[i]</span><br><span class="line">      <span class="keyword">if</span> (!<span class="keyword">this</span>.newDepIds.has(dep.id)) &#123;</span><br><span class="line">        dep.removeSub(<span class="keyword">this</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> tmp = <span class="keyword">this</span>.depIds</span><br><span class="line">    <span class="keyword">this</span>.depIds = <span class="keyword">this</span>.newDepIds</span><br><span class="line">    <span class="keyword">this</span>.newDepIds = tmp</span><br><span class="line">    <span class="keyword">this</span>.newDepIds.clear()</span><br><span class="line">    tmp = <span class="keyword">this</span>.deps</span><br><span class="line">    <span class="keyword">this</span>.deps = <span class="keyword">this</span>.newDeps</span><br><span class="line">    <span class="keyword">this</span>.newDeps = tmp</span><br><span class="line">    <span class="keyword">this</span>.newDeps.length = <span class="number">0</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    __ob__, <span class="comment">// Observer类的实例，里面保存着Dep实例__ob__.dep =&gt; dep(uid:0)</span></span><br><span class="line">    a: <span class="number">1</span>,   <span class="comment">// 在闭包里存在dep(uid:1)</span></span><br><span class="line">    b: [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], <span class="comment">// 在闭包里存在着dep(uid:2)，还有b.__ob__.dep =&gt; dep(uid:4)</span></span><br><span class="line">    c: &#123;</span><br><span class="line">        __ob__, <span class="comment">// Observer类的实例，里面保存着Dep实例__ob__.dep =&gt; dep(uid:5)</span></span><br><span class="line">        d: <span class="number">5</span> <span class="comment">// 在闭包里存在着dep(uid:6)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>在对 c 执行 defineReactive时，会生成一个 c 的 闭包dep</li>
+<li>然后对其值 <code>{d:5}</code>执行observe方法，生成一个Observe实例挂载在 <code>c.__ob__</code></li>
+<li>在进行依赖收集，执行 c 的get方法时，不仅为闭包dep进行依赖收集，也为c的observe实例的dep进行依赖收集</li>
+<li>闭包dep，在c的值发生改变时触发set方法时，会执行 闭包dep的notify</li>
+<li>如果通过 Vue.set 为c的值这个对象添加一个属性，不会触发c的set方法，但是会通过 <code>c.__ob__.dep</code> 来触发notify。如果在c进行依赖收集时，没有为<code>c.__ob__</code>进行依赖收集，那么就不会触发相关watcher的更新</li>
+</ol>
+<p><img src="http://103.14.34.148:9000/imgs/blog/img/%E6%95%B0%E6%8D%AE%E5%80%BC%E5%8F%98%E6%9B%B4.png" alt="数据值变更"></p>
+<blockquote>
+<p>为什么对于对象，配置依赖观测后，会实例化两个Dep类实例呢？<br>这是因为：对象，都是引用类型数据，对于引用类型数据，存在两种操作：改变引用和改变内容.</p>
+</blockquote>
+<blockquote>
+<p>对象，改变引用 修改某一个属性，通过 闭包dep 来派发更新 ;对其增加 删除某一属性,通过 <code>__ob__</code> 来派发更新</p>
+</blockquote>
+<blockquote>
+<p>数组，都需要通过 <code>__ob__</code> 来检测，在对数组进行响应式处理时，会修改数组原型上会改变数组自身的操作，（push，pop，splice），它们会获取到插入的值，然后把新添加的值变成一个响应式对象，在执行原先操作之后，手段派发notify通知。</p>
+</blockquote>
+<p>一共有四个地方调用了dep.notify。</p>
+<p>其中三个地方是调用了ob.dep.notify()。<br>分别是：</p>
+<ol>
+<li>对数组push等七个方法重写的函数中</li>
+<li>set方法，为一个对象添加一个属性</li>
+<li>del方法，为对象删除一个属性</li>
+</ol>
+<p>而闭包中的dep.notify()只是在Object.defineProperty的set方法中触发。</p>
+<p>那么很清楚了，#1是闭包中的Dep，用于由对象本身修改而触发setter函数导致闭包中的Dep通知所有的Watcher对象。#2则是在对象本身增删属性或者数组变化的时候被触发的Dep。</p>
+<h2 id="派发更新"><a href="#派发更新" class="headerlink" title="派发更新"></a>派发更新</h2><ul>
+<li>当对数据进行更改时，会触发 setter方法，setter方法 会比较新旧值是否相同，不同则触发 dep.notify()。 （其中 watcher 也是按照从小到大排序）</li>
+<li>dep中的 subs数组保存着与该数据相关联的 渲染 watcher，调用watcher的update方法</li>
+<li>执行 queueWatcher，将需要更新的渲染watcher保存到任务队列中（防止watcher的重复渲染），等待 nextTick时统一进行更新 flushSchedulerQueue<ul>
+<li>在更新的过程中会对 watcher 的 id 从小到大排序，<ol>
+<li>因为组件是从父到子生成的</li>
+<li>用户 watcher 总是 在 渲染 watcher 之前渲染</li>
+<li>如果 父组件销毁，那么就不需要重新渲染子组件</li>
+</ol>
+</li>
+<li>执行 watcher.run()</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//watcher</span></span><br><span class="line">update () &#123;</span><br><span class="line">    <span class="comment">/* istanbul ignore else */</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.lazy) &#123;</span><br><span class="line">      <span class="keyword">this</span>.dirty = <span class="literal">true</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.sync) &#123;   <span class="comment">//同步</span></span><br><span class="line">      <span class="keyword">this</span>.run() </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      queueWatcher(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//schedule</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">queueWatcher</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> id = watcher.id</span><br><span class="line">  <span class="keyword">if</span> (has[id] == <span class="literal">null</span>) &#123;</span><br><span class="line">    has[id] = <span class="literal">true</span>  <span class="comment">//防止 watcher 的多次调用</span></span><br><span class="line">    <span class="keyword">if</span> (!flushing) &#123;  </span><br><span class="line">      queue.push(watcher)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;<span class="comment">//正在执行中</span></span><br><span class="line">      <span class="comment">// if already flushing, splice the watcher based on its id</span></span><br><span class="line">      <span class="comment">// ** if already past its id, it will be run next immediately.</span></span><br><span class="line">      <span class="comment">//由于watcher.run 运行的过程中，用户定义的回调函数出发了新的watcher</span></span><br><span class="line">      <span class="keyword">let</span> i = queue.length - <span class="number">1</span></span><br><span class="line">      <span class="keyword">while</span> (i &gt; index &amp;&amp; queue[i].id &gt; watcher.id) &#123;</span><br><span class="line">        i--</span><br><span class="line">      &#125;</span><br><span class="line">      queue.splice(i + <span class="number">1</span>, <span class="number">0</span>, watcher)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// queue the flush</span></span><br><span class="line">    <span class="keyword">if</span> (!waiting) &#123;</span><br><span class="line">      waiting = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; !config.async) &#123;</span><br><span class="line">        flushSchedulerQueue()</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">      &#125;</span><br><span class="line">      nextTick(flushSchedulerQueue)  <span class="comment">//异步</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//watcher</span></span><br><span class="line">run () &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.active) &#123;</span><br><span class="line">      <span class="keyword">const</span> value = <span class="keyword">this</span>.get()  <span class="comment">//得到值 触发 _update(_render())</span></span><br><span class="line">      <span class="keyword">if</span> (</span><br><span class="line">        value !== <span class="keyword">this</span>.value ||</span><br><span class="line">        <span class="comment">// Deep watchers and watchers on Object/Arrays should fire even</span></span><br><span class="line">        <span class="comment">// when the value is the same, because the value may</span></span><br><span class="line">        <span class="comment">// have mutated.</span></span><br><span class="line">        isObject(value) ||</span><br><span class="line">        <span class="keyword">this</span>.deep</span><br><span class="line">      ) &#123;</span><br><span class="line">        <span class="comment">// set new value</span></span><br><span class="line">        <span class="keyword">const</span> oldValue = <span class="keyword">this</span>.value</span><br><span class="line">        <span class="keyword">this</span>.value = value</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.user) &#123;</span><br><span class="line">          <span class="keyword">try</span> &#123; <span class="comment">// watch</span></span><br><span class="line">            <span class="keyword">this</span>.cb.call(<span class="keyword">this</span>.vm, value, oldValue) <span class="comment">//watch update</span></span><br><span class="line">          &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            handleError(e, <span class="keyword">this</span>.vm, <span class="string">`callback for watcher "<span class="subst">$&#123;<span class="keyword">this</span>.expression&#125;</span>"`</span>)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">          <span class="keyword">this</span>.cb.call(<span class="keyword">this</span>.vm, value, oldValue)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="nextTick"><a href="#nextTick" class="headerlink" title="nextTick()"></a>nextTick()</h2><h3 id="Vue-2-6"><a href="#Vue-2-6" class="headerlink" title="Vue 2.6"></a>Vue 2.6</h3><p>推荐使用微任务（Promise MutationObserver ）来执行 回调函数，如果浏览器不支持，最终会使用 (setImmediate setTimeout)的形式</p>
+<ol>
+<li>每次调用 nextTick 都会判断当前是否有 tick 在执行，当 tick 真正执行的时候会置 pending为 false，此时调用 nextTick 可以开启下一个异步任务到浏览器的任务队列。</li>
+<li>如果 pending  为 false， 就只能往 callbacks 里添加回调函数</li>
+<li>当 下一个 tick 开始执行时，会将 callbacks 拷贝一份执行里面的回调函数 并清空，又会将 pending 置为 false</li>
+</ol>
+<ul>
+<li>每次调用 nextTick ， 回调函数都会被存储在 callbacks数组中，只有当上一个callbacks数组执行的异步任务在事件循环中被执行（也就是执行flushCallbacks函数，将pending = false），才能执行新的callbacks数组，将异步任务添加到事件循环中的任务队列中。在此之前所有的 回调函数都会被添加到上一个callbacks数组，等待本次 tick 执行。</li>
+</ul>
+<blockquote>
+<p>$nextTick 回调函数在下一个事件循环中执行</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flushCallbacks</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  pending = <span class="literal">false</span></span><br><span class="line">  <span class="keyword">const</span> copies = callbacks.slice(<span class="number">0</span>)</span><br><span class="line">  callbacks.length = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; copies.length; i++) &#123;</span><br><span class="line">    copies[i]()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">timerFunc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    p.then(flushCallbacks)</span><br><span class="line">    <span class="comment">// In problematic UIWebViews, Promise.then doesn't completely break, but</span></span><br><span class="line">    <span class="comment">// it can get stuck in a weird state where callbacks are pushed into the</span></span><br><span class="line">    <span class="comment">// microtask queue but the queue isn't being flushed, until the browser</span></span><br><span class="line">    <span class="comment">// needs to do some other work, e.g. handle a timer. Therefore we can</span></span><br><span class="line">    <span class="comment">// "force" the microtask queue to be flushed by adding an empty timer.</span></span><br><span class="line">    <span class="keyword">if</span> (isIOS) setTimeout(noop)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">nextTick</span> (<span class="params">cb?: Function, ctx?: Object</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> _resolve</span><br><span class="line">  callbacks.push(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (cb) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        cb.call(ctx)</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        handleError(e, ctx, <span class="string">'nextTick'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (_resolve) &#123;</span><br><span class="line">      _resolve(ctx)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">if</span> (!pending) &#123;</span><br><span class="line">    pending = <span class="literal">true</span>  <span class="comment">// </span></span><br><span class="line">    timerFunc()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// $flow-disable-line</span></span><br><span class="line">  <span class="keyword">if</span> (!cb &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">Promise</span> !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">      _resolve = resolve</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Vue-2-5"><a href="#Vue-2-5" class="headerlink" title="Vue 2.5"></a>Vue 2.5</h3><p>默认使用 微任务形式，如果浏览器不支持吗，那么使用 宏任务形式<br>也会对外提供  withMacroTask ，来使用宏任务形式（用于处理一些 DOM 交互事件，如 v-on 绑定的事件回调函数的处理，会强制走 macro task）</p>
+<p>当某个操作触发了 nextTick 时，如果此时上一个Tick已经在执行，或者已经执行完毕，那么就可以开启本次异步Tick。在本次异步tick还没有执行前，同步操作触发的 nextTick 方法都会保存到同一个 callbacks 中，等待本次异步tick执行。</p>
+<h2 id="监听对象和数组变化的特殊情况"><a href="#监听对象和数组变化的特殊情况" class="headerlink" title="监听对象和数组变化的特殊情况"></a>监听对象和数组变化的特殊情况</h2><h3 id="添加-删除-对象属性"><a href="#添加-删除-对象属性" class="headerlink" title="添加 删除 对象属性"></a>添加 删除 对象属性</h3><p>Vue.set </p>
+<ul>
+<li>数组 -&gt; splice -&gt; 触发修改后的数组原生方法 -&gt; notify</li>
+<li>对象<ul>
+<li>有该键值 直接修改</li>
+<li>没有 添加该属性<ul>
+<li>获取该对象的 observer 对象<ul>
+<li>不是响应式对象 直接返回</li>
+</ul>
+</li>
+<li>将该属性变为响应式数据 defineReactive(ob.value, key, val) ,（在使用的时候会调用 getter 来进行赋值）</li>
+<li>ob.dep.notify 手动触发更新<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(target) &amp;&amp; isValidArrayIndex(key)) &#123;</span><br><span class="line">    target.length = <span class="built_in">Math</span>.max(target.length, key);</span><br><span class="line">    target.splice(key, <span class="number">1</span>, val);</span><br><span class="line">    <span class="keyword">return</span> val</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> ob = (target).__ob__;</span><br><span class="line">  <span class="keyword">if</span> (!ob) &#123;</span><br><span class="line">    target[key] = val;</span><br><span class="line">    <span class="keyword">return</span> val</span><br><span class="line">  &#125;</span><br><span class="line">  defineReactive(ob.value, key, val);</span><br><span class="line">  ob.dep.notify();</span><br></pre></td></tr></table></figure>
+Vue.delete</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>数组 -&gt; splice -&gt; 触发修改后的数组原生方法 -&gt; notify</li>
+<li>对象<ul>
+<li>没有该键值 直接返回</li>
+<li>有 删除该属性<ul>
+<li>获取该对象的 observer 对象<ul>
+<li>不是响应式对象 直接返回</li>
+</ul>
+</li>
+<li><code>delete target[key]</code></li>
+<li>ob.dep.notify 手动触发更新<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(target) &amp;&amp; isValidArrayIndex(key)) &#123;</span><br><span class="line">    target.splice(key, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> ob = (target).__ob__;</span><br><span class="line"><span class="keyword">if</span> (!hasOwn(target, key)) &#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">delete</span> target[key];</span><br><span class="line">  <span class="keyword">if</span> (!ob) &#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  ob.dep.notify();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="修改数组内的-数据"><a href="#修改数组内的-数据" class="headerlink" title="修改数组内的 数据"></a>修改数组内的 数据</h3><p>数组是不能直接通过赋值来修改数组内的数据，因为 他没有为每一个值执行 defineReactive 设置 getter setter 方法</p>
+<ul>
+<li>Vue.set  当你利用索引直接设置一个项时Vue.set(arr,index,value) 或 splice(start,1,value)</li>
+<li>数组原生方法<br>数组，都需要通过 <code>__ob__</code> 来检测，在对数组进行响应式处理时，会修改数组原型上会改变数组自身的操作，（push，pop，splice…），它们会获取到插入的值，然后把新添加的值变成一个响应式对象，在执行原先操作之后，手段派发notify通知。</li>
+</ul>
+<p>在为数组生成 Observe对象实例 时，会将 arrayMethods 作为数组的原型添加上去</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> arrayMethods = <span class="built_in">Object</span>.create(arrayProto)</span><br><span class="line"><span class="keyword">const</span> methodsToPatch = [</span><br><span class="line">  <span class="string">'push'</span>,</span><br><span class="line">  <span class="string">'pop'</span>,</span><br><span class="line">  <span class="string">'shift'</span>,</span><br><span class="line">  <span class="string">'unshift'</span>,</span><br><span class="line">  <span class="string">'splice'</span>,</span><br><span class="line">  <span class="string">'sort'</span>,</span><br><span class="line">  <span class="string">'reverse'</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">methodsToPatch.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">method</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// cache original method</span></span><br><span class="line">  <span class="keyword">const</span> original = arrayProto[method]</span><br><span class="line">  def(arrayMethods, method, <span class="function"><span class="keyword">function</span> <span class="title">mutator</span> (<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = original.apply(<span class="keyword">this</span>, args)</span><br><span class="line">    <span class="keyword">const</span> ob = <span class="keyword">this</span>.__ob__</span><br><span class="line">    <span class="keyword">let</span> inserted</span><br><span class="line">    <span class="keyword">switch</span> (method) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">'push'</span>:</span><br><span class="line">      <span class="keyword">case</span> <span class="string">'unshift'</span>:</span><br><span class="line">        inserted = args</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">      <span class="keyword">case</span> <span class="string">'splice'</span>:</span><br><span class="line">        inserted = args.slice(<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (inserted) ob.observeArray(inserted) <span class="comment">//对于插入操作 push unshift splice,对插入的数据进行响应式处理</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// notify change</span></span><br><span class="line">    ob.dep.notify()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="proxy-代理-与-defineProperty"><a href="#proxy-代理-与-defineProperty" class="headerlink" title="proxy 代理 与 defineProperty"></a>proxy 代理 与 defineProperty</h3><ol>
+<li>proxy是直接代理一个对象，defineProperty需要为对象的每一个属性设置get、set方法</li>
+<li>proxy 可以直接 <code>target[key]</code> 返回原对象的值，而 defineProperty 需要从其他保存值的地方取值</li>
+<li>proxy 可以直接识别 为一个对象添加属性的操作 ，而 defineProperty 需要通过 Vue.set方法添加响应式属性<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</span><br><span class="line">    <span class="keyword">set</span>(target, property, value, receiver) &#123;</span><br><span class="line">      <span class="comment">// 如果receiver === target，表明proxy处于被赋值对象的原型链上</span></span><br><span class="line">      <span class="comment">// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/handler/set</span></span><br><span class="line">      <span class="comment">// 仅仅拦截直接对proxy的赋值操作（reactiveProxy.newProperty=newValue）</span></span><br><span class="line">      <span class="keyword">if</span> (!target.hasOwnProperty(property) &amp;&amp; receiver === proxy) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">"object"</span> &amp;&amp; value !== <span class="literal">null</span>) &#123;</span><br><span class="line">          <span class="comment">// 如果要赋的值也是对象，则也要拦截这个对象的赋值操作</span></span><br><span class="line">          value = createReactiveProxy(value);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// console.log("Vue.set ", target, property);</span></span><br><span class="line">        Vue.set(target, property, value);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// console.log("Reflect.set ", target, property);</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.set(...arguments);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h3 id="为什么组件的data一定要是函数返回对象的形式"><a href="#为什么组件的data一定要是函数返回对象的形式" class="headerlink" title="为什么组件的data一定要是函数返回对象的形式"></a>为什么组件的data一定要是函数返回对象的形式</h3><p>因为组件是可以复用的，其中的data就是用户在定义组件时生成的data对象，如果传入的是一个对象，那么每一个组件实例都公用同一个data对象，因为是引用。</p>
+<p>而如果使用函数的形式，在每生成一个组件实例时，都调用一次data方法，返回一个新的data对象，这个data是每个组件实例独享的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">component</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.data = (<span class="keyword">typeof</span> data === <span class="string">'function'</span>?data():data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c1 = <span class="keyword">new</span> component(data)</span><br><span class="line"><span class="keyword">var</span> c2 = <span class="keyword">new</span> component(data)</span><br><span class="line"></span><br><span class="line">c1.data === c2.data <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/4.%E6%95%B0%E6%8D%AE%E5%93%8D%E5%BA%94/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            7.编译
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/5.%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7&%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">5.computed和watcher</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+
+          <div class="to_top">
+            <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+          </div>
+      </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Matt&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/resume">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9001/" target="_blank" rel="noopener">项目展示</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+        
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['https://github.com/chiangming/','sa517144@mail.ustc.edu.cn',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+    </div>
+  </body>
+
+  </html>

@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+     Matt&#39;s Blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+</html>
+
+  <body>
+    <div id="app">
+      <main class="content">
+        
+<section class="cover">
+    
+  <div class="cover-frame">
+    <div class="bg-box">
+      <img src="/images/cover9.jpg" alt="image frame" />
+    </div>
+    <div class="cover-inner text-center text-white">
+      <h1><a href="/">Matt&#39;s Blog</a></h1>
+      <div id="subtitle-box">
+        
+        <span id="subtitle"></span>
+        
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="cover-learn-more">
+    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
+  </div>
+</section>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+
+<div id="main">
+  <section class="outer">
+  <article class="articles">
+    
+    
+    
+    
+    <article id="post-防抖" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/10/%E9%98%B2%E6%8A%96/"
+    >防抖</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/02/10/%E9%98%B2%E6%8A%96/" class="article-date">
+  <time datetime="2020-02-10T06:06:27.952Z" itemprop="datePublished">2020-02-10</time>
+</a>
+              
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Page Title</title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+  <script src='main.js'></script>
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  <h2>防抖demo</h2>
+  <p>打开控制台观看效果</p>
+  <input id="inp"></input>
+</body>
+<script>
+  function debounce(func, wait, immediate) {
+
+    var timeout;
+
+    return function() {
+      var context = this;
+      var args = arguments;
+
+      if (timeout) clearTimeout(timeout);
+      // 立即执行的情况
+      if (immediate) {
+        // 如果已经执行过，不再执行
+        var callNow = !timeout;
+        console.log('callNow:', callNow)
+        console.log('timeout:', timeout)
+        timeout = setTimeout(function() {
+          timeout = null;
+        }, wait)
+        if (callNow) func.apply(context, args)
+      } else {
+        timeout = setTimeout(function() {
+          func.apply(context, args)
+        }, wait);
+      }
+    }
+  }
+
+  function sayHi(a) {
+    console.log('防抖成功');
+    console.log(a);
+  }
+
+  var inp = document.getElementById('inp');
+  inp.addEventListener('input', debounce(sayHi, 5000, true).bind(this, 'a')); // 防抖
+</script>
+
+</html>
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/vue" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/"
+    >vue整理</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/" class="article-date">
+  <time datetime="2019-12-21T16:15:39.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h1 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h1><p><a href="https://zhuanlan.zhihu.com/p/23921964" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/23921964</a></p>
+<h1 id="响应式原理"><a href="#响应式原理" class="headerlink" title="响应式原理"></a>响应式原理</h1><p><img src="http://103.14.34.148:9000/imgs/blog/img/reactive.png" alt="reactive"></p>
+<ol>
+<li>Vue的初始化阶段，对vue的属性进行处理对于data和props,Vue会通过ovserve/defineReactive等系列操作，把整个data和props定义的对象每一个属性编成响应式的，同时内部持有一个dep的实例。</li>
+<li>当我们访问到响应式数据的时候，就会触发数据内部dep的depend方法来收集依赖</li>
+<li>收集依赖收集的是当前正在计算的watcher，也就是说当前的Dep.target就会作为订阅者来订阅这些数据的变化
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/vue-router" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/"
+    >vue-router</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/" class="article-date">
+  <time datetime="2019-12-21T16:15:38.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">install</span> (<span class="params">Vue</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">     <span class="comment">// 混入 beforeCreate 钩子</span></span><br><span class="line">     Vue.mixin(&#123;</span><br><span class="line">       beforeCreate () &#123;</span><br><span class="line">         <span class="comment">// 在option上面存在router则代表是根组件 </span></span><br><span class="line">         <span class="keyword">if</span> (isDef(<span class="keyword">this</span>.$options.router)) &#123;</span><br><span class="line">           <span class="keyword">this</span>._routerRoot = <span class="keyword">this</span>  <span class="comment">// 定义router的根vm</span></span><br><span class="line">           <span class="keyword">this</span>._router = <span class="keyword">this</span>.$options.router</span><br><span class="line">           <span class="comment">// 执行_router实例的 init 方法</span></span><br><span class="line">           <span class="keyword">this</span>._router.init(<span class="keyword">this</span>)</span><br><span class="line">           <span class="comment">// 为 vue 实例定义数据劫持</span></span><br><span class="line">           Vue.util.defineReactive(<span class="keyword">this</span>, <span class="string">'_route'</span>, <span class="keyword">this</span>._router.history.current)</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="comment">// 非根组件则直接从父组件中获取</span></span><br><span class="line">           <span class="keyword">this</span>._routerRoot = (<span class="keyword">this</span>.$parent &amp;&amp; <span class="keyword">this</span>.$parent._routerRoot) || <span class="keyword">this</span></span><br><span class="line">         &#125;</span><br><span class="line">         registerInstance(<span class="keyword">this</span>, <span class="keyword">this</span>)</span><br><span class="line">       &#125;,</span><br><span class="line">       destroyed () &#123;</span><br><span class="line">         registerInstance(<span class="keyword">this</span>)</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;)</span><br><span class="line">    </span><br><span class="line">     <span class="comment">// 设置代理，当访问 this.$router 的时候，代理到 this._routerRoot._router</span></span><br><span class="line">     <span class="built_in">Object</span>.defineProperty(Vue.prototype, <span class="string">'$router'</span>, &#123;<span class="comment">//Router</span></span><br><span class="line">       <span class="keyword">get</span> () &#123; <span class="keyword">return</span> <span class="keyword">this</span>._routerRoot._router &#125;</span><br><span class="line">     &#125;)</span><br><span class="line">     <span class="comment">// 设置代理，当访问 this.$route 的时候，代理到 this._routerRoot._route</span></span><br><span class="line">     <span class="built_in">Object</span>.defineProperty(Vue.prototype, <span class="string">'$route'</span>, &#123;</span><br><span class="line">       <span class="keyword">get</span> () &#123; <span class="keyword">return</span> <span class="keyword">this</span>._routerRoot._route &#125;</span><br><span class="line">     &#125;)</span><br><span class="line">    </span><br><span class="line">     <span class="comment">// 注册 router-view 和 router-link 组件</span></span><br><span class="line">     Vue.component(<span class="string">'RouterView'</span>, View)</span><br><span class="line">     Vue.component(<span class="string">'RouterLink'</span>, Link)</span><br><span class="line">   </span><br><span class="line">     <span class="comment">// Vue钩子合并策略</span></span><br><span class="line">     <span class="keyword">const</span> strats = Vue.config.optionMergeStrategies</span><br><span class="line">     <span class="comment">// use the same hook merging strategy for route hooks</span></span><br><span class="line">     strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created</span><br><span class="line">     <span class="comment">// ...</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/12.transition" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/12.transition/"
+    >12.transition</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/12.transition/" class="article-date">
+  <time datetime="2019-12-21T16:15:37.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="render函数-vnode"><a href="#render函数-vnode" class="headerlink" title="render函数 vnode"></a>render函数 vnode</h2><ol>
+<li>transition组件使用同插槽一样，调用 transition 组件的render方法，通过 <code>this.$slots.default</code> 取得内部的vnode</li>
+<li>在 vnode的data上 生成 transition对象，保存transition标签上的 props （例如 name），listeners等属性 <code>vnode.data.transition</code></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data: <span class="built_in">Object</span> = (child.data || (child.data = &#123;&#125;)).transition = extractTransitionData(<span class="keyword">this</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取出 transition组件 过渡动画所需的属性</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span>   (<span class="params">comp: Component</span>): <span class="title">Object</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = &#123;&#125;</span><br><span class="line">  <span class="keyword">const</span> options: ComponentOptions = comp.$options</span><br><span class="line">  <span class="comment">// props</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> options.propsData) &#123;</span><br><span class="line">    data[key] = comp[key]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// events.</span></span><br><span class="line">  <span class="comment">// extract listeners and pass them directly to the transition methods</span></span><br><span class="line">  <span class="keyword">const</span> listeners: ?<span class="built_in">Object</span> = options._parentListeners</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> listeners) &#123;</span><br><span class="line">    data[camelize(key)] = listeners[key]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过该方法在子组件上添加动画css名，这样 child.data.transition 中就包含了过渡所需的一些数据</p>
+<blockquote>
+<p>如果组件里面写了html语言（不是正常插槽的写法），那么会作为 _c的 children vnode 传入，最终vnode保存在 componentOptions.children，在 _init过程中 </p>
+</blockquote>
+<ul>
+<li>合并component配置的过程中，<code>opts._renderChildren = vnodeComponentOptions.children;</code>，</li>
+<li>initRender 将 opts._renderChildren 挂载到 vm.$slots.default 上
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/12.transition/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/11.keep-alive" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/"
+    >11.keep-alive</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/" class="article-date">
+  <time datetime="2019-12-21T16:15:36.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>keep-alive组件是一个抽象组件，它的实现通过自定义render函数并且利用了插槽，并且知道了 keep-alive 缓存 vnode，了解组件包裹的子元素——也就是插槽是如何做更新的。且在 patch 过程中对于已缓存的组件不会执行 mounted，所以不会有一般的组件的生命周期函数但是又提供了activated 和 deactivated 钩子函数。另外我们还知道了keep-alive的 props 除了 include 和 exclude 还有文档中没有提到的 max，它能控制我们缓存的个数。</p>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/10.插槽" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/"
+    >10.插槽</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/" class="article-date">
+  <time datetime="2019-12-21T16:15:35.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p><a href="./demo/slot.html">demo</a></p>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/9.双向绑定v-model" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/"
+    >9.双向绑定</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/" class="article-date">
+  <time datetime="2019-12-21T16:15:34.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="补充表单知识点"><a href="#补充表单知识点" class="headerlink" title="补充表单知识点"></a>补充表单知识点</h2><h4 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h4><p>input</p>
+<ul>
+<li>text 单行文本<ul>
+<li>placeholder 默认文本</li>
+</ul>
+</li>
+<li>radio 单选框<ul>
+<li>value</li>
+<li>name  单选框组名字相同</li>
+</ul>
+</li>
+<li>checkbox 复选框<ul>
+<li>value 提交的值 </li>
+</ul>
+</li>
+</ul>
+<p>textarea 多行文本</p>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/8.event" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/"
+    >8.事件绑定</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/" class="article-date">
+  <time datetime="2019-12-21T16:15:33.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h4 id="生成-ast树"><a href="#生成-ast树" class="headerlink" title="生成 ast树"></a>生成 ast树</h4><p> 根据 assts的属性来提取出其中的 事件属性<br>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/7.编译" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/"
+    >7.编译</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/" class="article-date">
+  <time datetime="2019-12-21T16:15:32.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <p>参考：<a href="https://segmentfault.com/a/1190000015848917" target="_blank" rel="noopener">Vue源码解读之AST语法树（一）</a></p>
+<h2 id="不同平台下的-文件的布局-和-柯里化"><a href="#不同平台下的-文件的布局-和-柯里化" class="headerlink" title="不同平台下的 文件的布局 和 柯里化"></a>不同平台下的 文件的布局 和 柯里化</h2><p>对于 web平台 ，运行的是 web平台下的 <code>entry-runtime-with-compiler</code>，所以该平台下的 编译生成 render 函数 的方法和 weex平台下时不同的，那么如何做到区分，就需要函数柯里化</p>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/4.数据响应" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/4.%E6%95%B0%E6%8D%AE%E5%93%8D%E5%BA%94/"
+    >4.数据响应</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/4.%E6%95%B0%E6%8D%AE%E5%93%8D%E5%BA%94/" class="article-date">
+  <time datetime="2019-12-21T16:15:31.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <p>Vue源码中实现依赖收集，实现了三个类：<br><img src="http://103.14.34.148:9000/imgs/blog/img/a.png" alt=""></p>
+<ul>
+<li>Dep：扮演观察目标的角色，每一个数据都会有Dep类实例，它内部有个subs队列，subs就是subscribers的意思，保存着依赖本数据的观察者，当本数据变更时，调用dep.notify()通知观察者</li>
+<li>Watcher：扮演观察者的角色，进行观察者函数的包装处理。如render()函数，会被进行包装成一个Watcher实例</li>
+<li>Observer：辅助的可观测类，数组/对象通过它的转化，可成为可观测数据<br>参考：<a href="https://ruphi.cn/archives/336/" target="_blank" rel="noopener">Vue依赖收集原理</a>  </li>
+</ul>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/4.%E6%95%B0%E6%8D%AE%E5%93%8D%E5%BA%94/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+  </article>
+  
+
+  
+  <nav class="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+  </nav>
+  
+</section>
+</div>
+
+
+          <div class="to_top">
+            <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+          </div>
+      </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Matt&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/resume">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9001/" target="_blank" rel="noopener">项目展示</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+        
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['https://github.com/chiangming/','sa517144@mail.ustc.edu.cn',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+    </div>
+  </body>
+
+  </html>

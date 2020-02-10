@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    CSS知识点 |  Matt&#39;s Blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+</html>
+
+  <body>
+    <div id="app">
+      <main class="content">
+        <section class="outer">
+  <article id="post-css" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  CSS知识点
+</h1>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/css/" class="article-date">
+  <time datetime="2018-11-20T16:15:26.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/css/">css</a>
+  </div>
+
+                
+                  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.4k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">6分钟</span>
+        </span>
+    </span>
+</div>
+
+                    
+          </div>
+          
+
+            
+              
+    <div class="tocbot"></div>
+
+
+
+
+
+                
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h3 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h3><p>通过box-sizing设置</p>
+<ul>
+<li>content-box 标准模型<ul>
+<li>宽高不包括边框</li>
+</ul>
+</li>
+<li>border-box  IE模型<ul>
+<li>宽高包括边框border和padding</li>
+</ul>
+</li>
+</ul>
+<h3 id="JS获取宽高"><a href="#JS获取宽高" class="headerlink" title="JS获取宽高"></a>JS获取宽高</h3><ul>
+<li>dom.offsetHeight 最佳</li>
+<li>dom.style.height 只能获取内联样式</li>
+<li>dom.getBoundingClientRect().width/height 根据元素在视窗中的绝对位置来获取宽高的</li>
+<li>window.getComputedStyle(dom).width/height</li>
+<li>dom.currentStyle.width/height  页面渲染完成后的结果，就是说不管是哪种方式设置的样式，都能获取到。但这种方式只有IE浏览器支持</li>
+</ul>
+<h3 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h3><p>块级格式化上下文，是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。<br><a href="https://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html" target="_blank" rel="noopener"></a><br><a href="https://zhuanlan.zhihu.com/p/25321647" target="_blank" rel="noopener"></a></p>
+<h3 id="层叠上下文"><a href="#层叠上下文" class="headerlink" title="层叠上下文"></a>层叠上下文</h3><p><a href="https://juejin.im/post/5b876f86518825431079ddd6" target="_blank" rel="noopener"></a><br><a href="https://juejin.im/post/5b876f86518825431079ddd6#heading-8" target="_blank" rel="noopener"></a></p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div &gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>层叠上下文的background/border &lt; z-index小于0 &lt; block &lt; float &lt; inline &lt; z-index=0,auto &lt; z-index大于0</p>
+<p>如果产生了层叠上下文 那么比较其背景与子元素<br>没有的话就是普通元素 block</p>
+<h3 id="居中布局"><a href="#居中布局" class="headerlink" title="居中布局"></a>居中布局</h3><p><a href="https://www.zhangxinxu.com/wordpress/2018/10/display-flex-css3-css/" target="_blank" rel="noopener">flex</a></p>
+<p>.parent {<br>    display: flex;<br>    justify-content: center;<br>}</p>
+<p>.parent {<br>    display: flex;<br>    align-items: center;<br>}</p>
+<ul>
+<li><p>水平居中</p>
+<ul>
+<li>行内元素: text-align: center</li>
+<li>块级元素: margin: 0 auto</li>
+<li>absolute + transform</li>
+<li>flex + justify-content: center</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>垂直居中</p>
+<ul>
+<li>line-height: height</li>
+<li>absolute + transform</li>
+<li>flex + align-items: center</li>
+<li>table <table> <tr> <td>12 </td> </tr> </table></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>水平垂直居中</p>
+<ul>
+<li>absolute + transform</li>
+<li>flex + justify-content + align-items</li>
+<li>fixed margin:auto left:0 right:0 right:0 bottom：0</li>
+</ul>
+</li>
+</ul>
+<h3 id="选择器优先级"><a href="#选择器优先级" class="headerlink" title="选择器优先级"></a>选择器优先级</h3><p>!important &gt; 内联样式 &gt; id &gt; class(属性选择器[]、伪类 :) &gt; 标签(伪元素) &gt; 通用选择器 &gt; 继承 &gt; 默认</p>
+<p>后定义的优先级较高</p>
+<p><a href="./选择器.md">css选择器参考</a></p>
+<h3 id="display：none-visibility-0的区别"><a href="#display：none-visibility-0的区别" class="headerlink" title="display：none visibility=0的区别"></a>display：none visibility=0的区别</h3><ul>
+<li>display:none 是真的在页面上消失，不占用空间</li>
+<li>visibility=0 是不见了，但还是占了空间</li>
+</ul>
+<h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><ul>
+<li><p>static </p>
+</li>
+<li><p>absolute  元素相对于最近的非 static 定位祖先元素的偏移，来确定元素位置。如果没有就是相对于body</p>
+</li>
+<li><p>relative 相对自己原来的位置</p>
+</li>
+<li><p>fixed 相对窗口的绝对定位定位</p>
+<ul>
+<li>top bottom left right 是相对于最外边距的距离。（content + padding + border + margin）<h3 id="浮动清除-（去除浮动影响，防止父级高度塌陷）"><a href="#浮动清除-（去除浮动影响，防止父级高度塌陷）" class="headerlink" title="浮动清除 （去除浮动影响，防止父级高度塌陷）"></a>浮动清除 （去除浮动影响，防止父级高度塌陷）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;outer&quot;&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;1&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;2&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;3&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>通过增加尾元素清除浮动 :after / <br> : clear: both</p>
+<ul>
+<li>clear:both 左右两侧均不能出现浮动元素</li>
+</ul>
+</li>
+</ul>
+<p>(::after 是css3提出的 和 :after相同 ，都是伪元素，作为已选中元素的最后一个子元素。为了兼容性 建议使用:after)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#clear&#123;</span><br><span class="line">  clear: both;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;div class&#x3D;&quot;outer&quot;&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;1&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;2&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;3&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div id&#x3D;&quot;clear&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建父级 BFC </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.outer&#123;</span><br><span class="line">    overflow:hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>父级设置高度</li>
+</ul>
+<h3 id="与-import-的区别"><a href="#与-import-的区别" class="headerlink" title=" 与 @import 的区别"></a><link> 与 @import 的区别</h3><ul>
+<li>link功能较多，可以定义 RSS，定义 Rel 等作用，而@import只能用于加载 css<link rel="stylesheet" href="****.css" type="text/css">
+<style type="text/css">
+@import "***.css"
+</style></li>
+<li>当解析到link时，页面会同步加载所引的 css，而@import所引用的 css 会等到页面加载完才被加载</li>
+<li>@import需要 IE5 以上才能使用</li>
+<li>link可以使用 js 动态引入，@import不行</li>
+</ul>
+<h3 id="CSS预处理器-Sass-Less-Postcss"><a href="#CSS预处理器-Sass-Less-Postcss" class="headerlink" title="CSS预处理器(Sass/Less/Postcss)"></a>CSS预处理器(Sass/Less/Postcss)</h3><ul>
+<li>Less</li>
+<li>Sass/Scss</li>
+<li>postCSS</li>
+<li><a href="https://www.jianshu.com/p/a99764ff3c41" target="_blank" rel="noopener">scss</a></li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="img/css.jpg" alt="css"></p>
+<h3 id="FFC"><a href="#FFC" class="headerlink" title="FFC"></a>FFC</h3><p>flex: flex-grow, (flex-shark,flex-basis)的简写  </p>
+<ul>
+<li>默认: =&gt;0 1 auto （等比缩小）</li>
+<li>auto:=&gt; 1 1 auto（等比放大缩小）</li>
+<li>none:=&gt; 0 0 auto （原来大小）</li>
+<li>flex:1 =&gt; 1 1 auto（等比放大缩小）  </li>
+</ul>
+<p>flex：0.125 flex：0.5 flex 0.25<br>  即flex-grow总和小于1时，占用剩余空间的12.5% 50% 25% ，剩余空间占比1：4：2 剩下12.5%不被占用<br><img src="img/css-flex.png" alt="flex"></p>
+<h3 id="BFC-块级格式化上下文"><a href="#BFC-块级格式化上下文" class="headerlink" title="BFC:块级格式化上下文"></a>BFC:块级格式化上下文</h3><p>规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。从上至下排列、上下margin合并、除float元素外的box的margin-box与BFC的左边相接、BFC不会被float元素覆盖、BFC内元素布局不会影响外部布局</p>
+<h3 id="IFC："><a href="#IFC：" class="headerlink" title="IFC："></a>IFC：</h3><p> content box/area的高由font-size/line-height决定的；<br>content box/area的宽等于其子行级盒子的外宽度(margin+border+padding+content width)之和。<br>当inline-level box宽度大于父容器宽度时会被拆分成多个inline-level box<br>IFC则是表示盒子从左到右的水平排列方式<br><a href="https://juejin.im/entry/587c41f91b69e6006bf1b8ec" target="_blank" rel="noopener">IFC</a></p>
+<h3 id="BEM"><a href="#BEM" class="headerlink" title="BEM"></a>BEM</h3><p>.block {}<br>.block__element {}<br>.block__element–modifier {}</p>
+<h3 id="block-inline"><a href="#block-inline" class="headerlink" title="block inline"></a>block inline</h3><p>block 块元素    inline 内联元素</p>
+<p>常见的块元素有：div, p, h1~h6, table, form, ol, ul等</p>
+<p>常见的内联元素有：span, a, strong, em, label, input, select, textarea, img, br等</p>
+<p>block:</p>
+<ol>
+<li>独占一行</li>
+<li>设置width,height、margin和padding属性。</li>
+</ol>
+<p>inline:</p>
+<ol>
+<li>共占一行至换行</li>
+<li>width,height无效、水平方向margin和padding产生边距效果，竖直方向无效</li>
+</ol>
+<p>inline-block：<br>多个元素可以同排一行，且元素具有block的属性，可设置宽高，是block和inline元素的综合体。</p>
+<h3 id="可替换元素"><a href="#可替换元素" class="headerlink" title="可替换元素"></a>可替换元素</h3><p>可替换元素（replaced element）的展现效果不是由 CSS 来控制的，CSS 可以影响可替换元素的位置，但不会影响到可替换元素自身的内容。<br>典型的可替换元素有：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">video</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">embed</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>object-fit：指定可替换元素的内容对象在元素盒区域中的填充方式。<br>object-position<br>指定可替换元素的内容对象在元素盒区域中的位置。</p>
+<h3 id="文本截断"><a href="#文本截断" class="headerlink" title="文本截断"></a>文本截断</h3><p>单行文本截断： text-overflow:ellipsis<br>多行文本截断：<br>display: -webkit-box;<br>  overflow: hidden;<br>  -webkit-line-clamp: 2;<br>  -webkit-box-orient: vertical;</p>
+<p>CSS方法：<br>::after {<br>    content:”…”;<br>    font-weight:bold;<br>    position:absolute;<br>    bottom:0;<br>    right:0;<br>    padding:0 20px 1px 45px;<br>    background: linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);<br>}</p>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>scale(-1,-1) 等价于旋转180度</p>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2018/11/21/css/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2018/11/21/call%E5%92%8Capply/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            call和apply
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2018/11/21/ES6&ES7&ES8/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">ES6 ES7 ES8</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+
+          <div class="to_top">
+            <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+          </div>
+      </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Matt&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/resume">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9001/" target="_blank" rel="noopener">项目展示</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+        
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['https://github.com/chiangming/','sa517144@mail.ustc.edu.cn',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+    </div>
+  </body>
+
+  </html>

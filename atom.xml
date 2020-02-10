@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Matt&#39;s Blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://chiangming.github.io/"/>
+  <updated>2020-02-10T14:03:13.101Z</updated>
+  <id>https://chiangming.github.io/</id>
+  
+  <author>
+    <name>Matt</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>防抖</title>
+    <link href="https://chiangming.github.io/2020/02/10/%E9%98%B2%E6%8A%96/"/>
+    <id>https://chiangming.github.io/2020/02/10/%E9%98%B2%E6%8A%96/</id>
+    <published>2020-02-10T06:06:27.952Z</published>
+    <updated>2020-02-10T14:03:13.101Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&#39;utf-8&#39;&gt;
+  &lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge&#39;&gt;
+  &lt;title&gt;Page
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>vue整理</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/</id>
+    <published>2019-12-21T16:15:39.000Z</published>
+    <updated>2020-02-10T08:29:43.584Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;vuex&quot;&gt;&lt;a href=&quot;#vuex&quot; class=&quot;headerlink&quot; title=&quot;vuex&quot;&gt;&lt;/a&gt;vuex&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/23921964&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://zhuanlan.zhihu.com/p/23921964&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;响应式原理&quot;&gt;&lt;a href=&quot;#响应式原理&quot; class=&quot;headerlink&quot; title=&quot;响应式原理&quot;&gt;&lt;/a&gt;响应式原理&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;http://103.14.34.148:9000/imgs/blog/img/reactive.png&quot; alt=&quot;reactive&quot;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Vue的初始化阶段，对vue的属性进行处理对于data和props,Vue会通过ovserve/defineReactive等系列操作，把整个data和props定义的对象每一个属性编成响应式的，同时内部持有一个dep的实例。&lt;/li&gt;
+&lt;li&gt;当我们访问到响应式数据的时候，就会触发数据内部dep的depend方法来收集依赖&lt;/li&gt;
+&lt;li&gt;收集依赖收集的是当前正在计算的watcher，也就是说当前的Dep.target就会作为订阅者来订阅这些数据的变化
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vue-router</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/</id>
+    <published>2019-12-21T16:15:38.000Z</published>
+    <updated>2020-02-10T08:30:34.643Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;注册&quot;&gt;&lt;a href=&quot;#注册&quot; class=&quot;headerlink&quot; title=&quot;注册&quot;&gt;&lt;/a&gt;注册&lt;/h2&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;install&lt;/span&gt; (&lt;span class=&quot;params&quot;&gt;Vue&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// ...&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;comment&quot;&gt;// 混入 beforeCreate 钩子&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     Vue.mixin(&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       beforeCreate () &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         &lt;span class=&quot;comment&quot;&gt;// 在option上面存在router则代表是根组件 &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (isDef(&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.$options.router)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;._routerRoot = &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;  &lt;span class=&quot;comment&quot;&gt;// 定义router的根vm&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;._router = &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.$options.router&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;comment&quot;&gt;// 执行_router实例的 init 方法&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;._router.init(&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;comment&quot;&gt;// 为 vue 实例定义数据劫持&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           Vue.util.defineReactive(&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;_route&#39;&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;._router.history.current)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;comment&quot;&gt;// 非根组件则直接从父组件中获取&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;._routerRoot = (&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.$parent &amp;amp;&amp;amp; &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.$parent._routerRoot) || &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         registerInstance(&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       destroyed () &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         registerInstance(&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;comment&quot;&gt;// 设置代理，当访问 this.$router 的时候，代理到 this._routerRoot._router&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;built_in&quot;&gt;Object&lt;/span&gt;.defineProperty(Vue.prototype, &lt;span class=&quot;string&quot;&gt;&#39;$router&#39;&lt;/span&gt;, &amp;#123;&lt;span class=&quot;comment&quot;&gt;//Router&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &lt;span class=&quot;keyword&quot;&gt;get&lt;/span&gt; () &amp;#123; &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;._routerRoot._router &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;comment&quot;&gt;// 设置代理，当访问 this.$route 的时候，代理到 this._routerRoot._route&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;built_in&quot;&gt;Object&lt;/span&gt;.defineProperty(Vue.prototype, &lt;span class=&quot;string&quot;&gt;&#39;$route&#39;&lt;/span&gt;, &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &lt;span class=&quot;keyword&quot;&gt;get&lt;/span&gt; () &amp;#123; &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;._routerRoot._route &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;comment&quot;&gt;// 注册 router-view 和 router-link 组件&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     Vue.component(&lt;span class=&quot;string&quot;&gt;&#39;RouterView&#39;&lt;/span&gt;, View)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     Vue.component(&lt;span class=&quot;string&quot;&gt;&#39;RouterLink&#39;&lt;/span&gt;, Link)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;comment&quot;&gt;// Vue钩子合并策略&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; strats = Vue.config.optionMergeStrategies&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;comment&quot;&gt;// use the same hook merging strategy for route hooks&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;comment&quot;&gt;// ...&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>12.transition</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/12.transition/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/12.transition/</id>
+    <published>2019-12-21T16:15:37.000Z</published>
+    <updated>2020-02-10T08:33:27.425Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;render函数-vnode&quot;&gt;&lt;a href=&quot;#render函数-vnode&quot; class=&quot;headerlink&quot; title=&quot;render函数 vnode&quot;&gt;&lt;/a&gt;render函数 vnode&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;transition组件使用同插槽一样，调用 transition 组件的render方法，通过 &lt;code&gt;this.$slots.default&lt;/code&gt; 取得内部的vnode&lt;/li&gt;
+&lt;li&gt;在 vnode的data上 生成 transition对象，保存transition标签上的 props （例如 name），listeners等属性 &lt;code&gt;vnode.data.transition&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; data: &lt;span class=&quot;built_in&quot;&gt;Object&lt;/span&gt; = (child.data || (child.data = &amp;#123;&amp;#125;)).transition = extractTransitionData(&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 取出 transition组件 过渡动画所需的属性&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;   (&lt;span class=&quot;params&quot;&gt;comp: Component&lt;/span&gt;): &lt;span class=&quot;title&quot;&gt;Object&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; data = &amp;#123;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; options: ComponentOptions = comp.$options&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;comment&quot;&gt;// props&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; key &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; options.propsData) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    data[key] = comp[key]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;comment&quot;&gt;// events.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;comment&quot;&gt;// extract listeners and pass them directly to the transition methods&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; listeners: ?&lt;span class=&quot;built_in&quot;&gt;Object&lt;/span&gt; = options._parentListeners&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; key &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; listeners) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    data[camelize(key)] = listeners[key]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; data&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;通过该方法在子组件上添加动画css名，这样 child.data.transition 中就包含了过渡所需的一些数据&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果组件里面写了html语言（不是正常插槽的写法），那么会作为 _c的 children vnode 传入，最终vnode保存在 componentOptions.children，在 _init过程中 &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;合并component配置的过程中，&lt;code&gt;opts._renderChildren = vnodeComponentOptions.children;&lt;/code&gt;，&lt;/li&gt;
+&lt;li&gt;initRender 将 opts._renderChildren 挂载到 vm.$slots.default 上
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>11.keep-alive</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/</id>
+    <published>2019-12-21T16:15:36.000Z</published>
+    <updated>2020-02-10T08:36:01.745Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;keep-alive组件是一个抽象组件，它的实现通过自定义render函数并且利用了插槽，并且知道了 keep-alive 缓存 vnode，了解组件包裹的子元素——也就是插槽是如何做更新的。且在 patch 过程中对于已缓存的组件不会执行 mounted，所以不会有一般的组件的生命周期函数但是又提供了activated 和 deactivated 钩子函数。另外我们还知道了keep-alive的 props 除了 include 和 exclude 还有文档中没有提到的 max，它能控制我们缓存的个数。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>10.插槽</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/</id>
+    <published>2019-12-21T16:15:35.000Z</published>
+    <updated>2020-02-10T08:32:50.722Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;编译&quot;&gt;&lt;a href=&quot;#编译&quot; class=&quot;headerlink&quot; title=&quot;编译&quot;&gt;&lt;/a&gt;编译&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;./demo/slot.html&quot;&gt;demo&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>9.双向绑定</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/</id>
+    <published>2019-12-21T16:15:34.000Z</published>
+    <updated>2020-02-10T08:32:50.134Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;补充表单知识点&quot;&gt;&lt;a href=&quot;#补充表单知识点&quot; class=&quot;headerlink&quot; title=&quot;补充表单知识点&quot;&gt;&lt;/a&gt;补充表单知识点&lt;/h2&gt;&lt;h4 id=&quot;表单&quot;&gt;&lt;a href=&quot;#表单&quot; class=&quot;headerlink&quot; title=&quot;表单&quot;&gt;&lt;/a&gt;表单&lt;/h4&gt;&lt;p&gt;input&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;text 单行文本&lt;ul&gt;
+&lt;li&gt;placeholder 默认文本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;radio 单选框&lt;ul&gt;
+&lt;li&gt;value&lt;/li&gt;
+&lt;li&gt;name  单选框组名字相同&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;checkbox 复选框&lt;ul&gt;
+&lt;li&gt;value 提交的值 &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;textarea 多行文本&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>8.事件绑定</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/</id>
+    <published>2019-12-21T16:15:33.000Z</published>
+    <updated>2020-02-10T08:32:49.550Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;编译&quot;&gt;&lt;a href=&quot;#编译&quot; class=&quot;headerlink&quot; title=&quot;编译&quot;&gt;&lt;/a&gt;编译&lt;/h2&gt;&lt;h4 id=&quot;生成-ast树&quot;&gt;&lt;a href=&quot;#生成-ast树&quot; class=&quot;headerlink&quot; title=&quot;生成 ast树&quot;&gt;&lt;/a&gt;生成 ast树&lt;/h4&gt;&lt;p&gt; 根据 assts的属性来提取出其中的 事件属性&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>7.编译</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/</id>
+    <published>2019-12-21T16:15:32.000Z</published>
+    <updated>2020-02-10T08:32:48.950Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;参考：&lt;a href=&quot;https://segmentfault.com/a/1190000015848917&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Vue源码解读之AST语法树（一）&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;不同平台下的-文件的布局-和-柯里化&quot;&gt;&lt;a href=&quot;#不同平台下的-文件的布局-和-柯里化&quot; class=&quot;headerlink&quot; title=&quot;不同平台下的 文件的布局 和 柯里化&quot;&gt;&lt;/a&gt;不同平台下的 文件的布局 和 柯里化&lt;/h2&gt;&lt;p&gt;对于 web平台 ，运行的是 web平台下的 &lt;code&gt;entry-runtime-with-compiler&lt;/code&gt;，所以该平台下的 编译生成 render 函数 的方法和 weex平台下时不同的，那么如何做到区分，就需要函数柯里化&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>4.数据响应</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/4.%E6%95%B0%E6%8D%AE%E5%93%8D%E5%BA%94/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/4.%E6%95%B0%E6%8D%AE%E5%93%8D%E5%BA%94/</id>
+    <published>2019-12-21T16:15:31.000Z</published>
+    <updated>2020-02-10T08:32:47.738Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Vue源码中实现依赖收集，实现了三个类：&lt;br&gt;&lt;img src=&quot;http://103.14.34.148:9000/imgs/blog/img/a.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Dep：扮演观察目标的角色，每一个数据都会有Dep类实例，它内部有个subs队列，subs就是subscribers的意思，保存着依赖本数据的观察者，当本数据变更时，调用dep.notify()通知观察者&lt;/li&gt;
+&lt;li&gt;Watcher：扮演观察者的角色，进行观察者函数的包装处理。如render()函数，会被进行包装成一个Watcher实例&lt;/li&gt;
+&lt;li&gt;Observer：辅助的可观测类，数组/对象通过它的转化，可成为可观测数据&lt;br&gt;参考：&lt;a href=&quot;https://ruphi.cn/archives/336/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Vue依赖收集原理&lt;/a&gt;  &lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>5.computed和watcher</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/5.%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7&amp;%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/5.%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7&amp;%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7/</id>
+    <published>2019-12-21T16:15:31.000Z</published>
+    <updated>2020-02-10T08:32:48.370Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;computed&quot;&gt;&lt;a href=&quot;#computed&quot; class=&quot;headerlink&quot; title=&quot;computed&quot;&gt;&lt;/a&gt;computed&lt;/h2&gt;&lt;h3 id=&quot;初始化&quot;&gt;&lt;a href=&quot;#初始化&quot; class=&quot;headerlink&quot; title=&quot;初始化&quot;&gt;&lt;/a&gt;初始化&lt;/h3&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;computed: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  fullName: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// getter&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;get&lt;/span&gt;: function () &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.firstName + &lt;span class=&quot;string&quot;&gt;&#39; &#39;&lt;/span&gt; + &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.lastName&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// setter&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;set&lt;/span&gt;: function (newValue) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; names = newValue.split(&lt;span class=&quot;string&quot;&gt;&#39; &#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.firstName = names[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.lastName = names[names.length - &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;initState 的 过程中也会 对 computed属性进行初始化（initComputed）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;会为每一个computed里的数据生成一个 watcher实例，（其中getter属性为computed中的数据由用户定义的函数或对象的get方法）与数据响应的watcher区别在与设置了lazy属性为true，这个属性主要的作用就是在数据发生改变时不会触发notify&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;将 computed中的属性 部署到 vm上，可以直接通过vm来获取，并设置其getter方法，&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>6.组件更新</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/6.%E7%BB%84%E4%BB%B6%E6%9B%B4%E6%96%B0/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/6.%E7%BB%84%E4%BB%B6%E6%9B%B4%E6%96%B0/</id>
+    <published>2019-12-21T16:15:31.000Z</published>
+    <updated>2020-02-10T08:31:42.322Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;patch&quot;&gt;&lt;a href=&quot;#patch&quot; class=&quot;headerlink&quot; title=&quot;patch&quot;&gt;&lt;/a&gt;patch&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;在响应式数据发送改变时， 会触发 订阅的 watcher 的 更新 &lt;/li&gt;
+&lt;li&gt;再次调用 vm._update(vm._render(),…)&lt;/li&gt;
+&lt;li&gt;其中会 执行 patch ，这是因为有旧的 渲染vnode，所以 会传入 &lt;code&gt;vm.$el = vm.__patch__(prevVnode, vnode)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;在patch的过程中，会和首次渲染不同，这次会比较新旧vnode是否相同，&lt;code&gt;sameVnode(oldVnode, vnode)&lt;/code&gt;，主要通过 key ，tag …判断
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>3.组件化</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/3.%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/3.%E7%BB%84%E4%BB%B6%E5%8C%96/</id>
+    <published>2019-12-21T16:15:30.000Z</published>
+    <updated>2020-02-10T08:32:46.970Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;首先一个 生成 Vue 实例，在执行其render的过程中，createComponent 会  生成 其组件vue构造函数，安装组件钩子函数,在new Vnode 传入构造函数生成 组件的 占位符 vnode&lt;/li&gt;
+&lt;li&gt;在 update -&amp;gt; patch -&amp;gt; createElm 中，通过调用 createComponent 来为 component组件占位符vnode节点 生成 vm 实例，以此触发 其 init 函数&lt;/li&gt;
+&lt;li&gt;在 init 函数中 会调用 vm实例的 mount 方法 -&amp;gt; createElm ,这时的 vm实例中的 vnode不再是一个 组件，而是渲染vnode（渲染vnode就是组件最外层的标签），所以会 生成该vnode的真实dom，在对 子vnode进行渲染，执行 createChildren -&amp;gt; createElm。&lt;ul&gt;
+&lt;li&gt;如果不是 组件（组件 vnode 是有 复制的Vue对象，会有 init方法，vnode.data.hook.init） ，则 生成 真实 dom ，在 createElm 中 完成插入 父dom 中&lt;/li&gt;
+&lt;li&gt;如果是 组件 ，则重复上述 &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;组件渲染完成后 ，占位符节点 在 createComponent 中 完成 插入到 dom 操作（渲染组件 vnode 由于没有parentElm （因为vuecomponent.$el 不存在），所以不会进行插入操作，渲染组件vnode.elm 会被赋值给 占位符vnode生成的vue实例 vm.$el, vm会被赋值给 占位符 vnode.componentInstance,在 占位符vnode进行插入dom时，调用 initComponent 会将占位符 vnode.componentInstance.$el 传给 占位符 vnode.elm ）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://103.14.34.148:9000/imgs/blog/img/%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;initComponent&lt;/span&gt; (&lt;span class=&quot;params&quot;&gt;vnode, insertedVnodeQueue&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (isDef(vnode.data.pendingInsert)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        insertedVnodeQueue.push.apply(insertedVnodeQueue, vnode.data.pendingInsert);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        vnode.data.pendingInsert = &lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;comment&quot;&gt;// !! --&amp;gt; 将vue实例的dom实例 挂载到占位符vnode上&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      vnode.elm = vnode.componentInstance.$el; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;comment&quot;&gt;// &amp;lt;-- !!&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (isPatchable(vnode)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        invokeCreateHooks(vnode, insertedVnodeQueue);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        setScope(vnode);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;comment&quot;&gt;// empty component root.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;comment&quot;&gt;// skip all element-related modules except for ref (#3455)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        registerRef(vnode);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;comment&quot;&gt;// make sure to invoke the insert hook&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        insertedVnodeQueue.push(vnode);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;creayeElement-gt-createComponent-生成Vnode&quot;&gt;&lt;a href=&quot;#creayeElement-gt-createComponent-生成Vnode&quot; class=&quot;headerlink&quot; title=&quot;_creayeElement -&amp;gt; createComponent 生成Vnode&quot;&gt;&lt;/a&gt;_creayeElement -&amp;gt; createComponent 生成Vnode&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;$mount(挂载的dom实例)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;根据tag类型，如果能在当前vm实例中&lt;code&gt;context.$options.components&lt;/code&gt;中找到 tag ，那么这就是一个组件 ，则调用&lt;code&gt;createComponent()&lt;/code&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2.生命周期</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/2.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/2.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</id>
+    <published>2019-12-21T16:15:29.000Z</published>
+    <updated>2020-02-10T08:32:46.098Z</updated>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;_init&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;beforeCreate (initLifeCycle,initEvents,initRender)&lt;/li&gt;
+&lt;li&gt;created 可以获得data,props (initInjections,initState,initProvide)，在这里已经完成了 数据data computed的响应式处理以及 watch event的事件回调
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>1.数据驱动</title>
+    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/"/>
+    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/</id>
+    <published>2019-12-21T16:15:28.000Z</published>
+    <updated>2020-02-10T08:32:13.170Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;流程&quot;&gt;&lt;a href=&quot;#流程&quot; class=&quot;headerlink&quot; title=&quot;流程&quot;&gt;&lt;/a&gt;流程&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;初始化，在Vue原型上部署各种方法，&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;new Vue&lt;/code&gt;时执行&lt;code&gt;Vue.prototype._init()&lt;/code&gt;&lt;ul&gt;
+&lt;li&gt;initState() =&amp;gt; initData()&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;执行 &lt;code&gt;Vue.prototype.$mount&lt;/code&gt;&lt;ul&gt;
+&lt;li&gt;编译生成 render 函数&lt;/li&gt;
+&lt;li&gt;mountComponent &lt;ul&gt;
+&lt;li&gt;new Watcher =&amp;gt; this.get =&amp;gt; this.getter() =&amp;gt; vm._update(vm._render(), hydrating)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Vue.prototype._render()&lt;ul&gt;
+&lt;li&gt;render.call(vm._renderProxy, vm.$createElement)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Vue.prototype._update()&lt;ul&gt;
+&lt;li&gt;patch()
+    
+    </summary>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>css题目</title>
+    <link href="https://chiangming.github.io/2019/11/23/interview/css/"/>
+    <id>https://chiangming.github.io/2019/11/23/interview/css/</id>
+    <published>2019-11-22T16:15:39.000Z</published>
+    <updated>2020-02-10T07:11:35.996Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;第1天-圣杯布局和双飞翼布局的理解和区别，并用代码实现&quot;&gt;&lt;a href=&quot;#第1天-圣杯布局和双飞翼布局的理解和区别，并用代码实现&quot; class=&quot;headerlink&quot; title=&quot;第1天 圣杯布局和双飞翼布局的理解和区别，并用代码实现&quot;&gt;&lt;/a&gt;第1天
+        
+      
+    
+    </summary>
+    
+    
+      <category term="面试" scheme="https://chiangming.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="css" scheme="https://chiangming.github.io/tags/css/"/>
+    
+      <category term="面试题" scheme="https://chiangming.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>html题目</title>
+    <link href="https://chiangming.github.io/2019/11/23/interview/html/"/>
+    <id>https://chiangming.github.io/2019/11/23/interview/html/</id>
+    <published>2019-11-22T16:15:39.000Z</published>
+    <updated>2020-02-10T07:10:53.600Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;页面导入样式时，使用link和-import有什么区别？&quot;&gt;&lt;a href=&quot;#页面导入样式时，使用link和-import有什么区别？&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="面试" scheme="https://chiangming.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="面试题" scheme="https://chiangming.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+      <category term="html" scheme="https://chiangming.github.io/tags/html/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>javascript题目</title>
+    <link href="https://chiangming.github.io/2019/11/23/interview/js/"/>
+    <id>https://chiangming.github.io/2019/11/23/interview/js/</id>
+    <published>2019-11-22T16:15:39.000Z</published>
+    <updated>2020-02-10T07:10:51.640Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;用递归算法实现，数组长度为5且元素的随机数在2-32间不重复的值&quot;&gt;&lt;a href=&quot;#用递归算法实现，数组长度为5且元素的随机数在2-32间不重复的值&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="面试" scheme="https://chiangming.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="javascript" scheme="https://chiangming.github.io/tags/javascript/"/>
+    
+      <category term="面试题" scheme="https://chiangming.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>前端性能优化</title>
+    <link href="https://chiangming.github.io/2018/12/22/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
+    <id>https://chiangming.github.io/2018/12/22/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</id>
+    <published>2018-12-21T16:15:28.000Z</published>
+    <updated>2020-02-10T06:58:16.440Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;请求速度&quot;&gt;&lt;a href=&quot;#请求速度&quot; class=&quot;headerlink&quot; title=&quot;请求速度&quot;&gt;&lt;/a&gt;请求速度&lt;/h2&gt;&lt;h2 id=&quot;缓存-路径选择&quot;&gt;&lt;a href=&quot;#缓存-路径选择&quot; class=&quot;headerlink&quot; title=&quot;缓存
+        
+      
+    
+    </summary>
+    
+    
+      <category term="前端理论" scheme="https://chiangming.github.io/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/"/>
+    
+    
+      <category term="前端理论" scheme="https://chiangming.github.io/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>同步与异步</title>
+    <link href="https://chiangming.github.io/2018/12/22/%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/"/>
+    <id>https://chiangming.github.io/2018/12/22/%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/</id>
+    <published>2018-12-21T16:15:28.000Z</published>
+    <updated>2020-02-10T06:57:29.761Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;同步-异步&quot;&gt;&lt;a href=&quot;#同步-异步&quot; class=&quot;headerlink&quot; title=&quot;同步 异步&quot;&gt;&lt;/a&gt;同步 异步&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;同步
+        
+      
+    
+    </summary>
+    
+    
+      <category term="前端理论" scheme="https://chiangming.github.io/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/"/>
+    
+    
+      <category term="前端理论" scheme="https://chiangming.github.io/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/"/>
+    
+  </entry>
+  
+</feed>

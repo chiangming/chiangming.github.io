@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    9.双向绑定 |  Matt&#39;s Blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+</html>
+
+  <body>
+    <div id="app">
+      <main class="content">
+        <section class="outer">
+  <article id="post-vue源码/9.双向绑定v-model" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  9.双向绑定
+</h1>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/" class="article-date">
+  <time datetime="2019-12-21T16:15:34.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.9k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">13分钟</span>
+        </span>
+    </span>
+</div>
+
+                    
+          </div>
+          
+
+            
+              
+    <div class="tocbot"></div>
+
+
+
+
+
+                
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h2 id="补充表单知识点"><a href="#补充表单知识点" class="headerlink" title="补充表单知识点"></a>补充表单知识点</h2><h4 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h4><p>input</p>
+<ul>
+<li>text 单行文本<ul>
+<li>placeholder 默认文本</li>
+</ul>
+</li>
+<li>radio 单选框<ul>
+<li>value</li>
+<li>name  单选框组名字相同</li>
+</ul>
+</li>
+<li>checkbox 复选框<ul>
+<li>value 提交的值 </li>
+</ul>
+</li>
+</ul>
+<p>textarea 多行文本</p>
+<a id="more"></a>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">v-model</span>=<span class="string">"selected"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">disabled</span> <span class="attr">value</span>=<span class="string">""</span>&gt;</span>请选择<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span>&gt;</span>A<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span>&gt;</span>B<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">option</span>&gt;</span>C<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>select 选择框<ul>
+<li>option 选项<ul>
+<li>value 没有的话 默认为其中文本值</li>
+<li>disabled 不可选</li>
+</ul>
+</li>
+<li>multiple 多选</li>
+</ul>
+</li>
+</ul>
+<h4 id="v-model修饰符"><a href="#v-model修饰符" class="headerlink" title="v-model修饰符"></a>v-model修饰符</h4><ul>
+<li>.lazy v-model 在每次 input 事件触发后将输入框的值与数据进行同步,你可以添加 lazy 修饰符，从而转变为使用 change 事件进行同步<blockquote>
+<p>input事件是在输入文本的时候触发，change事件是在input表单失去焦点时触发</p>
+</blockquote>
+</li>
+<li>.number</li>
+<li>.trim</li>
+</ul>
+<h4 id="composition-事件"><a href="#composition-事件" class="headerlink" title="composition 事件"></a>composition 事件</h4><p>compositionstart 事件在用户开始进行非直接输入的时候触发，而在非直接输入结束，也即用户点选候选词或者点击「选定」按钮之后，会触发 compositionen 事件。</p>
+<p>当输入一个中文时，触发顺序：</p>
+<ul>
+<li>composition start</li>
+<li>input</li>
+<li>input</li>
+<li>input</li>
+<li>composition end</li>
+</ul>
+<p>compositionStart事件之后依旧要执行 input事件，如果要阻止 input事件的触发，可以使用一个boolean变量来控制。参考vue v-model 对 input标签的处理</p>
+<p>在输入中文时，compositionend 事件在 input 事件之后触发，所以在 compositionend事件触发时，也要手动调用 input 事件处理逻辑。</p>
+<h4 id="创建事件"><a href="#创建事件" class="headerlink" title="创建事件"></a>创建事件</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> e = <span class="built_in">document</span>.createEvent(<span class="string">'HTMLEvents'</span>) <span class="comment">//MouseEvents UIEvents</span></span><br><span class="line">e.initEvent(type, <span class="literal">true</span>, <span class="literal">true</span>) <span class="comment">//决定是否事件是否应该向上冒泡</span></span><br><span class="line">el.dispatchEvent(e)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>initEvent(type,bubbles,cancelable)</p>
+<ul>
+<li>事件类型</li>
+<li>决定是否事件是否应该向上冒泡</li>
+<li>决定该事件的默认动作是否可以被取消</li>
+</ul>
+</li>
+<li><p>el.dispatchEvent 向一个指定的事件目标el派发一个事件</p>
+</li>
+</ul>
+<p>现在被  event = new Event(typeArg, eventInit); 替代<br>是 EventInit 类型的字典，接受以下字段: 对象</p>
+<ul>
+<li>“bubbles”，可选，Boolean类型，默认值为 false，表示该事件是否冒泡。</li>
+<li>“cancelable”，可选，Boolean类型，默认值为 false， 表示该事件能否被取消。</li>
+<li>“composed”，可选，Boolean类型，默认值为 false，指示事件是否会在影子DOM根节点之外触发侦听器。</li>
+</ul>
+<h2 id="编译-parse"><a href="#编译-parse" class="headerlink" title="编译 parse"></a>编译 parse</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">v-model</span>=<span class="string">"message"</span> <span class="attr">placeholder</span>=<span class="string">"edit me"</span>&gt;</span>   </span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Message is: &#123;&#123; message &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>等同于</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">:value</span>=<span class="string">"message"</span> @<span class="attr">input</span>=<span class="string">'e=&gt;this.message=e.target.value&#125;'</span> <span class="attr">placeholder</span>=<span class="string">"edit me"</span>&gt;</span>   </span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Message is: &#123;&#123; message &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>v-model等相关信息都保存在 AST树节点的 attrsList 数组中。比如：<code>name: &quot;v-model&quot;, value: &quot;message&quot;</code></p>
+<p>执行 addDirective,把 name,rawname,value包装成对象 添加到 ast节点的 <strong>directives</strong>属性上</p>
+<h2 id="生成代码"><a href="#生成代码" class="headerlink" title="生成代码"></a>生成代码</h2><p>genData中 genDirectives -&gt; model -&gt; genDefaultModel</p>
+<p>实现了对 ast节点中directives属性的代码生成</p>
+<p>生成回调函数 <code>if($event.target.composing)return;message=$event.target.value</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">addProp(el, <span class="string">'value'</span>, <span class="string">`(<span class="subst">$&#123;value&#125;</span>)`</span>)</span><br><span class="line">addHandler(el, event, code, <span class="literal">null</span>, <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p>addProps 将 message 作为prop传给 value  : <code>el.props.push({name:&quot;value&quot;,value:&quot;(message)&quot;})</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">props: <span class="built_in">Array</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="number">0</span>:</span><br><span class="line">        dynamic: <span class="literal">undefined</span></span><br><span class="line">        name: <span class="string">"value"</span></span><br><span class="line">        value: <span class="string">"(message)"</span></span><br></pre></td></tr></table></figure>
+<p>addHandler 将回调事件添加到ats节点的 events:  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">el.events[input] = &#123;<span class="attr">dynamic</span>: <span class="literal">undefined</span>,</span><br><span class="line">        value: <span class="string">"if($event.target.composing)return;message=$event.target.value"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>vnode的data上保存了 编译过程中产生的属性，最终生成 data对象，成为createElement的第二个参数传入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[_c(<span class="string">'input'</span>,&#123;<span class="attr">directives</span>:[&#123;<span class="attr">name</span>:<span class="string">"model"</span>,<span class="attr">rawName</span>:<span class="string">"v-model"</span>,<span class="attr">value</span>:(message),<span class="attr">expression</span>:<span class="string">"message"</span>&#125;],<span class="attr">attrs</span>:&#123;<span class="string">"placeholder"</span>:<span class="string">"edit me"</span>&#125;,<span class="attr">domProps</span>:&#123;<span class="string">"value"</span>:(message)&#125;,<span class="attr">on</span>:&#123;<span class="string">"input"</span>:<span class="function"><span class="keyword">function</span>(<span class="params">$event</span>)</span>&#123;<span class="keyword">if</span>($event.target.composing)<span class="keyword">return</span>;message=$event.target.value&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<p><code>domProps:{&quot;value&quot;:(message)</code>  v-bind 是形成的参数</p>
+<p><code>on:{&quot;input&quot;:function($event){if($event.target.composing)return;message=$event.target.value}}</code></p>
+<p>都是生成的</p>
+<h2 id="v-model-运行时"><a href="#v-model-运行时" class="headerlink" title="v-model 运行时"></a>v-model 运行时</h2><h4 id="vue-input-对于-中文输入的处理"><a href="#vue-input-对于-中文输入的处理" class="headerlink" title="vue input 对于 中文输入的处理"></a>vue input 对于 中文输入的处理</h4><p>patch -&gt; createElm -&gt; invokeCreateHooks -&gt; <strong>updateDirectives</strong>，对data中的directives对象进行处理</p>
+<p>insertedVnodeQueue 里添加 insert事件，触发 inserted 事件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">el.addEventListener(<span class="string">'compositionstart'</span>, onCompositionStart)</span><br><span class="line">el.addEventListener(<span class="string">'compositionend'</span>, onCompositionEnd)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onCompositionStart</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  e.target.composing = <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onCompositionEnd</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// prevent triggering an input event for no reason</span></span><br><span class="line">  <span class="keyword">if</span> (!e.target.composing) <span class="keyword">return</span></span><br><span class="line">  e.target.composing = <span class="literal">false</span></span><br><span class="line">  trigger(e.target, <span class="string">'input'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">trigger</span> (<span class="params">el, type</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> e = <span class="built_in">document</span>.createEvent(<span class="string">'HTMLEvents'</span>)</span><br><span class="line">  e.initEvent(type, <span class="literal">true</span>, <span class="literal">true</span>)</span><br><span class="line">  el.dispatchEvent(e)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以在生产的代码中 对 input事件的回调函数是这样写的:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (needCompositionGuard) &#123;</span><br><span class="line">    code = <span class="string">`if($event.target.composing)return;<span class="subst">$&#123;code&#125;</span>`</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>其中就通过<code>$event.target.composing</code>这个值来控制input事件回调函数的触发</p>
+<h2 id="components-上的-v-model"><a href="#components-上的-v-model" class="headerlink" title="components 上的 v-model"></a>components 上的 v-model</h2><p>在编译的过程中会在ast节点上的data中生成 model 对象,这个data会作为 createElement的第二个参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (el.model) &#123;</span><br><span class="line">  data += <span class="string">`model:&#123;value:<span class="subst">$&#123;</span></span></span><br><span class="line"><span class="string"><span class="subst">    el.model.value</span></span></span><br><span class="line"><span class="string"><span class="subst">  &#125;</span>,callback:<span class="subst">$&#123;</span></span></span><br><span class="line"><span class="string"><span class="subst">    el.model.callback</span></span></span><br><span class="line"><span class="string"><span class="subst">  &#125;</span>,expression:<span class="subst">$&#123;</span></span></span><br><span class="line"><span class="string"><span class="subst">    el.model.expression</span></span></span><br><span class="line"><span class="string"><span class="subst">  &#125;</span>&#125;,`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">model = &#123;</span><br><span class="line">    callback: <span class="string">"function ($$v) &#123;message=$$v&#125;"</span></span><br><span class="line">    expression: <span class="string">"message"</span></span><br><span class="line">    value: <span class="string">""</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成render函数<br><code>_c(&#39;child&#39;,{model:{value:(),callback:function ($$v) {message=$$v},expression:&quot;message&quot;}}</code></p>
+<h4 id="生成vnode"><a href="#生成vnode" class="headerlink" title="生成vnode"></a>生成vnode</h4><p>执行上述render函数</p>
+<p>createElement -&gt; createComponent，对 data 中的 model对象进行处理,其中data是父组件的data， Ctor.options是子组件的属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">if</span> (isDef(data.model)) &#123;<span class="comment">//组件渲染 vnode</span></span><br><span class="line">    transformModel(Ctor.options, data)  <span class="comment">//Ctor.options 占位符vnode</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  transformModel (options, <span class="attr">data</span>: any) &#123;</span><br><span class="line">  <span class="keyword">const</span> prop = (options.model &amp;&amp; options.model.prop) || <span class="string">'value'</span></span><br><span class="line">  <span class="keyword">const</span> event = (options.model &amp;&amp; options.model.event) || <span class="string">'input'</span></span><br><span class="line">  ;(data.attrs || (data.attrs = &#123;&#125;))[prop] = data.model.value</span><br><span class="line">  <span class="keyword">const</span> on = data.on || (data.on = &#123;&#125;)</span><br><span class="line">  <span class="keyword">const</span> existing = on[event]</span><br><span class="line">  <span class="keyword">const</span> callback = data.model.callback</span><br><span class="line">  <span class="keyword">if</span> (isDef(existing)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      <span class="built_in">Array</span>.isArray(existing)</span><br><span class="line">        ? existing.indexOf(callback) === <span class="number">-1</span></span><br><span class="line">        : existing !== callback</span><br><span class="line">    ) &#123;</span><br><span class="line">      on[event] = [callback].concat(existing)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    on[event] = callback</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>transformModel 就是把 props：value 和 input 事件添加到 组件data属性上<br>（data就是createElement的第二个参数）<br><code>data.attrs[prop] = value</code></p>
+<p><code>data.on[event] = callback</code></p>
+<p>相当于<br><code>&lt;child :value=&#39;message&#39; @input=&#39;function ($$v) {message=$$v}&#39;&gt;&lt;/child&gt;</code></p>
+<p><code>&lt;child :msg = &#39;message&#39; @change=&#39;function($$v){message=$$v}&#39;&gt;</code></p>
+<p>接着执行 extractPropsFromVNodeData，删除 data.attrs 中组件已有的props属性，转移到 <strong>propsDate</strong>这个属性中，作为占位符vnode的 componentOptions 属性传入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> propsData = extractPropsFromVNodeData(data, Ctor, tag);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> vnode = <span class="keyword">new</span> VNode(</span><br><span class="line">      (<span class="string">"vue-component-"</span> + (Ctor.cid) + (name ? (<span class="string">"-"</span> + name) : <span class="string">''</span>)),</span><br><span class="line">      data, <span class="literal">undefined</span>, <span class="literal">undefined</span>, <span class="literal">undefined</span>, context,</span><br><span class="line">      &#123; <span class="attr">Ctor</span>: Ctor, <span class="attr">propsData</span>: propsData, <span class="attr">listeners</span>: listeners, <span class="attr">tag</span>: tag, <span class="attr">children</span>: children &#125;,</span><br><span class="line">      asyncFactory</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+<p>data.model中 联合组件的model属性</p>
+<ul>
+<li>value 属性 会被转化为 生成的 vnode 的 componentOptions.propsData</li>
+<li>callback 自定义事件 vnode.componentOptions.listeners</li>
+</ul>
+<p>在生成子组件构造函数时 ,Ctor.options 的生成</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Vue.extend</span></span><br><span class="line"></span><br><span class="line"> Sub.options = mergeOptions(</span><br><span class="line">        Super.options,</span><br><span class="line">        extendOptions  <span class="comment">// 子组件的属性</span></span><br><span class="line">      );</span><br><span class="line"> <span class="keyword">if</span> (Sub.options.props) &#123;</span><br><span class="line">    initProps(Sub);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initProps$1</span> (<span class="params">Comp</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> props = Comp.options.props;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> props) &#123;</span><br><span class="line">      proxy(Comp.prototype, <span class="string">"_props"</span>, key); <span class="comment">// vm.key =&gt; get return this._props.key</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">proxy</span> (<span class="params">target: Object, sourceKey: string, key: string</span>) </span>&#123;</span><br><span class="line">  sharedPropertyDefinition.get = <span class="function"><span class="keyword">function</span> <span class="title">proxyGetter</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>[sourceKey][key]   <span class="comment">// this =&gt; Vue实例 ,target =&gt; Vue实例</span></span><br><span class="line">  &#125;</span><br><span class="line">  sharedPropertyDefinition.set = <span class="function"><span class="keyword">function</span> <span class="title">proxySetter</span> (<span class="params">val</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>[sourceKey][key] = val</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(target, key, sharedPropertyDefinition)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="model对象"><a href="#model对象" class="headerlink" title="model对象"></a>model对象</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> child = &#123;</span><br><span class="line">  template:<span class="string">`&lt;dic id='child'&gt;</span></span><br><span class="line"><span class="string">      &lt;input :value='msg' @input='updateValue' placeholder='edit me'&gt;&lt;/input&gt;</span></span><br><span class="line"><span class="string">    &lt;/div&gt;`</span>,</span><br><span class="line">  props:[<span class="string">'msg'</span>],</span><br><span class="line">  model:&#123;</span><br><span class="line">    prop:<span class="string">'msg'</span>,</span><br><span class="line">    event:<span class="string">'change'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">    updateValue(e)&#123;</span><br><span class="line">      <span class="keyword">this</span>.$emit(<span class="string">'change'</span>,e.target.value);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;child v-model=<span class="string">'message'</span>&gt;&lt;<span class="regexp">/child&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其中的model对象可以改变传入的prop属性名，和 触发的input事件的名字 (默认是 value 和 input)</p>
+<ul>
+<li>prop 修改 调用组件时 传入的prop名字 <code>:msg = message</code></li>
+<li>event 修改 调用组件时 触发的事件名字 <code>@change=function(){}</code></li>
+</ul>
+<h4 id="patch-生成dom实例"><a href="#patch-生成dom实例" class="headerlink" title="patch 生成dom实例"></a>patch 生成dom实例</h4><p>调用子组件的 Ctor构造函数，执行_init -&gt; initInternalComponent,将vnode的componentOptions属性 赋值到了 vm.$options 上</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> opts = vm.$options = <span class="built_in">Object</span>.create(vm.constructor.options)</span><br><span class="line">opts.propsData = vnodeComponentOptions.propsData</span><br><span class="line">opts._parentListeners = vnodeComponentOptions.listeners</span><br></pre></td></tr></table></figure>
+<p>initEvents(vm); 生成事件<br>initState(vm) 生成props</p>
+<p>在生成组件vm时，调用 initProps() ，将props这个对象进行响应式处理 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initState</span> (<span class="params">vm</span>) </span>&#123;</span><br><span class="line">    vm._watchers = [];</span><br><span class="line">    <span class="keyword">var</span> opts = vm.$options;</span><br><span class="line">    <span class="keyword">if</span> (opts.props) &#123; initProps(vm, opts.props); &#125;  <span class="comment">// vm.$options.props 是继承了组件属性</span></span><br><span class="line">    <span class="keyword">if</span> (opts.methods) &#123; initMethods(vm, opts.methods); &#125;</span><br><span class="line">    <span class="keyword">if</span> (opts.data) &#123;</span><br><span class="line">      initData(vm);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      observe(vm._data = &#123;&#125;, <span class="literal">true</span> <span class="comment">/* asRootData */</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (opts.computed) &#123; initComputed(vm, opts.computed); &#125;</span><br><span class="line">    <span class="keyword">if</span> (opts.watch &amp;&amp; opts.watch !== nativeWatch) &#123;</span><br><span class="line">      initWatch(vm, opts.watch);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//initProps</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initProps</span> (<span class="params">vm, propsOptions</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> propsData = vm.$options.propsData || &#123;&#125; <span class="comment">//将props 放到 vm._props</span></span><br><span class="line">  <span class="keyword">const</span> props = vm._props = &#123;&#125;</span><br><span class="line">  defineReactive(props, key, value)  <span class="comment">// 不给props对象生成observe实例是为了防止响应式的通过 Vue.set Vue.delete 往props 上添加删除属性</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!(key <span class="keyword">in</span> vm)) &#123;</span><br><span class="line">      proxy(vm, <span class="string">`_props`</span>, key)  <span class="comment">//挂载到vm实例上</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="组件v-model-和-表单v-model的区别"><a href="#组件v-model-和-表单v-model的区别" class="headerlink" title="组件v-model 和 表单v-model的区别"></a>组件v-model 和 表单v-model的区别</h2><h4 id="表单v-model"><a href="#表单v-model" class="headerlink" title="表单v-model"></a>表单v-model</h4><p>编译在生成ast节点时，生成directives属性</p>
+<p>在生成目标代码时，会先在 ast节点上生成</p>
+<ul>
+<li>props</li>
+<li>events<br>通过判断ast节点是否有这些属性，生成对应的代码</li>
+</ul>
+<p>在运行阶段，patch过程中，<strong>invokeCreateHooks</strong>，分别为dom对象添加两个事件<br>props，events 分别由对应的 <strong>invokeCreateHooks</strong> </p>
+<ul>
+<li>updateDOMProps</li>
+<li>updateDOMListeners<br>处理生成</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">el.addEventListener(<span class="string">'compositionstart'</span>, onCompositionStart)</span><br><span class="line">el.addEventListener(<span class="string">'compositionend'</span>, onCompositionEnd)</span><br></pre></td></tr></table></figure>
+<h4 id="组件v-model"><a href="#组件v-model" class="headerlink" title="组件v-model"></a>组件v-model</h4><p>在编译阶段 在 ast树中生成 model属性</p>
+<p>在生成目标代码的过程中，根据model属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">model = &#123;</span><br><span class="line">    callback: <span class="string">"function ($$v) &#123;message=$$v&#125;"</span></span><br><span class="line">    expression: <span class="string">""</span>message<span class="string">""</span></span><br><span class="line">    value: <span class="string">"(message)"</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>生成的render函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span>(<span class="keyword">this</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> _c(<span class="string">'div'</span>,[_c(<span class="string">'child'</span>,&#123;  <span class="comment">//占位符 vnode.data</span></span><br><span class="line">    model:&#123;</span><br><span class="line">      value:(message),</span><br><span class="line">      callback:<span class="function"><span class="keyword">function</span> (<span class="params">$$v</span>) </span>&#123;</span><br><span class="line">        message=$$v</span><br><span class="line">      &#125;,</span><br><span class="line">      expression:<span class="string">"message"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;),</span><br><span class="line">  _c(<span class="string">'p'</span>,[_v(<span class="string">"Message is: "</span>+_s(message))])],<span class="number">1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 占位符vnode.data  依据组件的model对象 添加了 model属性进行处理，如果没有model对象默认 为 value 和 input<br>在 data 中的 (data就是 createElement的第二个属性)</p>
+<ul>
+<li>attrs属性中生成 <code>value: &quot;&quot;</code></li>
+<li>on属性 <code>input: ƒ ($$v)</code></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">data.attrs.props = &#123;</span><br><span class="line">  value: (message),</span><br><span class="line">&#125;</span><br><span class="line">data.on = &#123;</span><br><span class="line">  input: <span class="function"><span class="keyword">function</span> (<span class="params">$$v</span>) </span>&#123;</span><br><span class="line">    message=$$v</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> propsData = extractPropsFromVNodeData(data, Ctor, tag)</span><br></pre></td></tr></table></figure>
+<p>将 attrs中的属性和 组件的options 中的 props中的属性进行比较，相同就从attrs中删去</p>
+<p>最终转变成对 props 和 events 属性的处理</p>
+<h2 id="props-原理"><a href="#props-原理" class="headerlink" title="props 原理"></a>props 原理</h2><h3 id="对于组件"><a href="#对于组件" class="headerlink" title="对于组件"></a>对于组件</h3><ol>
+<li><p>对于普通的组件 props ，<code>&lt;mycomp :msg = message&gt;&lt;/mycomp&gt;</code> 关于props的属性生成在 data.attrs上 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//data</span></span><br><span class="line">attrs:&#123;<span class="string">"msg"</span>:mess</span><br><span class="line">age&#125;&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在生成组件构造函数时，会将 attrs上的属性 转移到 propsData 上，作为组件vnode的 componentOptions.propsData属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> propsData = extractPropsFromVNodeData(data, Ctor, tag);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在生成组件vm时，将vnode.componentOptions 的属性 赋值到 vm.$options 上，调用 initProps() ，将props这个对象进行响应式处理 </p>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">const</span> propsData = vm.$options.propsData || &#123;&#125;</span><br><span class="line">  <span class="keyword">const</span> props = vm._props = &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// props中的每一个key</span></span><br><span class="line">  defineReactive(props, key, value, () =&gt; &#123; <span class="comment">// props 上的 key 变成响应式的</span></span><br><span class="line">  <span class="comment">// 不给props对象生成observe实例是为了防止响应式的通过 Vue.set Vue.delete 往props 上添加删除属性</span></span><br><span class="line">        <span class="keyword">if</span> (!isRoot &amp;&amp; !isUpdatingChildComponent) &#123;  <span class="comment">//isUpdatingChildComponent 判断是否此key是否处于updatingChildren中被修改，如果不是，说明此修改来自子组件，触发warning提示。</span></span><br><span class="line">          warn(</span><br><span class="line">            <span class="string">`Avoid mutating a prop directly since the value will be `</span> +</span><br><span class="line">            <span class="string">`overwritten whenever the parent component re-renders. `</span> +</span><br><span class="line">            <span class="string">`Instead, use a data or computed property based on the prop's `</span> +</span><br><span class="line">            <span class="string">`value. Prop being mutated: "<span class="subst">$&#123;key&#125;</span>"`</span>,</span><br><span class="line">            vm</span><br><span class="line">          )</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)  </span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!(key <span class="keyword">in</span> vm)) &#123;</span><br><span class="line">      proxy(vm, <span class="string">`_props`</span>, key)  <span class="comment">//挂载到vm实例上</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//proxy</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">proxy</span> (<span class="params">target: Object, sourceKey: string, key: string</span>) </span>&#123;</span><br><span class="line">  sharedPropertyDefinition.get = <span class="function"><span class="keyword">function</span> <span class="title">proxyGetter</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>[sourceKey][key]   <span class="comment">// this =&gt; Vue实例 ,target =&gt; Vue实例</span></span><br><span class="line">  &#125;</span><br><span class="line">  sharedPropertyDefinition.set = <span class="function"><span class="keyword">function</span> <span class="title">proxySetter</span> (<span class="params">val</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>[sourceKey][key] = val</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(target, key, sharedPropertyDefinition)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>响应式，将新的值作为新的vnode的参数，重新渲染<h3 id="对于普通的html标签"><a href="#对于普通的html标签" class="headerlink" title="对于普通的html标签"></a>对于普通的html标签</h3></li>
+<li>props相关信息储存在 domProps上<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">domProps:&#123;<span class="string">"value"</span>:message&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="v-model和-sync修饰符区别"><a href="#v-model和-sync修饰符区别" class="headerlink" title="v-model和.sync修饰符区别"></a>v-model和.sync修饰符区别</h4><p>两者本质都是一样，并没有任何区别： “监听一个触发事件”=”(val) =&gt; value = val”。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--v-model写法--&gt;</span><br><span class="line">&lt;my-component type=<span class="string">"text"</span> v-model=<span class="string">"value"</span>&gt;</span><br><span class="line">&lt;!--编译后的写法--&gt;</span><br><span class="line">&lt;my-component type=<span class="string">"text"</span></span><br><span class="line">  :value=<span class="string">"value"</span></span><br><span class="line">  @input=<span class="string">"value = $event.target.value"</span></span><br><span class="line">&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">默认针对原生组件input事件，但是如果子组件定义了针对事件</span><br><span class="line">model: &#123;</span><br><span class="line">        prop: <span class="string">"value"</span>,</span><br><span class="line">        event: <span class="string">"update"</span></span><br><span class="line">&#125;,</span><br><span class="line">则编译为</span><br><span class="line">--&gt;</span><br><span class="line">&lt;my-component type=<span class="string">"text"</span></span><br><span class="line">  :value=<span class="string">"value"</span></span><br><span class="line">  @update=<span class="string">"(val) =&gt; value = val"</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--语法糖.sync--&gt;</span><br><span class="line">&lt;my-component :value.sync=<span class="string">"value"</span> /&gt;</span><br><span class="line">&lt;!--编译后的写法--&gt;</span><br><span class="line">&lt;my-component </span><br><span class="line">  :value=<span class="string">"msg"</span> </span><br><span class="line">  @update:value=<span class="string">"(val) =&gt; value = val"</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>只不过v-model默认对应的是input或者textarea等组件的input事件，如果在子组件替换这个input事件，其本质和.sync修饰符一模一样。比较单一，不能有多个。</p>
+</li>
+<li><p>一个组件可以多个属性用.sync修饰符，可以同时”双向绑定多个“prop”，而并不像v-model那样，一个组件只能有一个。</p>
+</li>
+</ol>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            10.插槽
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">8.事件绑定</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+
+          <div class="to_top">
+            <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+          </div>
+      </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Matt&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/resume">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9001/" target="_blank" rel="noopener">项目展示</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+        
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['https://github.com/chiangming/','sa517144@mail.ustc.edu.cn',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+    </div>
+  </body>
+
+  </html>

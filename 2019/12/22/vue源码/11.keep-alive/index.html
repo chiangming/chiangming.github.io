@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    11.keep-alive |  Matt&#39;s Blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+</html>
+
+  <body>
+    <div id="app">
+      <main class="content">
+        <section class="outer">
+  <article id="post-vue源码/11.keep-alive" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  11.keep-alive
+</h1>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/" class="article-date">
+  <time datetime="2019-12-21T16:15:36.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.5k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">6分钟</span>
+        </span>
+    </span>
+</div>
+
+                    
+          </div>
+          
+
+            
+              
+    <div class="tocbot"></div>
+
+
+
+
+
+                
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>keep-alive组件是一个抽象组件，它的实现通过自定义render函数并且利用了插槽，并且知道了 keep-alive 缓存 vnode，了解组件包裹的子元素——也就是插槽是如何做更新的。且在 patch 过程中对于已缓存的组件不会执行 mounted，所以不会有一般的组件的生命周期函数但是又提供了activated 和 deactivated 钩子函数。另外我们还知道了keep-alive的 props 除了 include 和 exclude 还有文档中没有提到的 max，它能控制我们缓存的个数。</p>
+<a id="more"></a>
+<h2 id="keep-alive-组件"><a href="#keep-alive-组件" class="headerlink" title="keep-alive 组件"></a>keep-alive 组件</h2><p>它的 props 定义了 include，exclude，它们可以字符串或者表达式，include 表示只有匹配的组件会被缓存，而 exclude 表示任何匹配的组件都不会被缓存，props 还定义了 max，它表示缓存的大小，</p>
+<p>它有一个属性 abstract 为 true，是一个抽象组件，实际上它在组件实例建立父子关系的时候会被忽略</p>
+<h2 id="首次渲染"><a href="#首次渲染" class="headerlink" title="首次渲染"></a>首次渲染</h2><h3 id="render-生成-vnode-时"><a href="#render-生成-vnode-时" class="headerlink" title="render 生成 vnode 时"></a>render 生成 vnode 时</h3><p>由于keep-alive是一个组件，所以会在Vue上查找全局组件的 构造函数。（一个已经写好的keep-alive组件 ）</p>
+<blockquote>
+<p>keep-alive 组件 在初始化Vue的时候就会挂载到Vue的原型上</p>
+</blockquote>
+<p>接着生成 keep-alive vnode</p>
+<p>keep-alive 的使用 用到了插槽，其中的组件 在编译过程中 不会作为插槽来处理，而是直接调用 createElement方法传入组件名 来生成vnode，作为 <code>&lt;keep-alive&gt;</code> 的子节点vnode来使用。</p>
+<p>而一般的插槽其中 定义的 <code>&lt;template&gt;</code> 会生成对应的 render函数，保存在 父节点的 sloScopes字段上，在子节点渲染的过程中，通过调用相应的render函数来生成vnode</p>
+<p>在生产vnode的过程中，keep-alive 插槽内容 的节点保存在 <code>vnode.componentOptions.children</code></p>
+<p><code>vm.$options._renderChildren = vnodeComponentOptions.children</code></p>
+<p><code>&lt;component :is=&quot;tab[right_tab]&quot;&gt;&lt;/component&gt;</code> 其中需要用到的组件信息都保存在 vm.$options.components 中</p>
+<h3 id="patch-渲染出真实dom-default插槽的渲染过程"><a href="#patch-渲染出真实dom-default插槽的渲染过程" class="headerlink" title="patch 渲染出真实dom (default插槽的渲染过程)"></a>patch 渲染出真实dom (default插槽的渲染过程)</h3><p>在调用子组件的 Vue构造函数时，initRender会将 keep-alive 的子vnode（_renderChildren）挂载到 $slots上<br>vm.$slots = resolveSlots(options._renderChildren, renderContext);</p>
+<p>$mount -&gt; new Watcher -&gt; watcher.get() -&gt; _update(_render()) -&gt; vm.$options.render()  (keep-alive 自定义的render函数，所以不需要编译出render函数)</p>
+<p>vm.$options.render 是合并了 vm 构造函数上的 keeep-alive options</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">  render: <span class="function"><span class="keyword">function</span> <span class="title">render</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> slot = <span class="keyword">this</span>.$slots.default;</span><br><span class="line">    <span class="keyword">var</span> vnode = getFirstComponentChild(slot);</span><br><span class="line">    <span class="keyword">var</span> componentOptions = vnode &amp;&amp; vnode.componentOptions;</span><br><span class="line">    <span class="keyword">if</span> (componentOptions) &#123;</span><br><span class="line">      <span class="comment">// check pattern</span></span><br><span class="line">      <span class="keyword">var</span> name = getComponentName(componentOptions);</span><br><span class="line">      <span class="keyword">var</span> ref = <span class="keyword">this</span>;</span><br><span class="line">      <span class="keyword">var</span> include = ref.include;</span><br><span class="line">      <span class="keyword">var</span> exclude = ref.exclude;</span><br><span class="line">      <span class="keyword">if</span> (</span><br><span class="line">        <span class="comment">// not included</span></span><br><span class="line">        (include &amp;&amp; (!name || !matches(include, name))) ||</span><br><span class="line">        <span class="comment">// excluded</span></span><br><span class="line">        (exclude &amp;&amp; name &amp;&amp; matches(exclude, name))</span><br><span class="line">      ) &#123;</span><br><span class="line">        <span class="keyword">return</span> vnode</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">var</span> ref$<span class="number">1</span> = <span class="keyword">this</span>;</span><br><span class="line">      <span class="keyword">var</span> cache = ref$<span class="number">1.</span>cache;</span><br><span class="line">      <span class="keyword">var</span> keys = ref$<span class="number">1.</span>keys;</span><br><span class="line">      <span class="keyword">var</span> key = vnode.key == <span class="literal">null</span></span><br><span class="line">        <span class="comment">// same constructor may get registered as different local components</span></span><br><span class="line">        <span class="comment">// so cid alone is not enough (#3269)</span></span><br><span class="line">        ? componentOptions.Ctor.cid + (componentOptions.tag ? (<span class="string">"::"</span> + (componentOptions.tag)) : <span class="string">''</span>)</span><br><span class="line">        : vnode.key;</span><br><span class="line">      <span class="keyword">if</span> (cache[key]) &#123;</span><br><span class="line">        vnode.componentInstance = cache[key].componentInstance;</span><br><span class="line">        <span class="comment">// make current key freshest</span></span><br><span class="line">        remove(keys, key);</span><br><span class="line">        keys.push(key);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        cache[key] = vnode;</span><br><span class="line">        keys.push(key);</span><br><span class="line">        <span class="comment">// prune oldest entry</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.max &amp;&amp; keys.length &gt; <span class="built_in">parseInt</span>(<span class="keyword">this</span>.max)) &#123;</span><br><span class="line">          pruneCacheEntry(cache, keys[<span class="number">0</span>], keys, <span class="keyword">this</span>._vnode);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      vnode.data.keepAlive = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> vnode || (slot &amp;&amp; slot[<span class="number">0</span>])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>调用 keep-alive 的 render函数</p>
+<ol>
+<li>首先从 vm.$slots 中拿到 default 默认插槽的vnode</li>
+<li>判断是否缓存</li>
+</ol>
+<p>keep-alive vm实例 有两个属性用于缓存</p>
+<ul>
+<li>catch {} 保存 对应的vnode</li>
+<li>keys [] ,保存对应的 vnode的key，用于判断 最后使用节点</li>
+</ul>
+<p>如果 该vnode未被缓存，缓存该vnode，返回vnode<br>如果 已经缓存，则 将 vnode.componentInstance 改为 已缓存vnode的componentInstance，并返回 新的 vnode</p>
+<ol start="3">
+<li>接着 插槽内容进行渲染，由于已经存在vnode.componentsInstace ,所以不需要再生成一个新的 vm 实例</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cache[key] = vnode;</span><br><span class="line">keys.push(key);</span><br><span class="line"></span><br><span class="line">vnode.data.keepAlive = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="切换组件"><a href="#切换组件" class="headerlink" title="切换组件"></a>切换组件</h2><ol>
+<li>触发 kepp-alive 的 watcher，执行patch方法，会执行 <strong>prepatch</strong> 方法,修改 keep-alive中插槽的值</li>
+</ol>
+<blockquote>
+<p>因为更新后的 keep-alive vnode是相同的，不会触发 createElement重新渲染keep-alive，而 vm.$slots 是在生成vm实例时得到的，所以需要调用 prepatch。并且修改了 <strong>vm.$slots</strong> 需要重新触发 keep-alive 的 render 方法，返回新的vnode进行渲染</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">prepatch: <span class="function"><span class="keyword">function</span> <span class="title">prepatch</span> (<span class="params">oldVnode, vnode</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> options = vnode.componentOptions;</span><br><span class="line">    <span class="keyword">var</span> child = vnode.componentInstance = oldVnode.componentInstance;</span><br><span class="line">    updateChildComponent(</span><br><span class="line">      child,</span><br><span class="line">      options.propsData, <span class="comment">// updated props</span></span><br><span class="line">      options.listeners, <span class="comment">// updated listeners</span></span><br><span class="line">      vnode, <span class="comment">// new parent vnode</span></span><br><span class="line">      options.children <span class="comment">// new children</span></span><br><span class="line">    );</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment">//updateChildComponent</span></span><br><span class="line"><span class="keyword">var</span> needsForceUpdate = !!(</span><br><span class="line">      renderChildren ||               <span class="comment">// has new static slots</span></span><br><span class="line">      vm.$options._renderChildren ||  <span class="comment">// has old static slots</span></span><br><span class="line">      hasDynamicScopedSlot</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (needsForceUpdate) &#123;</span><br><span class="line">      vm.$slots = resolveSlots(renderChildren, parentVnode.context); <span class="comment">//修改 vm.$slots</span></span><br><span class="line">      vm.$forceUpdate(); <span class="comment">//触发 keep-alive的forceUpdate，重新执行 &lt;keep-alive&gt; 的 render </span></span><br><span class="line">  &#125; <span class="comment">//重新触发 keep-alive的渲染</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>keep-alive 组件的实例化其中执行 render函数，会返回新的插槽组件vnode</p>
+<ul>
+<li>如果keep-alive中缓存了该vnode，那么 vnode.componentInstance = 缓存的componentInstance</li>
+</ul>
+</li>
+<li><p>对插槽组件vnode进行渲染,在生成vnode的vm实例时，会对 componentInstance 进行判断</p>
+<ul>
+<li>如果存在 componentInstance 就不会重新生成vm实例，而是 触发 vnode.prepatch</li>
+<li>不存在，则创建vm实例</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">init (vnode: VNodeWithData, <span class="attr">hydrating</span>: boolean): ?boolean &#123;</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      vnode.componentInstance &amp;&amp;</span><br><span class="line">      !vnode.componentInstance._isDestroyed &amp;&amp;</span><br><span class="line">      vnode.data.keepAlive</span><br><span class="line">    ) &#123;</span><br><span class="line">      <span class="comment">// kept-alive components, treat as a patch</span></span><br><span class="line">      <span class="keyword">const</span> mountedNode: any = vnode <span class="comment">// work around flow</span></span><br><span class="line">      componentVNodeHooks.prepatch(mountedNode, mountedNode)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;<span class="comment">//vm实例</span></span><br><span class="line">      <span class="keyword">const</span> child = vnode.componentInstance = createComponentInstanceForVnode(</span><br><span class="line">        vnode,</span><br><span class="line">        activeInstance</span><br><span class="line">      )</span><br><span class="line">      child.$mount(hydrating ? vnode.elm : <span class="literal">undefined</span>, hydrating)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<h2 id="更换内容-可以忽略"><a href="#更换内容-可以忽略" class="headerlink" title="更换内容  // 可以忽略"></a>更换内容  // 可以忽略</h2><p>vm._render() 重新生成vnode</p>
+<p>vm._update -&gt; vm.patch 比较新旧vnode</p>
+<p>patchVnode 调用 组件的 prePatch钩子函数 -&gt; updateChildComponent</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> needsForceUpdate = !!(</span><br><span class="line">      renderChildren ||               <span class="comment">// has new static slots</span></span><br><span class="line">      vm.$options._renderChildren ||  <span class="comment">// has old static slots</span></span><br><span class="line">      hasDynamicScopedSlot</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line"> vm.$options._renderChildren = renderChildren;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">if</span> (needsForceUpdate) &#123;</span><br><span class="line">      vm.$slots = resolveSlots(renderChildren, parentVnode.context);</span><br><span class="line">      vm.$forceUpdate();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>如果是一个插槽，修改 keep-alive vm实例的 vm.$options._renderChildren 为新的内容（initRender时会挂载到 $slots $slotScopes）</p>
+</li>
+<li><p>进行强制更新，触发 keep-alive vm实例的watcher更新 在下一次nextTick进行更新</p>
+</li>
+<li><p>再次调用 keep-alive组件的 render方法，如果缓存中没有该vnode则进行缓存</p>
+</li>
+<li><p>在patch完成后，执行invokeInsertHook，如果是首次缓存，则调用 mounted activated钩子函数，</p>
+</li>
+<li><p>如果 内容已经在缓存内，那么在 调用render函数时，会直接将 vm实例 挂载到 vnode.componentInstance上，（<code>vnode = this.$slots.default[0]</code>）</p>
+</li>
+<li><p>调用 kepp-alive 的 init方法，由于此时已经存在 vnode.componentInstance,会调用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mountedNode = vnode;</span><br><span class="line">componentVNodeHooks.prepatch(mountedNode, mountedNode);</span><br></pre></td></tr></table></figure></li>
+<li><p>此时 needsForceUpdate = false ，不会触发强制更新</p>
+</li>
+</ol>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/12.transition/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            12.transition
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">10.插槽</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+
+          <div class="to_top">
+            <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+          </div>
+      </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Matt&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/resume">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9001/" target="_blank" rel="noopener">项目展示</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+        
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['https://github.com/chiangming/','sa517144@mail.ustc.edu.cn',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+    </div>
+  </body>
+
+  </html>

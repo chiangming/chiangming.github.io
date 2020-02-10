@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    事件循环 |  Matt&#39;s Blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+</html>
+
+  <body>
+    <div id="app">
+      <main class="content">
+        <section class="outer">
+  <article id="post-事件循环" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  事件循环
+</h1>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/12/22/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" class="article-date">
+  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.7k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">7分钟</span>
+        </span>
+    </span>
+</div>
+
+                    
+          </div>
+          
+
+            
+              
+    <div class="tocbot"></div>
+
+
+
+
+
+                
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="JS-运行机制"><a href="#JS-运行机制" class="headerlink" title="JS 运行机制"></a>JS 运行机制</h1><p>JS 执行是单线程的， 它是基于事件循环的。 事件循环大致分为以下几个步骤：</p>
+<ol>
+<li><p>所有同步任务都在主线程上执行， 形成一个执行栈（ execution context stack）。</p>
+</li>
+<li><p>主线程之外， 还存在一个 “任务队列”（task queue）。 只要异步任务有了运行结果， 就在 “任务队列”之中放置一个事件。</p>
+</li>
+<li><p>一旦 “执行栈”<br>中的所有同步任务执行完毕， 系统就会读取 “任务队列”，<br>看看里面有哪些事件。 那些对应的异步任务， 于是结束等待状态， 进入执行栈， 开始执行。</p>
+</li>
+<li><p>主线程不断重复上面的第三步。</p>
+</li>
+</ol>
+<p><img src="http://103.14.34.148:9000/imgs/blog/img/event-loop.png" alt="事件循环"></p>
+<p>  主线程的执行过程就是一个 tick， 而所有的异步结果都是通过“ 任务队列” 来调度。 消息队列中存放的是一个个的任务（ task）。 规范中规定 task 分为两大类， 分别是 macro task 和 micro task， 并且每个 macro task 结束后， 都要清空所有的 micro task。</p>
+<p>关于 macro task 和 micro task 的概念， 这里不会细讲， 简单通过一段代码演示他们的执行顺序：</p>
+<p>  ``<br>`js<br>for (macroTask of macroTaskQueue) {<br>    // 1. Handle current MACRO-TASK<br>    handleMacroTask();</p>
+<pre><code>// 2. Handle all MICRO-TASK
+for (microTask of microTaskQueue) {
+    handleMicroTask(microTask);
+}</code></pre><p>}<br>`<br>``<br>在浏览器环境中，<br>常见的 macro task 有 setTimeout、setImmediate MessageChannel、 postMessage；<br>常见的 micro task 有 MutationObsever 和 Promise.then。</p>
+<h3 id="浏览器下事件循环-Event-Loop"><a href="#浏览器下事件循环-Event-Loop" class="headerlink" title="浏览器下事件循环(Event Loop)"></a>浏览器下事件循环(Event Loop)</h3><p>主线程只会做一件事情，就是从消息队列里面取消息、执行消息，再取消息、再执行。当消息队列为空时，就会等待直到消息队列变成非空。而且主线程只有在将当前的消息执行完成后，才会去取下一个消息。这种机制就叫做事件循环机制，取一个消息并执行的过程叫做一次循环</p>
+<h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><ul>
+<li>在此次 tick 中选择最先进入宏任务队列的任务(oldest task)，如果有则执行(一次)</li>
+<li>检查是否存在 Microtasks，如果存在则不停地执行，直至清空 Microtasks Queue （在执行微任务的时候，如果又有微任务进入队列，则在此次循环中执行）</li>
+<li>更新 render （视图更新）</li>
+<li>主线程重复执行上述步骤<br>上述为一轮事件循环</li>
+</ul>
+<p><img src="http://103.14.34.148:9000/imgs/blog/img/browser-deom1-excute-animate.gif" alt=""></p>
+<h4 id="宏任务-微任务"><a href="#宏任务-微任务" class="headerlink" title="宏任务 微任务"></a>宏任务 微任务</h4><ul>
+<li>微任务 microtask(jobs): promise / ajax / Object.observe(该方法已废弃)</li>
+<li>宏任务 macrotask(task): setTimout / <strong>script（整体代码）</strong> / IO（有太多的东西都可以称之为I/O，点击一次button，上传一个文件，与程序产生交互的这些都可以称之为I/O） / UI Rendering（页面渲染）<ul>
+<li>宏任务优先级 优先执行冒泡的事件</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>程序的script代码也算宏任务，所以第一次事件循环首先执行的是script代码，再去清空微任务队列</p>
+</blockquote>
+<p>特点</p>
+<ul>
+<li>一个线程中，事件循环是唯一的，但是任务队列可以拥有多个</li>
+<li>setTimeout/Promise等我们称之为任务源。而进入任务队列的是他们指定的具体执行任务。</li>
+<li>来自不同任务源的任务会进入到不同的任务队列。其中setTimeout与setInterval是同源的。</li>
+</ul>
+<p>总结</p>
+<ul>
+<li>事件循环是js实现异步的核心</li>
+<li>每轮事件循环分为3个步骤：<br>  (a) 执行macrotask队列的一个任务<br>  (b) 执行完当前microtask队列的所有任务<br>  (c) UI render</li>
+</ul>
+<p>浏览器只保证requestAnimationFrame的回调在重绘之前执行，没有确定的时间，何时重绘由浏览器决定</p>
+<p><a href="http://lynnelv.github.io/js-event-loop-browser" target="_blank" rel="noopener">参考来源</a></p>
+<h1 id="Vue-2-5-0的实现（nextTick）"><a href="#Vue-2-5-0的实现（nextTick）" class="headerlink" title="Vue 2.5.0的实现（nextTick）"></a>Vue 2.5.0的实现（nextTick）</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; noop &#125; <span class="keyword">from</span> <span class="string">'shared/util'</span></span><br><span class="line"><span class="keyword">import</span> &#123; handleError &#125; <span class="keyword">from</span> <span class="string">'./error'</span></span><br><span class="line"><span class="keyword">import</span> &#123; isIOS, isNative &#125; <span class="keyword">from</span> <span class="string">'./env'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> callbacks = []</span><br><span class="line"><span class="keyword">let</span> pending = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flushCallbacks</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  pending = <span class="literal">false</span></span><br><span class="line">  <span class="keyword">const</span> copies = callbacks.slice(<span class="number">0</span>)</span><br><span class="line">  callbacks.length = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; copies.length; i++) &#123;</span><br><span class="line">    copies[i]()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Here we have async deferring wrappers using both microtasks and (macro) tasks.</span></span><br><span class="line"><span class="comment">// In &lt; 2.4 we used microtasks everywhere, but there are some scenarios where</span></span><br><span class="line"><span class="comment">// microtasks have too high a priority and fire in between supposedly</span></span><br><span class="line"><span class="comment">// sequential events (e.g. #4521, #6690) or even between bubbling of the same</span></span><br><span class="line"><span class="comment">// event (#6566). However, using (macro) tasks everywhere also has subtle problems</span></span><br><span class="line"><span class="comment">// when state is changed right before repaint (e.g. #6813, out-in transitions).</span></span><br><span class="line"><span class="comment">// Here we use microtask by default, but expose a way to force (macro) task when</span></span><br><span class="line"><span class="comment">// needed (e.g. in event handlers attached by v-on).</span></span><br><span class="line"><span class="keyword">let</span> microTimerFunc</span><br><span class="line"><span class="keyword">let</span> macroTimerFunc</span><br><span class="line"><span class="keyword">let</span> useMacroTask = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Determine (macro) task defer implementation.</span></span><br><span class="line"><span class="comment">// Technically setImmediate should be the ideal choice, but it's only available</span></span><br><span class="line"><span class="comment">// in IE. The only polyfill that consistently queues the callback after all DOM</span></span><br><span class="line"><span class="comment">// events triggered in the same loop is by using MessageChannel.</span></span><br><span class="line"><span class="comment">/* istanbul ignore if */</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> setImmediate !== <span class="string">'undefined'</span> &amp;&amp; isNative(setImmediate)) &#123;</span><br><span class="line">  macroTimerFunc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setImmediate(flushCallbacks)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> MessageChannel !== <span class="string">'undefined'</span> &amp;&amp; (</span><br><span class="line">  isNative(MessageChannel) ||</span><br><span class="line">  <span class="comment">// PhantomJS</span></span><br><span class="line">  MessageChannel.toString() === <span class="string">'[object MessageChannelConstructor]'</span></span><br><span class="line">)) &#123;</span><br><span class="line">  <span class="keyword">const</span> channel = <span class="keyword">new</span> MessageChannel()</span><br><span class="line">  <span class="keyword">const</span> port = channel.port2</span><br><span class="line">  channel.port1.onmessage = flushCallbacks</span><br><span class="line">  macroTimerFunc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    port.postMessage(<span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">/* istanbul ignore next */</span></span><br><span class="line">  macroTimerFunc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(flushCallbacks, <span class="number">0</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Determine microtask defer implementation.</span></span><br><span class="line"><span class="comment">/* istanbul ignore next, $flow-disable-line */</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">Promise</span> !== <span class="string">'undefined'</span> &amp;&amp; isNative(<span class="built_in">Promise</span>)) &#123;</span><br><span class="line">  <span class="keyword">const</span> p = <span class="built_in">Promise</span>.resolve()</span><br><span class="line">  microTimerFunc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    p.then(flushCallbacks)</span><br><span class="line">    <span class="comment">// in problematic UIWebViews, Promise.then doesn't completely break, but</span></span><br><span class="line">    <span class="comment">// it can get stuck in a weird state where callbacks are pushed into the</span></span><br><span class="line">    <span class="comment">// microtask queue but the queue isn't being flushed, until the browser</span></span><br><span class="line">    <span class="comment">// needs to do some other work, e.g. handle a timer. Therefore we can</span></span><br><span class="line">    <span class="comment">// "force" the microtask queue to be flushed by adding an empty timer.</span></span><br><span class="line">    <span class="keyword">if</span> (isIOS) setTimeout(noop)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// fallback to macro</span></span><br><span class="line">  microTimerFunc = macroTimerFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Wrap a function so that if any code inside triggers state change,</span></span><br><span class="line"><span class="comment"> * the changes are queued using a (macro) task instead of a microtask.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">withMacroTask</span> (<span class="params">fn: Function</span>): <span class="title">Function</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> fn._withTask || (fn._withTask = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    useMacroTask = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">const</span> res = fn.apply(<span class="literal">null</span>, <span class="built_in">arguments</span>)</span><br><span class="line">    useMacroTask = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">nextTick</span> (<span class="params">cb?: Function, ctx?: Object</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> _resolve</span><br><span class="line">  callbacks.push(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (cb) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        cb.call(ctx)</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        handleError(e, ctx, <span class="string">'nextTick'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (_resolve) &#123;</span><br><span class="line">      _resolve(ctx)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">if</span> (!pending) &#123;</span><br><span class="line">    pending = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> (useMacroTask) &#123;</span><br><span class="line">      macroTimerFunc()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      microTimerFunc()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// $flow-disable-line</span></span><br><span class="line">  <span class="keyword">if</span> (!cb &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">Promise</span> !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">      _resolve = resolve</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>next-tick.js 申明了 microTimerFunc 和 macroTimerFunc 2 个变量，它们分别对应的是 micro task 的函数和 macro task 的函数。对于 macro task 的实现，优先检测是否支持原生 setImmediate，这是一个高版本 IE 和 Edge 才支持的特性，不支持的话再去检测是否支持原生的 MessageChannel，如果也不支持的话就会降级为 setTimeout 0；而对于 micro task 的实现，则检测浏览器是否原生支持 Promise，不支持的话直接指向 macro task 的实现。</p>
+<p>next-tick.js 对外暴露了 2 个函数，先来看 nextTick，这就是我们在上一节执行 nextTick(flushSchedulerQueue) 所用到的函数。它的逻辑也很简单，把传入的回调函数 cb 压入 callbacks 数组，最后一次性地根据 useMacroTask 条件执行 macroTimerFunc 或者是 microTimerFunc，而它们都会在下一个 tick 执行 flushCallbacks，flushCallbacks 的逻辑非常简单，对 callbacks 遍历，然后执行相应的回调函数。</p>
+<p>这里使用 callbacks 而不是直接在 nextTick 中执行回调函数的原因是保证在同一个 tick 内多次执行 nextTick，不会开启多个异步任务，而把这些异步任务都压成一个同步任务，在下一个 tick 执行完毕。</p>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2018/12/22/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2018/12/22/%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            同步与异步
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2018/12/22/%E5%AE%89%E5%85%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Web安全</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+
+          <div class="to_top">
+            <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+          </div>
+      </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Matt&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/resume">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9001/" target="_blank" rel="noopener">项目展示</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+        
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['https://github.com/chiangming/','sa517144@mail.ustc.edu.cn',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+    </div>
+  </body>
+
+  </html>

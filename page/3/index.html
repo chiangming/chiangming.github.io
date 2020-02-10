@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+     Matt&#39;s Blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+</html>
+
+  <body>
+    <div id="app">
+      <main class="content">
+        
+<section class="cover">
+    
+  <div class="cover-frame">
+    <div class="bg-box">
+      <img src="/images/cover9.jpg" alt="image frame" />
+    </div>
+    <div class="cover-inner text-center text-white">
+      <h1><a href="/">Matt&#39;s Blog</a></h1>
+      <div id="subtitle-box">
+        
+        <span id="subtitle"></span>
+        
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="cover-learn-more">
+    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
+  </div>
+</section>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+
+<div id="main">
+  <section class="outer">
+  <article class="articles">
+    
+    
+    
+    
+    <article id="post-事件循环" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/12/22/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/"
+    >事件循环</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/12/22/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" class="article-date">
+  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="JS-运行机制"><a href="#JS-运行机制" class="headerlink" title="JS 运行机制"></a>JS 运行机制</h1><p>JS 执行是单线程的， 它是基于事件循环的。 事件循环大致分为以下几个步骤：</p>
+<ol>
+<li><p>所有同步任务都在主线程上执行， 形成一个执行栈（ execution context stack）。</p>
+</li>
+<li><p>主线程之外， 还存在一个 “任务队列”（task queue）。 只要异步任务有了运行结果， 就在 “任务队列”之中放置一个事件。</p>
+</li>
+<li><p>一旦 “执行栈”<br>中的所有同步任务执行完毕， 系统就会读取 “任务队列”，<br>看看里面有哪些事件。 那些对应的异步任务， 于是结束等待状态， 进入执行栈， 开始执行。</p>
+</li>
+<li><p>主线程不断重复上面的第三步。</p>
+</li>
+</ol>
+<p><img src="http://103.14.34.148:9000/imgs/blog/img/event-loop.png" alt="事件循环"></p>
+<p>  主线程的执行过程就是一个 tick， 而所有的异步结果都是通过“ 任务队列” 来调度。 消息队列中存放的是一个个的任务（ task）。 规范中规定 task 分为两大类， 分别是 macro task 和 micro task， 并且每个 macro task 结束后， 都要清空所有的 micro task。</p>
+<p>关于 macro task 和 micro task 的概念， 这里不会细讲， 简单通过一段代码演示他们的执行顺序：</p>
+<p>  ``<br>`js<br>for (macroTask of macroTaskQueue) {<br>    // 1. Handle current MACRO-TASK<br>    handleMacroTask();</p>
+<pre><code>// 2. Handle all MICRO-TASK
+for (microTask of microTaskQueue) {
+    handleMicroTask(microTask);
+}</code></pre><p>}<br>`<br>``<br>在浏览器环境中，<br>常见的 macro task 有 setTimeout、setImmediate MessageChannel、 postMessage；<br>常见的 micro task 有 MutationObsever 和 Promise.then。</p>
+<h3 id="浏览器下事件循环-Event-Loop"><a href="#浏览器下事件循环-Event-Loop" class="headerlink" title="浏览器下事件循环(Event Loop)"></a>浏览器下事件循环(Event Loop)</h3><p>主线程只会做一件事情，就是从消息队列里面取消息、执行消息，再取消息、再执行。当消息队列为空时，就会等待直到消息队列变成非空。而且主线程只有在将当前的消息执行完成后，才会去取下一个消息。这种机制就叫做事件循环机制，取一个消息并执行的过程叫做一次循环</p>
+<h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><ul>
+<li>在此次 tick 中选择最先进入宏任务队列的任务(oldest task)，如果有则执行(一次)</li>
+<li>检查是否存在 Microtasks，如果存在则不停地执行，直至清空 Microtasks Queue （在执行微任务的时候，如果又有微任务进入队列，则在此次循环中执行）</li>
+<li>更新 render （视图更新）</li>
+<li>主线程重复执行上述步骤<br>上述为一轮事件循环</li>
+</ul>
+<p><img src="http://103.14.34.148:9000/imgs/blog/img/browser-deom1-excute-animate.gif" alt=""></p>
+<h4 id="宏任务-微任务"><a href="#宏任务-微任务" class="headerlink" title="宏任务 微任务"></a>宏任务 微任务</h4><ul>
+<li>微任务 microtask(jobs): promise / ajax / Object.observe(该方法已废弃)</li>
+<li>宏任务 macrotask(task): setTimout / <strong>script（整体代码）</strong> / IO（有太多的东西都可以称之为I/O，点击一次button，上传一个文件，与程序产生交互的这些都可以称之为I/O） / UI Rendering（页面渲染）<ul>
+<li>宏任务优先级 优先执行冒泡的事件</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>程序的script代码也算宏任务，所以第一次事件循环首先执行的是script代码，再去清空微任务队列</p>
+</blockquote>
+<p>特点</p>
+<ul>
+<li>一个线程中，事件循环是唯一的，但是任务队列可以拥有多个</li>
+<li>setTimeout/Promise等我们称之为任务源。而进入任务队列的是他们指定的具体执行任务。</li>
+<li>来自不同任务源的任务会进入到不同的任务队列。其中setTimeout与setInterval是同源的。</li>
+</ul>
+<p>总结</p>
+<ul>
+<li>事件循环是js实现异步的核心</li>
+<li>每轮事件循环分为3个步骤：<br>  (a) 执行macrotask队列的一个任务<br>  (b) 执行完当前microtask队列的所有任务<br>  (c) UI render</li>
+</ul>
+<p>浏览器只保证requestAnimationFrame的回调在重绘之前执行，没有确定的时间，何时重绘由浏览器决定</p>
+<p><a href="http://lynnelv.github.io/js-event-loop-browser" target="_blank" rel="noopener">参考来源</a></p>
+<h1 id="Vue-2-5-0的实现（nextTick）"><a href="#Vue-2-5-0的实现（nextTick）" class="headerlink" title="Vue 2.5.0的实现（nextTick）"></a>Vue 2.5.0的实现（nextTick）</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; noop &#125; <span class="keyword">from</span> <span class="string">'shared/util'</span></span><br><span class="line"><span class="keyword">import</span> &#123; handleError &#125; <span class="keyword">from</span> <span class="string">'./error'</span></span><br><span class="line"><span class="keyword">import</span> &#123; isIOS, isNative &#125; <span class="keyword">from</span> <span class="string">'./env'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> callbacks = []</span><br><span class="line"><span class="keyword">let</span> pending = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flushCallbacks</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  pending = <span class="literal">false</span></span><br><span class="line">  <span class="keyword">const</span> copies = callbacks.slice(<span class="number">0</span>)</span><br><span class="line">  callbacks.length = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; copies.length; i++) &#123;</span><br><span class="line">    copies[i]()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Here we have async deferring wrappers using both microtasks and (macro) tasks.</span></span><br><span class="line"><span class="comment">// In &lt; 2.4 we used microtasks everywhere, but there are some scenarios where</span></span><br><span class="line"><span class="comment">// microtasks have too high a priority and fire in between supposedly</span></span><br><span class="line"><span class="comment">// sequential events (e.g. #4521, #6690) or even between bubbling of the same</span></span><br><span class="line"><span class="comment">// event (#6566). However, using (macro) tasks everywhere also has subtle problems</span></span><br><span class="line"><span class="comment">// when state is changed right before repaint (e.g. #6813, out-in transitions).</span></span><br><span class="line"><span class="comment">// Here we use microtask by default, but expose a way to force (macro) task when</span></span><br><span class="line"><span class="comment">// needed (e.g. in event handlers attached by v-on).</span></span><br><span class="line"><span class="keyword">let</span> microTimerFunc</span><br><span class="line"><span class="keyword">let</span> macroTimerFunc</span><br><span class="line"><span class="keyword">let</span> useMacroTask = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Determine (macro) task defer implementation.</span></span><br><span class="line"><span class="comment">// Technically setImmediate should be the ideal choice, but it's only available</span></span><br><span class="line"><span class="comment">// in IE. The only polyfill that consistently queues the callback after all DOM</span></span><br><span class="line"><span class="comment">// events triggered in the same loop is by using MessageChannel.</span></span><br><span class="line"><span class="comment">/* istanbul ignore if */</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> setImmediate !== <span class="string">'undefined'</span> &amp;&amp; isNative(setImmediate)) &#123;</span><br><span class="line">  macroTimerFunc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setImmediate(flushCallbacks)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> MessageChannel !== <span class="string">'undefined'</span> &amp;&amp; (</span><br><span class="line">  isNative(MessageChannel) ||</span><br><span class="line">  <span class="comment">// PhantomJS</span></span><br><span class="line">  MessageChannel.toString() === <span class="string">'[object MessageChannelConstructor]'</span></span><br><span class="line">)) &#123;</span><br><span class="line">  <span class="keyword">const</span> channel = <span class="keyword">new</span> MessageChannel()</span><br><span class="line">  <span class="keyword">const</span> port = channel.port2</span><br><span class="line">  channel.port1.onmessage = flushCallbacks</span><br><span class="line">  macroTimerFunc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    port.postMessage(<span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">/* istanbul ignore next */</span></span><br><span class="line">  macroTimerFunc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(flushCallbacks, <span class="number">0</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Determine microtask defer implementation.</span></span><br><span class="line"><span class="comment">/* istanbul ignore next, $flow-disable-line */</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">Promise</span> !== <span class="string">'undefined'</span> &amp;&amp; isNative(<span class="built_in">Promise</span>)) &#123;</span><br><span class="line">  <span class="keyword">const</span> p = <span class="built_in">Promise</span>.resolve()</span><br><span class="line">  microTimerFunc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    p.then(flushCallbacks)</span><br><span class="line">    <span class="comment">// in problematic UIWebViews, Promise.then doesn't completely break, but</span></span><br><span class="line">    <span class="comment">// it can get stuck in a weird state where callbacks are pushed into the</span></span><br><span class="line">    <span class="comment">// microtask queue but the queue isn't being flushed, until the browser</span></span><br><span class="line">    <span class="comment">// needs to do some other work, e.g. handle a timer. Therefore we can</span></span><br><span class="line">    <span class="comment">// "force" the microtask queue to be flushed by adding an empty timer.</span></span><br><span class="line">    <span class="keyword">if</span> (isIOS) setTimeout(noop)</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// fallback to macro</span></span><br><span class="line">  microTimerFunc = macroTimerFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Wrap a function so that if any code inside triggers state change,</span></span><br><span class="line"><span class="comment"> * the changes are queued using a (macro) task instead of a microtask.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">withMacroTask</span> (<span class="params">fn: Function</span>): <span class="title">Function</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> fn._withTask || (fn._withTask = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    useMacroTask = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">const</span> res = fn.apply(<span class="literal">null</span>, <span class="built_in">arguments</span>)</span><br><span class="line">    useMacroTask = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">nextTick</span> (<span class="params">cb?: Function, ctx?: Object</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> _resolve</span><br><span class="line">  callbacks.push(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (cb) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        cb.call(ctx)</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        handleError(e, ctx, <span class="string">'nextTick'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (_resolve) &#123;</span><br><span class="line">      _resolve(ctx)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">if</span> (!pending) &#123;</span><br><span class="line">    pending = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> (useMacroTask) &#123;</span><br><span class="line">      macroTimerFunc()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      microTimerFunc()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// $flow-disable-line</span></span><br><span class="line">  <span class="keyword">if</span> (!cb &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">Promise</span> !== <span class="string">'undefined'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">      _resolve = resolve</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>next-tick.js 申明了 microTimerFunc 和 macroTimerFunc 2 个变量，它们分别对应的是 micro task 的函数和 macro task 的函数。对于 macro task 的实现，优先检测是否支持原生 setImmediate，这是一个高版本 IE 和 Edge 才支持的特性，不支持的话再去检测是否支持原生的 MessageChannel，如果也不支持的话就会降级为 setTimeout 0；而对于 micro task 的实现，则检测浏览器是否原生支持 Promise，不支持的话直接指向 macro task 的实现。</p>
+<p>next-tick.js 对外暴露了 2 个函数，先来看 nextTick，这就是我们在上一节执行 nextTick(flushSchedulerQueue) 所用到的函数。它的逻辑也很简单，把传入的回调函数 cb 压入 callbacks 数组，最后一次性地根据 useMacroTask 条件执行 macroTimerFunc 或者是 microTimerFunc，而它们都会在下一个 tick 执行 flushCallbacks，flushCallbacks 的逻辑非常简单，对 callbacks 遍历，然后执行相应的回调函数。</p>
+<p>这里使用 callbacks 而不是直接在 nextTick 中执行回调函数的原因是保证在同一个 tick 内多次执行 nextTick，不会开启多个异步任务，而把这些异步任务都压成一个同步任务，在下一个 tick 执行完毕。</p>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-安全" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/12/22/%E5%AE%89%E5%85%A8/"
+    >Web安全</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/12/22/%E5%AE%89%E5%85%A8/" class="article-date">
+  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="web安全"><a href="#web安全" class="headerlink" title="web安全"></a>web安全</h1><ol>
+<li><p>xss攻击   </p>
+<ul>
+<li><p>借助js实现的攻击，在服务端没有对 &lt;&gt; 进行转译显示的时候发生。导致黑客可以在别人的浏览器上运行任意js代码。</p>
+</li>
+<li><p>解决方案：在网页内容输出的时候做转译，将&lt;&gt;转译为<code>&amp;lt;</code> 和 <code>&amp;gt;</code></p>
+</li>
+<li><p>nodejs中通过escape库简单搞定</p>
+</li>
+</ul>
+</li>
+<li><p>sql注入攻击</p>
+<ul>
+<li>利用服务端拼接sql字符串，拼接出各种sql，在服务端执行。使服务端数据泄露，甚至被任意篡改。    </li>
+<li>解决方案：sql预编译。</li>
+</ul>
+</li>
+<li><p>响应头设置<code>x-frame-options</code>  </p>
+<ul>
+<li>限制当前页面被其他页面以iframe引用</li>
+</ul>
+</li>
+<li><p>响应头设置<code>content-security-policy</code></p>
+<ul>
+<li>限制当前页面去引用其他页面资源</li>
+</ul>
+</li>
+</ol>
+<p><a href="https://github.com/sunwu51/WebSecurity" target="_blank" rel="noopener">参考github</a></p>
+<h2 id="XSS攻击"><a href="#XSS攻击" class="headerlink" title="XSS攻击"></a>XSS攻击</h2><p> <a href="https://tech.meituan.com/2018/09/27/fe-security.html" target="_blank" rel="noopener">XSS攻击</a>: 注入恶意代码</p>
+<pre><code>* 分类
+    * 存储型XSS 
+        * 攻击者将恶意代码提交到目标网站的数据库中。
+        * 用户打开目标网站时，网站服务端将恶意代码从数据库取出，拼接在 HTML 中返回给浏览器
+    * 反射型XSS
+        * 攻击者构造出特殊的 URL，其中包含恶意代码。
+        * 用户打开带有恶意代码的 URL 时，网站服务端将恶意代码从 URL 中取出，拼接在 HTML 中返回给浏览器。（比如URL中的参数）
+    * DOM型XSS
+        * 攻击者构造出特殊的 URL，其中包含恶意代码。
+        * 用户打开带有恶意代码的 URL。
+        * 用户浏览器接收到响应后解析执行，前端 JavaScript 取出 URL 中的恶意代码并执行。
+* 解决
+    * 转义页面上的输入内容和输出内容
+    * cookie 设置 httpOnly,禁止javascript读取cookie
+    * 设置验证码，防止脚本冒充提交危险操作</code></pre><p>例如：</p>
+<p>攻击者发现 <code>http://weibo.com/pub/star/g/xyyyd</code> 这个 URL 的内容未经过滤直接输出到 HTML 中。</p>
+<p>于是攻击者构建出一个 URL，然后诱导用户去点击：</p>
+<p><code>http://weibo.com/pub/star/g/xyyyd&quot;&gt;&lt;script src=//xxxx.cn/image/t.js&gt;&lt;/script&gt;</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;li&gt;<span class="xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://weibo.com/pub/star/g/xyyyd"</span>&gt;</span><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">//xxxx.cn/image/t.js</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><span class="string">"&gt;按分类检索&lt;/a&gt;&lt;/li&gt;</span></span><br></pre></td></tr></table></figure>
+<p>攻击者发现<code>http://m.exmail.qq.com/cgi-bin/login?uin=aaaa&amp;domain=bbbb</code> 这个 URL 的参数 uin、domain 未经转义直接输出到 HTML 中。</p>
+<p>于是攻击者构建出一个 URL，并引导用户去点击： <code>http://m.exmail.qq.com/cgi-bin/login?uin=aaaa&amp;domain=bbbb%26quot%3B%3Breturn+false%3B%26quot%3B%26lt%3B%2Fscript%26gt%3B%26lt%3Bscript%26gt%3Balert(document.cookie)%26lt%3B%2Fscript%26gt%3B</code></p>
+<p>用户点击这个 URL 时，服务端取出 URL 参数，拼接到 HTML 响应中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">getTop().location.href=<span class="string">"/cgi-bin/loginpage?autologin=n&amp;errtype=1&amp;verify=&amp;clientuin=aaa"</span>+<span class="string">"&amp;t="</span>+<span class="string">"&amp;d=bbbb"</span>;<span class="keyword">return</span> <span class="literal">false</span>;&lt;<span class="regexp">/script&gt;&lt;script&gt;alert(document.cookie)&lt;/</span>script&gt;<span class="string">"+"</span>...</span><br></pre></td></tr></table></figure>
+<p>用户通过文本框输入的信息来显示在页面上，那么在文本框输入如下内容<br><code>&lt;img src = &quot;abc&quot; onerror = &quot;alert(1)&quot; /&gt;</code></p>
+<pre><code></code></pre><h4 id="CSRF-跨站请求伪造，防护"><a href="#CSRF-跨站请求伪造，防护" class="headerlink" title="CSRF: 跨站请求伪造，防护:"></a>CSRF: 跨站请求伪造，防护:</h4><p>简单地说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并运行一些操作（如发邮件，发消息，甚至财产操作如转账和购买商品）。由于浏览器曾经认证过，所以被访问的网站会认为是真正的用户操作而去运行。这利用了web中用户身份验证的一个漏洞：简单的身份验证只能保证请求发自某个用户的浏览器，却不能保证请求本身是用户自愿发出的。</p>
+<ul>
+<li>解决办法<ul>
+<li>验证HTTP Referer<ul>
+<li>Referer字段记录请求来源地址 检验是否是同一个源</li>
+</ul>
+</li>
+<li>在请求地址中添加takon验证<ul>
+<li>HTTP 请求中以参数的形式加入一个随机产生的 token，并在服务器端建立一个拦截器来验证这个 token</li>
+<li>服务器现在页面埋入特定标志，在用户请求时带上此标记，来判断请求是否合法</li>
+</ul>
+</li>
+<li>不被第三方网站访问到用户的cookie sameSite标记</li>
+</ul>
+</li>
+</ul>
+<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><p><a href="https://www.bilibili.com/video/av66187268" target="_blank" rel="noopener">参考视频</a><br>明文传输：裸奔<br>对称加密：key唯一=明文<br>非对称加密： 服务端到客户端的传输不安全<br>非对称协商key+key用来对称加密：中间人劫持问题<br><img src="http://103.14.34.148:9000/imgs/blog/img/%E5%AF%B9%E7%A7%B0%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.jpg" alt=""><br>HTTPS：CA的csk认证服务端pk得到license+客户端操作系统cpk解析license得pk，pk加密非对称协商key+key用来对称加密<br><img src="http://103.14.34.148:9000/imgs/blog/img/https.jpg" alt=""></p>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-模块化" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/12/22/%E6%A8%A1%E5%9D%97%E5%8C%96/"
+    >模块化</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/12/22/%E6%A8%A1%E5%9D%97%E5%8C%96/" class="article-date">
+  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h1><ul>
+<li>ES6 ：export import 值是动态绑定的 <ul>
+<li>静态化 先于模块内其他语句执行，命令具有提升效果</li>
+<li>export输出文件内部变量、函数、类 export {a,b as B,c}; import {a,B,c} from ‘ ‘</li>
+<li>export default  为模块指定默认输出， 一个模块只能有一个默认输。本质上，export default就是输出一个叫做default的变量或方法 <ul>
+<li>export default a; import a from ‘ ‘</li>
+</ul>
+</li>
+<li>import  命令具有提升效果<ul>
+<li>import * from “” 模块的整体加载，加载文件中全部的export </li>
+</ul>
+</li>
+<li>import() 函数 动态加载 返回一个 Promise 对象<ul>
+<li>加载模块成功以后，这个模块会作为一个对象，当作then方法的参数<br>例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;输出单个变量</span><br><span class="line">var name &#x3D; nirean;</span><br><span class="line">export &#123;name&#125;</span><br><span class="line">&#x2F;&#x2F;输出一组变量</span><br><span class="line">var name &#x3D; nirean;</span><br><span class="line">bar age &#x3D; 22;</span><br><span class="line">function getHabby()&#123;</span><br><span class="line">&#125;;</span><br><span class="line">export &#123;name , age, geyHabby&#125;;</span><br><span class="line">&#x2F;&#x2F;as 重命名</span><br><span class="line">export &#123;name as myname&#125;;</span><br><span class="line">&#x2F;&#x2F; circle.js输出两个函数 import * 整体加载</span><br><span class="line"> </span><br><span class="line">export function area(radius) &#123;</span><br><span class="line">  return Math.PI * radius * radius;</span><br><span class="line">&#125;</span><br><span class="line">export function circumference(radius) &#123;</span><br><span class="line">  return 2 * Math.PI * radius;</span><br><span class="line">&#125;</span><br><span class="line">import * as circle from &#39;.&#x2F;circle&#39;;</span><br><span class="line">console.log(&#39;圆面积：&#39; + circle.area(4));</span><br><span class="line">console.log(&#39;圆周长：&#39; + circle.circumference(14));</span><br><span class="line">&#x2F;&#x2F; export default 不需要&#123; &#125;</span><br><span class="line">export default getName;</span><br><span class="line">import getName from &#39;...&#39;;</span><br><span class="line">&#x2F;&#x2F; export default 为模块指定默认输出</span><br><span class="line">export default function()&#123;&#125;;</span><br><span class="line">import getName from &#39;...&#39;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>NodeJS中的commonJS ：<strong>require exports module.exports</strong><ul>
+<li>CommonJS规范加载模块是同步的，也就是说，只有加载完成，才能执行后面的操作 不适合浏览器</li>
+<li>require()用来引入外部模块； <ul>
+<li>读入并执行一个JavaScript文件，然后返回该模块的exports对象</li>
+<li>第一次加载某个模块时，Node会缓存该模块。以后再加载该模块，就直接从缓存取出该模块的module.exports属性</li>
+</ul>
+</li>
+<li>exports对象用于导出当前模块的方法或变量，唯一的导出口；</li>
+<li>module.export nodeJS仅仅为了方便，用了一个变量exports直接指向了module.exports了</li>
+<li>module对象就代表模块本身。</li>
+</ul>
+</li>
+<li>AMD define<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports.x &#x3D; x;  var y &#x3D; require(&quot;&quot;); y.x</span><br><span class="line">module.exports &#x3D; x; var y &#x3D; require(&quot;&quot;); y</span><br><span class="line">module.exports &#x3D; &#123;x:x&#125;; var y &#x3D; require(&quot;&quot;); y.x</span><br></pre></td></tr></table></figure>
+<h3 id="require与import的区别"><a href="#require与import的区别" class="headerlink" title="require与import的区别"></a>require与import的区别</h3></li>
+<li>require支持 动态导入（地址中包含变量），import 不支持，正在提案 (babel 下可支持) -&gt;import()</li>
+<li>require是 同步 导入，import属于 异步 导入</li>
+<li>require是 值拷贝，导出值变化不会影响导入值；import指向 内存地址，导入值会随导出值而变化</li>
+</ul>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-浏览器" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/12/22/%E6%B5%8F%E8%A7%88%E5%99%A8/"
+    >浏览器架构</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/12/22/%E6%B5%8F%E8%A7%88%E5%99%A8/" class="article-date">
+  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="浏览器架构"><a href="#浏览器架构" class="headerlink" title="浏览器架构"></a>浏览器架构</h1><ul>
+<li>用户界面</li>
+<li>主进程</li>
+<li>内核<ul>
+<li>渲染引擎</li>
+<li>JS引擎<ul>
+<li>执行栈</li>
+</ul>
+</li>
+<li>事件触发线程<ul>
+<li>消息队列<ul>
+<li>微任务</li>
+<li>宏任务</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>网络异步线程</li>
+<li>定时器线程<h3 id="浏览器下事件循环-Event-Loop"><a href="#浏览器下事件循环-Event-Loop" class="headerlink" title="浏览器下事件循环(Event Loop)"></a>浏览器下事件循环(Event Loop)</h3>事件循环是指: 当当前执行栈执行完毕时会立刻先处理所有微任务队列中的事件，然后再去宏任务队列中取出<strong>一个事件</strong>。同一次事件循环中，微任务永远在宏任务之前执行<br>，清空微任务列表，执行一个宏任务，循环再清微任务列表，再执行宏任务，</li>
+</ul>
+</li>
+<li>一个线程中，事件循环是唯一的，但是任务队列可以拥有多个</li>
+<li>setTimeout/Promise等我们称之为任务源。而进入任务队列的是他们指定的具体执行任务。</li>
+<li>来自不同任务源的任务会进入到不同的任务队列。其中setTimeout与setInterval是同源的。</li>
+<li>微任务 microtask(jobs): promise / ajax / Object.observe(该方法已废弃)</li>
+<li>宏任务 macrotask(task): setTimout / script（整体代码） / IO（有太多的东西都可以称之为I/O，点击一次button，上传一个文件，与程序产生交互的这些都可以称之为I/O） / UI Rendering（页面渲染）/ <ul>
+<li>宏任务优先级 优先执行冒泡的事件<h3 id="从输入-url-到展示的过程"><a href="#从输入-url-到展示的过程" class="headerlink" title="从输入 url 到展示的过程"></a>从输入 url 到展示的过程</h3></li>
+</ul>
+</li>
+<li>DNS 解析 域名 -&gt; ip</li>
+<li>TCP 三次握手</li>
+<li>发送请求，分析 url，设置请求报文(头，主体)</li>
+<li>服务器返回请求的文件 (html)</li>
+<li>浏览器渲染<ul>
+<li>HTML parser –&gt; DOM Tree<ul>
+<li>标记化算法，进行元素状态的标记</li>
+<li>dom 树构建</li>
+</ul>
+</li>
+<li>CSS parser –&gt; Style Tree<ul>
+<li>解析 css 代码，生成样式树</li>
+</ul>
+</li>
+<li>attachment –&gt; Render Tree<ul>
+<li>结合 dom树 与 style树，生成渲染树</li>
+</ul>
+</li>
+<li>layout: 布局</li>
+<li>GPU painting: 像素绘制页面<h3 id="重绘与回流"><a href="#重绘与回流" class="headerlink" title="重绘与回流"></a>重绘与回流</h3>当元素的样式发生变化时，浏览器需要触发更新，重新绘制元素。这个过程中，有两种类型的操作，即重绘与回流。</li>
+</ul>
+</li>
+<li>重绘(repaint): 当元素样式的改变不影响布局时，浏览器将使用重绘对元素进行更新，此时由于只需要UI层面的重新像素绘制，因此 损耗较少</li>
+<li>回流(reflow): 当元素的尺寸、结构或触发某些属性时，浏览器会重新渲染页面，称为回流。此时，浏览器需要重新经过计算，计算后还需要重新页面布局，因此是较重的操作。会触发回流的操作:<ul>
+<li>页面初次渲染</li>
+<li>浏览器窗口大小改变</li>
+<li>元素尺寸、位置、内容发生改变</li>
+<li>元素字体大小变化</li>
+<li>添加或者删除可见的 dom 元素</li>
+<li>激活 CSS 伪类（例如：:hover）</li>
+<li>查询某些属性或调用某些方法<ul>
+<li>clientWidth、clientHeight、clientTop、clientLeft</li>
+<li>offsetWidth、offsetHeight、offsetTop、offsetLeft</li>
+<li>scrollWidth、scrollHeight、scrollTop、scrollLeft</li>
+<li>getComputedStyle()</li>
+<li>getBoundingClientRect()</li>
+<li>scrollTo()<h4 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践:"></a>最佳实践:</h4></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>css<ul>
+<li>避免使用table布局 </li>
+<li>将动画效果应用到position属性为absolute或fixed的元素上</li>
+</ul>
+</li>
+<li>javascript<ul>
+<li>避免频繁操作样式，可汇总后统一 一次修改</li>
+</ul>
+</li>
+<li><ul>
+<li>尽量使用class进行样式修改</li>
+<li>减少dom的增删次数，可使用 字符串 或者 documentFragment 一次性插入</li>
+<li>极限优化时，修改样式可将其display: none后修改</li>
+<li>避免多次触发上面提到的那些会触发回流的方法，可以的话尽量用 变量存住<h3 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h3></li>
+</ul>
+</li>
+<li>短暂性的时候，我们只需要将数据存在内存中，只在运行时可用</li>
+<li>持久性存储，可以分为 浏览器端 与 服务器端<ul>
+<li>浏览器:<ul>
+<li>cookie: 通常用于存储用户身份，登录状态等<ul>
+<li>document.cookie = </li>
+<li>http 中自动携带， 体积上限为 4K， 可自行设置过期时间</li>
+</ul>
+</li>
+<li>localStorage / sessionStorage: 长久储存/窗口关闭删除<ul>
+<li>体积限制为 4~5M</li>
+<li>localStorage.setItem(key,value) 存储自动转化为字符串</li>
+</ul>
+</li>
+<li>indexDB</li>
+</ul>
+</li>
+<li>服务器:<ul>
+<li>分布式缓存 redis</li>
+<li>数据库<h3 id="Web-Worker"><a href="#Web-Worker" class="headerlink" title="Web Worker"></a>Web Worker</h3>现代浏览器为JavaScript创造的 多线程环境。可以新建并将部分任务分配到worker线程并行运行，两个线程可 独立运行，互不干扰，可通过自带的 消息机制 相互通信。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Worker 线程一旦新建成功，就会始终运行</li>
+</ul>
+<ol>
+<li>同源限制<br>分配给 Worker 线程运行的脚本文件，必须与主线程的脚本文件同源。</li>
+<li>DOM 限制<br>Worker 线程所在的全局对象，与主线程不一样，无法读取主线程所在网页的 DOM 对象，也无法使用document、window、parent这些对象。但是，Worker 线程可以navigator对象和location对象。</li>
+<li>通信联系<br>Worker 线程和主线程不在同一个上下文环境，它们不能直接通信，必须通过消息完成。</li>
+<li>脚本限制<br>Worker 线程不能执行alert()方法和confirm()方法，但可以使用 XMLHttpRequest 对象发出 AJAX 请求。</li>
+<li>文件限制<br>Worker 线程无法读取本地文件，即不能打开本机的文件系统（file://），它所加载的脚本，必须来自网络。</li>
+</ol>
+<ul>
+<li><p>主线程与 Worker 之间的通信内容，可以是文本，也可以是对象。需要注意的是，这种通信是拷贝关系，即是传值而不是传址，Worker 对通信内容的修改，不会影响到主线程</p>
+<h3 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a>内存泄露</h3></li>
+<li><p>意外的全局变量: 无法被回收</p>
+</li>
+<li><p>定时器: 未被正确关闭，导致所引用的外部变量无法被释放</p>
+</li>
+<li><p>事件监听: 没有正确销毁 (低版本浏览器可能出现)</p>
+</li>
+<li><p>闭包: 会导致父级中的变量无法被释放</p>
+</li>
+<li><p>dom 引用: dom 元素被删除时，内存中的引用未被正确清空</p>
+<h3 id="V8垃圾回收机制-v8引擎"><a href="#V8垃圾回收机制-v8引擎" class="headerlink" title="V8垃圾回收机制 v8引擎"></a>V8垃圾回收机制 <a href="https://zhuanlan.zhihu.com/p/27628685" target="_blank" rel="noopener">v8引擎</a></h3><p>垃圾回收: 将内存中不再使用的数据进行清理，释放出内存空间。V8 将内存分成 新生代空间 和 老生代空间。</p>
+</li>
+<li><p>新生代空间: 用于存活较短的对象</p>
+<ul>
+<li>又分成两个空间: from 空间 与 to 空间</li>
+<li>Scavenge GC算法: 当 from 空间被占满时，启动 GC 算法<ul>
+<li>存活的对象从 from space 转移到 to space</li>
+<li>清空 from space</li>
+<li>from space 与 to space 互换</li>
+<li>完成一次新生代GC</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>老生代空间: 用于存活时间较长的对象</p>
+<ul>
+<li>从 新生代空间 转移到 老生代空间 的条件<ul>
+<li>经历过一次以上 Scavenge GC 的对象</li>
+<li>当 to space 体积超过25%</li>
+</ul>
+</li>
+<li>标记清除算法: 标记存活的对象，未被标记的则被释放<ul>
+<li>增量标记: 小模块标记，在代码执行间隙执，GC 会影响性能</li>
+<li>并发标记(最新技术): 不阻塞 js 执行 在 GC 扫描和标记活动对象时，它允许 JavaScript 应用程序继续运行。测试显示</li>
+</ul>
+</li>
+<li>压缩算法: 将内存中清除后导致的碎片化对象往内存堆的一端移动，解决 内存的碎片化<h3 id="HTTP-HTTPS"><a href="#HTTP-HTTPS" class="headerlink" title="HTTP/HTTPS"></a>HTTP/HTTPS</h3></li>
+</ul>
+</li>
+<li><p>超文本传输协议HTTP协议被用于在Web浏览器和网站服务器之间传递信息，HTTP协议以明文方式发送内容，不提供任何方式的数据加密</p>
+</li>
+<li><p>HTTPS在HTTP的基础上加入了SSL协议，SSL依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密<br>用的端口也不一样，前者是80，后者是443</p>
+<h4 id="HTTP1-0"><a href="#HTTP1-0" class="headerlink" title="HTTP1.0"></a>HTTP1.0</h4></li>
+<li><p>无法复用链接，完成即断开，重新慢启动和 TCP 3次握手 </p>
+<ul>
+<li>TCP 连接会随着时间进行自我调谐，起初会限制连接的最大速度，如果数据成功传输，会随着时间的推移提高传输的速度。这种调谐则被称为 TCP 慢启动</li>
+<li>HTTP 1.0规定浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个TCP连接，服务器完成请求处理后立即断开TCP连接，</li>
+</ul>
+</li>
+<li><p>head of line blocking: 线头阻塞，导致请求之间互相影响 第一个请求阻塞后，后面的请求都需要等待</p>
+<h4 id="HTTP1-1"><a href="#HTTP1-1" class="headerlink" title="HTTP1.1"></a>HTTP1.1</h4></li>
+<li><p>长连接(默认 keep-alive)，复用。 HTTP 1.1支持持久连接（HTTP/1.1的默认模式使用带流水线的持久连接），在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟</p>
+</li>
+<li><p>host 字段指定对应的虚拟站点 同一个IP同一个端口不同的虚拟Web站点</p>
+</li>
+<li><p>新增功能:</p>
+<ul>
+<li>断点续传 要求服务器从文件XXXX字节处开始传送</li>
+<li>身份认证</li>
+<li>状态管理</li>
+<li>cache 缓存<ul>
+<li>Cache-Control</li>
+<li>Expires</li>
+<li>Last-Modified</li>
+<li>Etag<h4 id="HTTP2-0"><a href="#HTTP2-0" class="headerlink" title="HTTP2.0"></a>HTTP2.0</h4></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>多路复用。 允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息 双向数据流</p>
+</li>
+<li><p>二进制分帧层。应用层http和传输层tcp之间 将所有传输的信息分割为更小的消息和帧（frame）,并对它们采用二进制格式的编码</p>
+</li>
+<li><p>首部压缩。压缩http请求报文头部 首部压缩使得整个HTTP数据包小了很多，传输也就会更快</p>
+</li>
+<li><p>服务端推送。 一种在客户端请求之前发送数据的机制。在 HTTP/2 中，服务器可以对客户端的一个请求发送多个响应。浏览器只请求了index.html，但是服务器把index.html、style.css、example.png全部发送给浏览器。这样的话，只需要一轮 HTTP 通信，浏览器就得到了全部资源，提高了性能。</p>
+<h4 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h4><p>较为安全的网络传输协议 需要进行非对称的加解密，且需要三次握手</p>
+</li>
+<li><p>证书(公钥)</p>
+</li>
+<li><p>SSL 加密</p>
+</li>
+<li><p>端口 443</p>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3></li>
+<li><p>三次握手</p>
+<ul>
+<li>第一次握手(SYN=1, seq=x):客户端发送一个 TCP 的 SYN 标志位置1的包，指明客户端打算连接的服务器的端口，以及初始序号 X,保存在包头的序列号(Sequence Number)字段里。发送完毕后，客户端进入 SYN_SEND 状态。</li>
+<li>第二次握手(SYN=1, ACK=1, seq=y, ACKnum=x+1):服务器发回确认包(ACK)应答。即 SYN 标志位和 ACK 标志位均为1。服务器端选择自己 ISN 序列号，放到 Seq 域里，同时将确认序号(Acknowledgement Number)设置为客户的 ISN 加1，即X+1。 发送完毕后，服务器端进入 SYN_RCVD 状态。</li>
+<li>第三次握手(ACK=1，ACKnum=y+1).客户端再次发送确认包(ACK)，SYN 标志位为0，ACK 标志位为1，并且把服务器发来 ACK 的序号字段+1，放在确定字段中发送给对方，并且在数据段放写ISN的+1.发送完毕后，客户端进入 ESTABLISHED 状态，当服务器端接收到这个包时，也进入 ESTABLISHED 状态，TCP 握手结束。</li>
+</ul>
+</li>
+<li><p>四次挥手 断开连接</p>
+<ul>
+<li>第一次挥手(FIN=1，seq=x)假设客户端想要关闭连接，客户端发送一个 FIN 标志位置为1的包，表示自己已经没有数据可以发送了，但是仍然可以接受数据。发送完毕后，客户端进入 FIN_WAIT_1 状态。</li>
+<li>第二次挥手(ACK=1，ACKnum=x+1)服务器端确认客户端的 FIN 包，发送一个确认包，表明自己接受到了客户端关闭连接的请求，但还没有准备好关闭连接。发送完毕后，服务器端进入 CLOSE_WAIT 状态，客户端接收到这个确认包之后，进入 FIN_WAIT_2 状态，等待服务器端关闭连接。</li>
+<li>第三次挥手(FIN=1，seq=y)服务器端准备好关闭连接时，向客户端发送结束连接请求，FIN 置为1。发送完毕后，服务器端进入 LAST_ACK 状态，等待来自客户端的最后一个ACK。</li>
+<li>第四次挥手(ACK=1，ACKnum=y+1)客户端接收到来自服务器端的关闭请求，发送一个确认包，并进入 TIME_WAIT状态，等待可能出现的要求重传的 ACK 包。服务器端接收到这个确认包之后，关闭连接，进入 CLOSED 状态。</li>
+<li>客户端等待了某个固定时间（两个最大段生命周期，2MSL，2 Maximum Segment Lifetime）之后，没有收到服务器端的 ACK ，认为服务器端已经正常关闭连接，于是自己也关闭连接，进入 CLOSED 状态。</li>
+</ul>
+</li>
+<li><p>滑动窗口: 流量控制 </p>
+<ul>
+<li>接收方通过通告发送方自己的窗口大小，从而控制发送方的发送速度，从而达到防止发送方发送速度过快而导致自己被淹没的目的<ul>
+<li>ACK：期望接收到的下一字节的序号  当前的窗口大小</li>
+</ul>
+</li>
+<li>接受窗口</li>
+<li>发送窗口</li>
+</ul>
+</li>
+<li><p>拥塞处理</p>
+<ul>
+<li>慢开始 连接会随着时间进行自我调谐，起初会限制连接的最大速度，如果数据成功传输，会随着时间的推移提高传输的速度</li>
+<li>拥塞避免 一种处理丢失分组的方法 出现超时和接收到重复的确认时使用</li>
+<li>快速重传 如果发送方发现收到三个连续的重复 ACK，或者超时了还没有收到任何 ACK，就会确认丢包，即5号包遗失了，从而再次发送这个包。通过这种机制，TCP 保证了不会有数据包丢失</li>
+<li>快速恢复  丢失的分组通过快速重传过程发送完，并被目的主机接受后，为了快速的恢复到较高的传输速度，就会进入快速恢复阶段<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a><a href="https://juejin.im/entry/5ad86c16f265da505a77dca4" target="_blank" rel="noopener">缓存</a></h3></li>
+</ul>
+</li>
+<li><p>浏览器每次发起请求，都会先在浏览器缓存中查找该请求的结果以及缓存标识</p>
+</li>
+<li><p>浏览器每次拿到返回的请求结果都会将该结果和缓存标识存入浏览器缓存中</p>
+</li>
+<li><p>强缓存 </p>
+<ul>
+<li>Cache-Control/Expires: 浏览器判断缓存是否过期，未过期时，直接使用强缓存</li>
+<li>Cache-Control(到某个时间为止)的 max-age （存放多久）优先级高于 Expires</li>
+</ul>
+</li>
+<li><p>协商缓存</p>
+<ul>
+<li>当缓存已经过期时，使用协商缓存。浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程</li>
+<li>唯一标识方案: Etag(response 携带) &amp; If-None-Match(request携带，上一次返回的 Etag): 服务器判断资源是否被修改，</li>
+<li>最后一次修改时间: Last-Modified(response) &amp; If-Modified-Since (request，上一次返回的Last-Modified)<ul>
+<li>如果一致，则直接返回 304 通知浏览器使用缓存</li>
+<li>如不一致，则服务端返回新的资源</li>
+</ul>
+</li>
+<li>Last-Modified 缺点：<ul>
+<li>周期性修改，但内容未变时，会导致缓存失效</li>
+<li>最小粒度只到 s， s 以内的改动无法检测到</li>
+</ul>
+</li>
+<li>Etag 的优先级高于 Last-Modified<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3>服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一服务器再发起请求时被携带并发送到服务器上。</li>
+</ul>
+</li>
+<li><p><code>&lt;cookie name&gt; = &lt;cookie value&gt;</code></p>
+<ul>
+<li>name 名称：一个唯一确定cookie的名称，部分大小写，cookie的名字必须是经过URL编码的，一般可以采用某个前缀在加上当前时间的做法，这样的话名称能够确保是唯一的，也比较方便。</li>
+<li>value 值：存储在cookie中的字符串值，必须经过被URL编码</li>
+</ul>
+</li>
+<li><p>作用域 cookie应该被发送给哪些URL</p>
+<ul>
+<li>domain 域：对于哪个域是有效的，如果没有设置的话，默认来自设置cookie的那个域，在上诉例子中就是<code>.Mozilla.org</code></li>
+<li>path 路径：指定域中的那个路径，应该向服务器发送cookie，<code>/</code> 表示没有限制</li>
+</ul>
+</li>
+<li><p>失效时间</p>
+<ul>
+<li>expires 失效时间：表示cookie何时应该被删除的时间戳，这个日期是GMT格式的日期，如果设置是以前的时间，cookie会被立刻删除。上诉cookie的失效时间是Feb,13-Mar-2018 11:47:50。</li>
+<li>Max-Age</li>
+</ul>
+</li>
+<li><p>安全标志</p>
+<ul>
+<li>HttpOnly 禁止JavaScript访问cookie，阻止XSS攻击</li>
+<li>SameSite 服务器要求某个cookie在跨站请求时不会被发送，从而可以阻止跨站请求伪造攻击（CSRF）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="string">" name=value; domain=.mozilla.org; expires=Feb, 13-Mar-2018 11:47:50; path=/; security = true"</span></span><br></pre></td></tr></table></figure>
+<h3 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h3><ul>
+<li>1xx: 接受，继续处理</li>
+<li><strong>200: 成功，并返回数据</strong></li>
+<li>201: 已创建</li>
+<li>202: 已接受</li>
+<li>203: 成为，但未授权</li>
+<li><strong>204: 成功，无内容</strong></li>
+<li>205: 成功，重置内容</li>
+<li>206: 成功，部分内容</li>
+<li>301: 永久移动，重定向</li>
+<li>302: 临时移动，可使用原有URI</li>
+<li><strong>304: 资源未修改，可使用缓存</strong></li>
+<li><strong>305: 需代理访问</strong></li>
+<li>400: 请求语法错误</li>
+<li>401: 要求身份认证</li>
+<li><strong>403: 拒绝请求</strong></li>
+<li><strong>404: 资源不存在</strong></li>
+<li><strong>500: 服务器错误</strong><h3 id="GET-POST"><a href="#GET-POST" class="headerlink" title="GET POST"></a>GET POST</h3></li>
+</ul>
+<ol>
+<li>GET把参数包含在URL中，而POST将数据放在BODY中。</li>
+<li>GET方式提交的数据有长度限制，则POST的数据则可以非常大。</li>
+<li>POST比GET安全，因为数据在地址栏上不可见。</li>
+<li>GET 会被历史保存记录，POST中的参数不会被保留</li>
+<li>GET只能进行url编码，POST支持更多编码类型（请求头中的Content-Type属性表示编码方式）</li>
+<li>对参数的数据类型，GET只接受ASCII字符，而POST没有限制</li>
+<li>GET在浏览器回退时是无害的，而POST会再次提交请求</li>
+<li>GET能被缓存，而POST不能</li>
+<li>GET是幂等(请求次数与资源无关)的。幂等性是指一次和多次请求某一个资源应该具有同样的副作用。简单来说意味着对同一URL的多个请求应该返回同样的结果。<br>GET和POST本质上就是TCP链接，并无差别。但是由于HTTP的规定和浏览器/服务器的限制，导致他们在应用过程中体现出一些不同</li>
+</ol>
+<ul>
+<li>get: <ul>
+<li>缓存、请求长度受限、会被历史保存记录 无副作用(不修改资源)，</li>
+<li>发送一个TCP请求 </li>
+<li>幂等</li>
+</ul>
+</li>
+<li>post: 安全、大数据、更多编码类型 发送两个TCP请求 </li>
+<li>最直观的区别就是GET把参数包含在URL中，POST通过request body传递参数<h3 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h3>无需刷新页面也可以获得服务器的数据</li>
+</ul>
+<p>JavaScript执行异步网络请求，在现代浏览器上写AJAX主要依靠XMLHttpRequest对象</p>
+<p>只能请求同源</p>
+<ol>
+<li>创建XHR对象</li>
+<li>设置 <code>readyStateChange</code> 的回调函数</li>
+<li>设置 timeout ontimeout的回调函数，等待响应时间</li>
+<li>open 打开请求 设置请求方式，url，以及是否异步发送请求</li>
+<li>send 发送请求，设置 请求主体数据</li>
+<li>服务器接收消息并将消息填充到XHR中<ul>
+<li>status http状态码<ul>
+<li>200 请求成功</li>
+<li>304 服务器文件为改变，可以直接使用缓存</li>
+</ul>
+</li>
+<li>responseText 响应主体返回的文本</li>
+<li>responseXML   响应的XML DOM 文档</li>
+<li>statusText 状态具体信息</li>
+<li>readyState 请求相应过程<ul>
+<li>4 请求完成<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function success(text) &#123;</span><br><span class="line">    var textarea &#x3D; document.getElementById(&#39;test-response-text&#39;);</span><br><span class="line">    textarea.value &#x3D; text;</span><br><span class="line">&#125;</span><br><span class="line">function fail(code) &#123;</span><br><span class="line">    var textarea &#x3D; document.getElementById(&#39;test-response-text&#39;);</span><br><span class="line">    textarea.value &#x3D; &#39;Error code: &#39; + code;</span><br><span class="line">&#125;</span><br><span class="line">var request &#x3D; new XMLHttpRequest(); &#x2F;&#x2F; 新建XMLHttpRequest对象</span><br><span class="line">request.onreadystatechange &#x3D; function () &#123; &#x2F;&#x2F; 状态发生变化时，函数被回调</span><br><span class="line">    if (request.readyState &#x3D;&#x3D;&#x3D; 4) &#123; &#x2F;&#x2F; 成功完成</span><br><span class="line">        &#x2F;&#x2F; 判断响应结果:</span><br><span class="line">        if (request.status &#x3D;&#x3D;&#x3D; 200) &#123;</span><br><span class="line">            &#x2F;&#x2F; 成功，通过responseText拿到响应的文本:</span><br><span class="line">            return success(request.responseText);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            &#x2F;&#x2F; 失败，根据响应码判断失败原因:</span><br><span class="line">            return fail(request.status);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        &#x2F;&#x2F; HTTP请求还在继续...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 发送请求:</span><br><span class="line">request.open(&#39;GET&#39;, &#39;&#x2F;api&#x2F;categories&#39;);</span><br><span class="line">request.send();</span><br><span class="line">alert(&#39;请求已发送，请等待响应...&#39;);</span><br></pre></td></tr></table></figure>
+<h3 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h3>同源是指”协议+域名+端口”三者相同<br>跨域指一个域下的文档或脚本试图去请求另一个域下的资源，我们通常所说的跨域是狭义的，是由浏览器同源策略限制的一类请求场景<h4 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h4>是 json 的一种”使用模式”，可以让网页从别的域名（网站）那获取资料，即跨域读取数据<br>通过动态创建script，再请求一个带参网址实现跨域通信<br>src=’<a href="http://localhost:9871/api/jsonp?msg=helloJsonp&amp;callback=jsonpCb&#39;" target="_blank" rel="noopener">http://localhost:9871/api/jsonp?msg=helloJsonp&amp;callback=jsonpCb&#39;</a><br>其中？后面为参数 有 </li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>msg：helloJsonp， </li>
+<li>callback=jsonCb  <ul>
+<li>callback 为后端定义的接受返回函数名字的属性，主要看后端规定的叫什么名字，不一定要是callback。</li>
+<li>jsonCb表示后端返回的数据Json的名字，jsonCb({name:”123”});</li>
+<li>jsonpCb表示前端在接受到数据后执行的回调函数名字<h4 id="CROS"><a href="#CROS" class="headerlink" title="CROS"></a>CROS</h4></li>
+</ul>
+</li>
+<li>简单请求<ul>
+<li>浏览器直接发出CORS请求，在头信息之中，增加一个Origin字段 </li>
+<li>如果Origin指定的域名在许可范围内，服务器返回的响应，会多出几个头信息字段<ul>
+<li>Access-Control-Allow-Origin。该字段是必须的。它的值要么是请求时Origin字段的值，要么是一个*，表示接受任意域名的请求。</li>
+<li>Access-Control-Allow-Credentials。该字段可选。它的值是一个布尔值，表示是否允许发送Cookie。默认情况下，Cookie不包括在CORS请求之中。设为true，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为true，如果服务器不要浏览器发送Cookie，删除该字段即可。</li>
+<li>Access-Control-Expose-Headers。该字段可选。CORS请求时，XMLHttpRequest对象的getResponseHeader()方法只能拿到6个基本字段：Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma。如果想拿到其他字段，就必须在Access-Control-Expose-Headers里面指定。上面的例子指定，getResponseHeader(‘FooBar’)可以返回FooBar字段的值。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>非简单请求<ul>
+<li>非简单请求的CORS请求，会在正式通信之前，增加一次HTTP查询请求，称为”预检”请求（preflight）。<ul>
+<li>Access-Control-Request-Method。该字段是必须的，用来列出浏览器的CORS请求会用到哪些HTTP方法，上例是PUT。</li>
+<li>Access-Control-Request-Headers。该字段是一个逗号分隔的字符串，指定浏览器CORS请求会额外发送的头信息字段，上例是X-Custom-Header。</li>
+</ul>
+</li>
+<li>服务器确认跨域请求，返回<ul>
+<li>Access-Control-Allow-Methods。该字段必需，它的值是逗号分隔的一个字符串，表明服务器支持的所有跨域请求的方法。注意，返回的是所有支持的方法，而不单是浏览器请求的那个方法。这是为了避免多次”预检”请求。</li>
+<li>Access-Control-Allow-Headers。如果浏览器请求包括Access-Control-Request-Headers字段，则Access-Control-Allow-Headers字段是必需的。它也是一个逗号分隔的字符串，表明服务器支持的所有头信息字段，不限于浏览器在”预检”中请求的字段。</li>
+<li>Access-Control-Allow-Credentials。该字段与简单请求时的含义相同。</li>
+<li>Access-Control-Max-Age。该字段可选，用来指定本次预检请求的有效期，单位为秒。上面结果中，有效期是20天（1728000秒），即允许缓存该条回应1728000秒（即20天），在此期间，不用发出另一条预检请求。</li>
+</ul>
+</li>
+<li>接下来浏览器再次发出请求，和简单请求一样。<h4 id="postMessage"><a href="#postMessage" class="headerlink" title="postMessage"></a>postMessage</h4></li>
+</ul>
+</li>
+<li>页面和其打开的新窗口的数据传递</li>
+<li>多窗口之间消息传递</li>
+<li>页面与嵌套的iframe消息传递</li>
+<li>上面三个场景的跨域数据传递<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe id&#x3D;&quot;iframe&quot; src&#x3D;&quot;http:&#x2F;&#x2F;www.domain2.com&#x2F;b.html&quot; style&#x3D;&quot;display:none;&quot;&gt;&lt;&#x2F;iframe&gt; </span><br><span class="line">&lt;script&gt;       </span><br><span class="line">    var iframe &#x3D; document.getElementById(&#39;iframe&#39;);</span><br><span class="line">    iframe.onload &#x3D; function() &#123;</span><br><span class="line">        var data &#x3D; &#123;</span><br><span class="line">            name: &#39;aym&#39;</span><br><span class="line">        &#125;;</span><br><span class="line">        &#x2F;&#x2F; 向domain2传送跨域数据</span><br><span class="line">        iframe.contentWindow.postMessage(JSON.stringify(data), &#39;http:&#x2F;&#x2F;www.domain2.com&#39;);</span><br><span class="line">    &#125;;</span><br><span class="line">    &#x2F;&#x2F; 接受domain2返回数据</span><br><span class="line">    window.addEventListener(&#39;message&#39;, function(e) &#123;</span><br><span class="line">        alert(&#39;data from domain2 ---&gt; &#39; + e.data);</span><br><span class="line">    &#125;, false);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&#x2F;&#x2F;b.html</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    &#x2F;&#x2F; 接收domain1的数据</span><br><span class="line">    window.addEventListener(&#39;message&#39;, function(e) &#123;</span><br><span class="line">        alert(&#39;data from domain1 ---&gt; &#39; + e.data);</span><br><span class="line">        var data &#x3D; JSON.parse(e.data);</span><br><span class="line">        if (data) &#123;</span><br><span class="line">            data.number &#x3D; 16;</span><br><span class="line">            &#x2F;&#x2F; 处理后再发回domain1</span><br><span class="line">            window.parent.postMessage(JSON.stringify(data), &#39;http:&#x2F;&#x2F;www.domain1.com&#39;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, false);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="nginx反向代理跨域"><a href="#nginx反向代理跨域" class="headerlink" title="nginx反向代理跨域"></a>nginx反向代理跨域</h4>以代理服务器来接受Internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给Internet上请求连接的客户端</li>
+<li>可以起到保护网站安全的作用，因为任何来自Internet的请求都必须先经过代理服务器。</li>
+<li>通过缓存静态资源，加速Web请求。</li>
+<li>实现负载均衡。<h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3></li>
+<li>XSS攻击: 注入恶意代码<ul>
+<li>cookie 设置 httpOnly</li>
+<li>转义页面上的输入内容和输出内容</li>
+</ul>
+</li>
+<li>CSRF: 跨站请求伪造，防护:<ul>
+<li>get 不修改数据    </li>
+<li>不被第三方网站访问到用户的 cookie</li>
+<li>设置白名单，不被第三方网站请求</li>
+<li>请求校验</li>
+</ul>
+</li>
+</ul>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-跨域" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/12/22/%E8%B7%A8%E5%9F%9F/"
+    >跨域</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/12/22/%E8%B7%A8%E5%9F%9F/" class="article-date">
+  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h1><h1 id="ACCESS-CONTROL-ALLOW-ORIGIN响应头"><a href="#ACCESS-CONTROL-ALLOW-ORIGIN响应头" class="headerlink" title="ACCESS-CONTROL-ALLOW-ORIGIN响应头"></a>ACCESS-CONTROL-ALLOW-ORIGIN响应头</h1><h1 id="nginx反向代理"><a href="#nginx反向代理" class="headerlink" title="nginx反向代理"></a>nginx反向代理</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /a/ &#123;</span><br><span class="line">  proxy_pass http://192.168.0.12:80/;   # 将url/a路径反向代理到http://192.168.0.12:80/</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> location /a &#123;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  proxy_pass http://192.168.0.12:80/;   <span class="comment"># 将url/a路径反向代理到http://192.168.0.12:80/a</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> &#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="nginx负载均衡"><a href="#nginx负载均衡" class="headerlink" title="nginx负载均衡"></a>nginx负载均衡</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    upstream group1&#123;                  # 负载均衡</span><br><span class="line">      server http://192.168.0.12:80 weight=10; #配置权重 10：1</span><br><span class="line">      server http://192.168.0.12:81 weight=1;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    gzip  on; # 开启gzip加速网页加载</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">	      default_type  text/html;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">           proxy_pass http://group1/;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-跨标签页通信" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/12/22/%E8%B7%A8%E6%A0%87%E7%AD%BE%E9%A1%B5%E9%80%9A%E4%BF%A1/"
+    >跨标签页通讯</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/12/22/%E8%B7%A8%E6%A0%87%E7%AD%BE%E9%A1%B5%E9%80%9A%E4%BF%A1/" class="article-date">
+  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h4 id="postMessage-子页面"><a href="#postMessage-子页面" class="headerlink" title="postMessage 子页面"></a>postMessage 子页面</h4><ul>
+<li>父页面 通过 window.open() 或 iframe标签 打开子页面</li>
+<li>子页面对象调用 postMessage(msg,targetOrigin)发送消息<ul>
+<li>targetOrigin 表示可以获得<strong>该消息所在的域</strong>也可以设置为”*”，表示任何域名都可取得消息</li>
+</ul>
+</li>
+<li>子页面中，通过window.addEventListener(“message”,(evt)=&gt;{},false)取得消息<ul>
+<li>evt中 data为传递的消息 <h4 id="localStorage-同源"><a href="#localStorage-同源" class="headerlink" title="localStorage 同源"></a>localStorage 同源</h4></li>
+</ul>
+</li>
+<li>localstorage是浏览器多个标签共用的存储空间，所以可以用来实现多标签之间的通信(ps：session是会话级的存储空间，每个标签页都是单独的）。</li>
+<li>直接在window对象上添加监听即可：</li>
+<li>onstorage以及storage事件，针对都是非当前页面对localStorage进行修改时才会触发，当前页面修改localStorage不会触发监听函数。然后就是在对原有的数据的值进行修改时才会触发，比如原本已经有一个key会a值为b的localStorage，你再执行：localStorage.setItem(‘a’, ‘b’)代码，同样是不会触发监听函数的<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">window.onstorage &#x3D; (e)&#x3D;&gt;&#123;&#125;</span><br><span class="line">window.addEventListener(&#39;storage&#39;,fn);</span><br></pre></td></tr></table></figure>
+<h4 id="定时器setInterval-cookie-同域"><a href="#定时器setInterval-cookie-同域" class="headerlink" title="定时器setInterval+cookie 同域"></a>定时器setInterval+cookie 同域</h4></li>
+<li>document.cookie = 改变cookie的值</li>
+<li>setInterval(getcookie(),100);<h4 id="html5浏览器的新特性SharedWorker"><a href="#html5浏览器的新特性SharedWorker" class="headerlink" title="html5浏览器的新特性SharedWorker"></a>html5浏览器的新特性SharedWorker</h4></li>
+<li>普通的webworker直接使用new Worker()即可创建，这种webworker是当前页面专有的。然后还有种共享worker(SharedWorker)，这种是可以多个标签页、iframe共同使用的。</li>
+<li>SharedWorker可以被多个window共同使用，但必须保证这些标签页都是同源的(相同的协议，主机和端口号)<h4 id="webSocket"><a href="#webSocket" class="headerlink" title="webSocket"></a>webSocket</h4>在浏览器和服务器之间建立一个不受限的双向通信的通道<br>WebSocket连接必须由浏览器发起，特点：</li>
+</ul>
+<ol>
+<li>建立在 TCP 协议之上，服务器端的实现比较容易。</li>
+<li>与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。</li>
+<li>数据格式比较轻量，性能开销小，通信高效。</li>
+<li>可以发送文本，也可以发送二进制数据。</li>
+<li>没有同源限制，客户端可以与任意服务器通信。</li>
+<li>协议标识符是ws（如果加密，则为wss），服务器网址就是 URL。</li>
+</ol>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-ajax&amp;axios&amp;fetch" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/ajax&axios&fetch/"
+    >ajax和axios和fetch</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/ajax&axios&fetch/" class="article-date">
+  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <p>XMLHTTPRequest -&gt; Jquery $.ajax 默认form表单形式Post<br>XMLHTTPRequest -&gt; axios 默认json形式Post</p>
+<p>fetch</p>
+<p>浏览器中地址栏输入<code>data:text/html,&lt;h1&gt;hello&lt;/h1&gt;</code>可以直接使用html标签生成页面</p>
+<figure class="highlight plain"><figcaption><span>src</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">header[url(query),method,header]</span><br><span class="line">body[a&#x3D;b&amp;c&#x3D;d] form类型</span><br><span class="line">body[&#123;a:&quot;b&quot;&#125;] json类型</span><br><span class="line"></span><br><span class="line"># ajax</span><br><span class="line">&#96;&#96;&#96;js</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url:&quot;http:&#x2F;&#x2F;localhost:8099&quot;,</span><br><span class="line">    success:function(data)&#123;console.log(data)&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>响应结果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">url: GET /</span><br><span class="line">query: &#123;&#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>POST 方法默认’content-type’: ‘application/x-www-form-urlencoded; charset=UTF-8’</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    method:<span class="string">"POST"</span>,</span><br><span class="line">    data:&#123;<span class="attr">a</span>:<span class="number">10</span>&#125;,</span><br><span class="line">    url:<span class="string">"http://localhost:8099"</span>,</span><br><span class="line">    success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">url: POST /</span><br><span class="line">query: &#123;&#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  <span class="string">'content-length'</span>: <span class="string">'4'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  <span class="string">'content-type'</span>: <span class="string">'application/x-www-form-urlencoded; charset=UTF-8'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body [<span class="built_in">Object</span>: <span class="literal">null</span> prototype] &#123; <span class="attr">a</span>: <span class="string">'10'</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>GET方法data放在url的query中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    method:<span class="string">"GET"</span>,</span><br><span class="line">    data:&#123;<span class="attr">a</span>:<span class="number">10</span>&#125;,</span><br><span class="line">    url:<span class="string">"http://localhost:8099"</span>,</span><br><span class="line">    success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">url: GET /?a=<span class="number">10</span></span><br><span class="line">query: &#123; <span class="attr">a</span>: <span class="string">'10'</span> &#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>修改POST的’content-type’:’application/json’</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    method:<span class="string">"POST"</span>,</span><br><span class="line">    headers:&#123;<span class="string">'content-type'</span>:<span class="string">'application/json'</span>&#125;,</span><br><span class="line">    data:<span class="built_in">JSON</span>.stringify(&#123;<span class="attr">a</span>:<span class="number">10</span>&#125;),</span><br><span class="line">    url:<span class="string">"http://localhost:8099"</span>,</span><br><span class="line">    success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">url: POST /</span><br><span class="line">query: &#123;&#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  <span class="string">'content-length'</span>: <span class="string">'8'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  <span class="string">'content-type'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body &#123; <span class="attr">a</span>: <span class="number">10</span> &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h1><p>浏览器自带</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'http://localhost:8099'</span>).then(<span class="function"><span class="params">res</span>=&gt;</span>res.json()).then(<span class="function"><span class="params">d</span>=&gt;</span><span class="built_in">console</span>.log(d))</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">url: GET /</span><br><span class="line">query: &#123;&#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'http://localhost:8099'</span>,&#123;</span><br><span class="line">  method:<span class="string">"POST"</span>,</span><br><span class="line">  headers:&#123;<span class="string">'content-type'</span>: <span class="string">'application/x-www-form-urlencoded'</span>&#125;,</span><br><span class="line">  body:<span class="string">"a=12&amp;b=23"</span></span><br><span class="line">&#125;).then(<span class="function"><span class="params">res</span>=&gt;</span>res.json()).then(<span class="function"><span class="params">d</span>=&gt;</span><span class="built_in">console</span>.log(d))</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">url: POST /</span><br><span class="line">query: &#123;&#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  <span class="string">'content-length'</span>: <span class="string">'9'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  <span class="string">'content-type'</span>: <span class="string">'application/x-www-form-urlencoded'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body [<span class="built_in">Object</span>: <span class="literal">null</span> prototype] &#123; <span class="attr">a</span>: <span class="string">'12'</span>, <span class="attr">b</span>: <span class="string">'23'</span> &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="axios-前后端均可使用"><a href="#axios-前后端均可使用" class="headerlink" title="axios(前后端均可使用)"></a>axios(前后端均可使用)</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">axios(&#123;</span><br><span class="line">    method:<span class="string">"POST"</span>,</span><br><span class="line">    data:&#123;<span class="attr">a</span>:<span class="number">12</span>&#125;,</span><br><span class="line">    url:<span class="string">"http://localhost:8099"</span>,</span><br><span class="line">&#125;).then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;<span class="built_in">console</span>.log(res.data)&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">axios(&#123;</span><br><span class="line">    method:<span class="string">"POST"</span>,</span><br><span class="line">    headers:&#123;<span class="string">'content-type'</span>:<span class="string">'application/x-www-form-urlencoded'</span>&#125;,</span><br><span class="line">    data:<span class="string">"a=123&amp;b=abc"</span>,</span><br><span class="line">    url:<span class="string">"http://localhost:8099"</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-bind和new" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/bind%E5%92%8Cnew/"
+    >bind和new</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/bind%E5%92%8Cnew/" class="article-date">
+  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="bind"><a href="#bind" class="headerlink" title="bind()"></a>bind()</h1><p>bind() 方法会 <strong>1. 创建一个新函数</strong> ，当这个新函数被调用时，它 <strong>2. 指定this值</strong> 是传递给 bind() 的第一个参数，传入bind方法的第二个以及以后的 <strong>3. 传入参数</strong> 加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。 <strong>4. 可以用来柯里化</strong><br>bind返回的绑定函数也能使用 new 操作符创建对象：这种行为就像把原函数当成构造器，提供的 this 值被忽略，同时调用时的参数被提供给模拟函数。</p>
+<h1 id="bind模拟"><a href="#bind模拟" class="headerlink" title="bind模拟"></a>bind模拟</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind2 = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">  context = context ? <span class="built_in">Object</span>(context) : <span class="built_in">window</span>;</span><br><span class="line">  context.fn = <span class="keyword">this</span>                                                       <span class="comment">// 2. 指定this值</span></span><br><span class="line">  <span class="keyword">let</span> args = [...arguments].slice(<span class="number">1</span>);                                     <span class="comment">// 3. 传入参数</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;                                                 <span class="comment">// 1. 创建一个新函数</span></span><br><span class="line">    args = args.concat([...arguments])                                    <span class="comment">// 4. 柯里化（补充参数）</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span> <span class="keyword">instanceof</span> func ? <span class="keyword">this</span>.fn(...args) : context.fn(...args)  <span class="comment">// 5.实现函数构造化的new值绑定</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  func.prototype = <span class="keyword">this</span>.prototype                                         <span class="comment">// 5. 修改返回函数的原型</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> func</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整模拟见<a href="./javascript/call&apply&bind/bind.js">bind</a></p>
+<h1 id="new"><a href="#new" class="headerlink" title="new"></a>new</h1><p> new 创建的实例:</p>
+<ol>
+<li>访问到构造函数里的属性</li>
+<li>访问到原型里的属性</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">create</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 创建一个空的对象</span></span><br><span class="line">    <span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>(),</span><br><span class="line">	<span class="comment">// 获得构造函数，arguments中去除第一个参数</span></span><br><span class="line">    Con = [].shift.call(<span class="built_in">arguments</span>);</span><br><span class="line">	<span class="comment">// 链接到原型，obj 可以访问到构造函数原型中的属性</span></span><br><span class="line">    obj.__proto__ = Con.prototype;</span><br><span class="line">	<span class="comment">// 绑定 this 实现继承，obj 可以访问到构造函数中的属性</span></span><br><span class="line">    Con.apply(obj, <span class="built_in">arguments</span>);</span><br><span class="line">	<span class="comment">// 返回对象</span></span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-移动端适配" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/"
+    >移动端适配</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/" class="article-date">
+  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h3 id="手机端不同设备的适配"><a href="#手机端不同设备的适配" class="headerlink" title="手机端不同设备的适配"></a>手机端不同设备的适配</h3><h4 id="media"><a href="#media" class="headerlink" title="@media"></a>@media</h4><p>通过@media来获取设备的各种属性，根据设备属性的条件来应用不同的CSS</p>
+<p>例：1px边框的适配</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span>  (<span class="attribute">-webkit-min-device-pixel-ratio:</span> <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="selector-class">.c</span>&#123;</span><br><span class="line">            <span class="attribute">transform</span>: <span class="built_in">scaleY</span>(<span class="number">0.5</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="lt-meta-gt-rem"><a href="#lt-meta-gt-rem" class="headerlink" title="&lt;meta&gt; + rem"></a>&lt;meta&gt; + rem</h4><ul>
+<li><code>name = &#39;viewport&#39;</code>, 它提供有关视口初始大小的提示，仅供移动设备使用</li>
+<li>content<ul>
+<li>width    一个正整数或者字符串 device-width    以pixels（像素）为单位， 定义viewport（视口）的宽度。</li>
+<li>height    一个正整数或者字符串 device-height    以pixels（像素）为单位， 定义viewport（视口）的高度。</li>
+<li>initial-scale    一个0.0 到10.0之间的正数    定义设备宽度（纵向模式下的设备宽度或横向模式下的设备高度）与视口大小之间的缩放比率。</li>
+<li>maximum-scale    一个0.0 到10.0之间的正数    定义缩放的最大值；它必须大于或等于minimum-scale的值，不然会导致不确定的行为发生。</li>
+<li>minimum-scale    一个0.0 到10.0之间的正数    定义缩放的最小值；它必须小于或等于maximum-scale的值，不然会导致不确定的行为发生。</li>
+<li>user-scalable    一个布尔值（yes 或者no）    如果设置为 no，用户将不能放大或缩小网页。默认值为 yes。</li>
+</ul>
+</li>
+</ul>
+<h4 id="rem"><a href="#rem" class="headerlink" title="rem"></a>rem</h4><p>根据根元素（即html）的<code>font-size</code>来设置大小，比如html的字体大小设置为<code>16px</code>，那么<code>2rem = 32px</code>。</p>
+<p>这里区分一下<strong>em</strong>，em是根据父元素的字体大小来设置的</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><ol>
+<li>通过meta来进行缩放</li>
+<li>设置html的字体大小，后面的大小单位全都使用rem</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"initial-scale = 1,maxinum-scale = 1,minimum-scale=1,user-scalable=no"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>  </span><br><span class="line">            </span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> viewport = <span class="built_in">document</span>.querySelector(<span class="string">"meta[name=viewport]"</span>);  </span></span><br><span class="line"><span class="actionscript">              <span class="comment">//下面是根据设备像素设置viewport  </span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span> (<span class="built_in">window</span>.devicePixelRatio == <span class="number">1</span>) &#123;  </span></span><br><span class="line"><span class="actionscript">        viewport.setAttribute(<span class="string">'content'</span>, <span class="string">'width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'</span>);  </span></span><br><span class="line">    &#125;  </span><br><span class="line"><span class="javascript">     <span class="keyword">if</span> (<span class="built_in">window</span>.devicePixelRatio == <span class="number">2</span>) &#123;  </span></span><br><span class="line"><span class="actionscript">       viewport.setAttribute(<span class="string">'content'</span>, <span class="string">'width=device-width,initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no'</span>);  </span></span><br><span class="line">     &#125;          </span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> docEl = <span class="built_in">document</span>.documentElement;  </span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> fontsize = <span class="number">10</span> * (docEl.clientWidth / <span class="number">320</span>) + <span class="string">'px'</span>;  </span></span><br><span class="line">    docEl.style.fontSize = fontsize;   </span><br><span class="line">                </span><br><span class="line"> <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-选择器" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/%E9%80%89%E6%8B%A9%E5%99%A8/"
+    >选择器</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
+  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/css/">css</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <ul>
+<li>类型选择器    </li>
+<li>后代选择器    两个选择器之间的空格</li>
+</ul>
+<p>id &gt; class &gt; 标签</p>
+<h3 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h3><p>a:visted \ :link<br>a:hover \ :active \ :focus<br>a:last-child …</p>
+<p>连接伪类</p>
+<p>a:visited:hover</p>
+<h3 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h3><p> a::first-line<br> a::first-letter<br> a::before<br> a::after</p>
+<h3 id="通用选择器-匹配所有可用元素"><a href="#通用选择器-匹配所有可用元素" class="headerlink" title="通用选择器 * 匹配所有可用元素"></a>通用选择器 * 匹配所有可用元素</h3><h3 id="高级选择器"><a href="#高级选择器" class="headerlink" title="高级选择器"></a>高级选择器</h3><ul>
+<li>子选择器 &gt;  只选择元素的直接后代 不同于后代选择器（h1 em { }）</li>
+<li>相邻同胞选择器 + 选择同一个父元素下某个元素之后的元素 （h2 + p 选择h2之后相邻的p）</li>
+<li>属性选择器 [] 选择某个属性是否存在 或 某个属性的值 来寻找元素<ul>
+<li>E[att]</li>
+<li>E[att=”val”]</li>
+<li>E[att~=”val”] 匹配所有att属性具有多个空格分隔的值、其中一个值等于”val”的E元素 (rel=”friend met colleage co-worker”)</li>
+<li>E[att|=”val”] 匹配所有att属性具有多个连字号分隔（hyphen-separated）的值 其中一个值以”val”开头的E元素 (lang=”zh-CN”)</li>
+<li>[attr^=value] 表示带有以 attr 命名的属性，且属性值是以”value”开头的元素。</li>
+<li>[attr$=value] 表示带有以 attr 命名的属性，且属性值是以”value”结尾的元素。</li>
+<li>[attr*=value] 表示带有以 attr 命名的属性，且属性值包含有”value”的元素。</li>
+</ul>
+</li>
+</ul>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+  </article>
+  
+
+  
+  <nav class="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
+  </nav>
+  
+</section>
+</div>
+
+
+          <div class="to_top">
+            <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+          </div>
+      </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Matt&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/resume">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9001/" target="_blank" rel="noopener">项目展示</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+        
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['https://github.com/chiangming/','sa517144@mail.ustc.edu.cn',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+    </div>
+  </body>
+
+  </html>

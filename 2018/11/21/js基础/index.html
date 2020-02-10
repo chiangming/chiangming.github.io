@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    javascript知识点整理 |  Matt&#39;s Blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+</html>
+
+  <body>
+    <div id="app">
+      <main class="content">
+        <section class="outer">
+  <article id="post-js基础" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  javascript知识点整理
+</h1>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/js%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time datetime="2018-11-20T16:15:21.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+                
+                  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">4.5k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">18分钟</span>
+        </span>
+    </span>
+</div>
+
+                    
+          </div>
+          
+
+            
+              
+    <div class="tocbot"></div>
+
+
+
+
+
+                
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="map传参"><a href="#map传参" class="headerlink" title="map传参"></a>map传参</h1><p>[‘1’, ‘2’, ‘3’].map(parseInt)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arr.map(<span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">currentValue[, index[, array]]</span>)</span>&#123;   </span><br><span class="line">    <span class="comment">// Return element for new_array   </span></span><br><span class="line"> &#125;[, thisArg])</span><br></pre></td></tr></table></figure>
+<ul>
+<li>callback一共可以接收三个参数，其中第一个参数代表当前被处理的元素，而第二个参数代表该元素的索引。</li>
+<li>parseInt(string, radix) 接收两个参数，第一个表示被处理的值（字符串），第二个表示为解析时的基数。<br>返回[1, NaN, NaN]</li>
+</ul>
+<h1 id="防抖-节流"><a href="#防抖-节流" class="headerlink" title="防抖 节流"></a>防抖 节流</h1><p>防抖和节流的作用都是防止函数多次调用。区别在于，假设一个用户一直触发这个函数，且每次触发函数的间隔小于wait，防抖的情况下只会调用一次，而节流的情况会每隔一定时间（参数wait）调用函数。</p>
+<a id="more"></a>
+<h2 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h2><p>防抖的原理就是：你尽管触发事件，但是我一定在事件触发 n 秒后才执行，如果你在一个事件触发的 n 秒内又触发了这个事件，那我就以新的事件的时间为准，n 秒后才执行，总之，就是要等你触发完事件 n 秒内不再触发事件，我才执行。 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一版</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">func, wait, immediate</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> timeout;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">var</span> args = <span class="built_in">arguments</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeout) clearTimeout(timeout);</span><br><span class="line">        <span class="comment">// 立即执行的情况</span></span><br><span class="line">        <span class="comment">// if (immediate) &#123;</span></span><br><span class="line">        <span class="comment">//     // 如果已经执行过，不再执行</span></span><br><span class="line">        <span class="comment">//     var callNow = !timeout;</span></span><br><span class="line">        <span class="comment">//     timeout = setTimeout(function()&#123;</span></span><br><span class="line">        <span class="comment">//         timeout = null;</span></span><br><span class="line">        <span class="comment">//     &#125;, wait)</span></span><br><span class="line">        <span class="comment">//     if (callNow) func.apply(context, args)</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">        <span class="comment">// else &#123;</span></span><br><span class="line">            timeout = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait);</span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h2><p>如果你持续触发事件，每隔一段时间，只执行一次事件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">func, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timeout;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        context = <span class="keyword">this</span>;</span><br><span class="line">        args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span> (!timeout) &#123;</span><br><span class="line">            timeout = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                timeout = <span class="literal">null</span>;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Set、Map、WeakSet-和-WeakMap-的区别"><a href="#Set、Map、WeakSet-和-WeakMap-的区别" class="headerlink" title="Set、Map、WeakSet 和 WeakMap 的区别"></a>Set、Map、WeakSet 和 WeakMap 的区别</h1><h2 id="集合Set"><a href="#集合Set" class="headerlink" title="集合Set"></a>集合Set</h2><ul>
+<li>Set 对象允许你储存任何类型的唯一值，无论是原始值或者是对象引用。</li>
+<li>Set 是以 [value, value]的形式储存元素，</li>
+<li>向 Set 加入值的时候，不会发生类型转换(类似于a 不等于 “a”, NaN等于 NaN)</li>
+<li>遍历方法：keys(）等价于values()、entries()、forEach()</li>
+</ul>
+<h2 id="字典Map"><a href="#字典Map" class="headerlink" title="字典Map"></a>字典Map</h2><ul>
+<li>Map 是以 [key, value] 的形式储存</li>
+<li>new Map([[key1,value1],[key2,value2],[key3,value3]])</li>
+<li>Map 的键实际上是跟内存地址绑定的，只要内存地址不一样就视为两个键</li>
+</ul>
+<h3 id="Tips：变量回收"><a href="#Tips：变量回收" class="headerlink" title="Tips：变量回收"></a>Tips：变量回收</h3><p>Javascript是可以使用delete来手动删除变量，通过这样的方法让GC来回收内存，但在JS中并不是所有的对象都可以被删除的，delete 在JS中通过 var\function 声明因含有DontDelete，而不可被删除； 但是对象的属性、数组成员却是可以删除的； 因此如果我们要回收某个对象可以使用Object来封装一下。</p>
+<h3 id="Tips：弱引用"><a href="#Tips：弱引用" class="headerlink" title="Tips：弱引用"></a>Tips：弱引用</h3><p>WeakSet/WeakMap 中对对象的引用不会被考虑进垃圾回收机制，即只要没有其他的对象引用该对象，则该对象就会被回收，而不管它在不在 WeakSet。弱引用不需要手动null。</p>
+<h2 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h2><p>WeakSet 和 Set 类似，都是不重复的值的集合，但是和 Set 有两点不同：</p>
+<ol>
+<li><p>WeakSet 只能存放对象</p>
+</li>
+<li><p>WeakSet 的对象都是弱引用</p>
+<blockquote>
+<p>WeakSet存放的对象不会计入到对象的引用技术, 因此不会影响GC的回收<br>WeakSet存在的对象如果在外界消失了, 那么在WeakSet里面也会不存在</p>
+</blockquote>
+</li>
+<li><p>WeakSet 没有size属性，不支持遍历（故没有 forEach 方法)</p>
+<blockquote>
+<p>垃圾回收机制何时运行是不可预测的，所以 ES6 规定 WeakSet 不能被遍历</p>
+</blockquote>
+<p>JavaScript 会在执行内存回收时，清除掉 被引用次数为0 的那部分内存；而 WeakSet 是只能储存对象的（或者说只能储存内存指针而非静态值）、并且它对对象的引用将不计入对象的引用次数，当清除对象属性、对应的内存被清理之后，WeakSet 中记录的内存地址上不再有内容，它将自动断开与这条引用的关联 —— 也正因如此，它所储存的内容会受到开发者对其他对象操作的被动影响，所以 WeakSet 在设计上就设计成了没有“长度”、“遍历”概念的特殊弱引用 Set 型。</p>
+</li>
+</ol>
+<p>应用场景：用于存储DOM节点，而不用担心这些节点从文档移除时会引发内存泄露</p>
+<h2 id="WeakMap"><a href="#WeakMap" class="headerlink" title="WeakMap"></a>WeakMap</h2><ol>
+<li>WeakMap只能接受对象作为键名字(null除外)</li>
+<li>WeakMap键名指向对象不会计入对象的引用数<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myElement = <span class="built_in">document</span>.getElementById(<span class="string">'logo'</span>);</span><br><span class="line"><span class="keyword">let</span> myWeakmap = <span class="keyword">new</span> <span class="built_in">WeakMap</span>();</span><br><span class="line">myWeakmap.set(myElement, &#123;<span class="attr">timesClicked</span>: <span class="number">0</span>&#125;);</span><br><span class="line">myElement.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> logoData = myWeakmap.get(myElement);</span><br><span class="line">  logoData.timesClicked++;</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+上面代码中，myElement是一个 DOM 节点，每当发生click事件，就更新一下状态。我们将这个状态作为键值放在 WeakMap 里，对应的键名就是myElement。一旦这个 DOM 节点删除，该状态就会自动消失，不存在内存泄漏风险。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _counter = <span class="keyword">new</span> <span class="built_in">WeakMap</span>();</span><br><span class="line"><span class="keyword">const</span> _action = <span class="keyword">new</span> <span class="built_in">WeakMap</span>();</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Countdown</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(counter, action) &#123;</span><br><span class="line">    _counter.set(<span class="keyword">this</span>, counter);</span><br><span class="line">    _action.set(<span class="keyword">this</span>, action);</span><br><span class="line">  &#125;</span><br><span class="line">  dec() &#123;</span><br><span class="line">    <span class="keyword">let</span> counter = _counter.get(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">if</span> (counter &lt; <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">    counter--;</span><br><span class="line">    _counter.set(<span class="keyword">this</span>, counter);</span><br><span class="line">    <span class="keyword">if</span> (counter === <span class="number">0</span>) &#123;</span><br><span class="line">      _action.get(<span class="keyword">this</span>)();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> c = <span class="keyword">new</span> Countdown(<span class="number">2</span>, () =&gt; <span class="built_in">console</span>.log(<span class="string">'DONE'</span>));</span><br><span class="line">c.dec()</span><br><span class="line">c.dec()</span><br></pre></td></tr></table></figure>
+Countdown类的两个内部属性_counter和_action，是实例的弱引用，所以如果删除实例，它们也就随之消失，不会造成内存泄漏。</li>
+</ol>
+<h1 id="ES5-ES6-的继承区别"><a href="#ES5-ES6-的继承区别" class="headerlink" title="ES5/ES6 的继承区别"></a>ES5/ES6 的继承区别</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> <span class="keyword">extends</span> <span class="title">B</span></span>&#123;&#125;</span><br><span class="line">A.__proto__ === B;  <span class="comment">//继承属性</span></span><br><span class="line">A.prototype.__proto__ == B.prototype;<span class="comment">//继承方法</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://103.14.34.148:9000/imgs/blog/img/100-js-prototype.jpg" alt="es5/6继承"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Colorpoint</span> <span class="keyword">extends</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(x,y,color)&#123;</span><br><span class="line">        <span class="keyword">super</span>(x,y); <span class="comment">//调用父类的constructor(x,y)</span></span><br><span class="line">        <span class="keyword">this</span>.color = color</span><br><span class="line">    &#125;</span><br><span class="line">    toString()&#123;</span><br><span class="line">        <span class="comment">//调用父类的方法</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.color + <span class="string">' '</span> + <span class="keyword">super</span>.toString(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>子类必须在constructor方法中调用super方法，否则新建实例时会报错。这是因为子类没有自己的this对象，而是继承父类的this对象，然后对其进行加工，如果不调用super方法，子类就得不到this对象。因此，只有调用super之后，才可以使用this关键字。</p>
+<p>Tips:</p>
+<ul>
+<li>class 的所有方法（包括静态方法和实例方法）都是不可枚举的。</li>
+<li>class 的所有方法（包括静态方法和实例方法）都没有原型对象 prototype，所以也没有[[construct]]，不能使用 new 来调用。</li>
+<li>class 必须使用 new 调用</li>
+</ul>
+<h1 id="3-个判断数组的方法"><a href="#3-个判断数组的方法" class="headerlink" title="3 个判断数组的方法"></a>3 个判断数组的方法</h1><ul>
+<li><p>Object.prototype.toString.call([]); // “[object Array]”</p>
+<ul>
+<li>Object.prototype.toString.call(‘An’) // “[object String]”</li>
+<li>Object.prototype.toString.call(1) // “[object Number]”</li>
+<li>Object.prototype.toString.call(Symbol(1)) // “[object Symbol]”</li>
+<li>Object.prototype.toString.call(null) // “[object Null]”</li>
+<li>Object.prototype.toString.call(undefined) // “[object Undefined]”</li>
+<li>Object.prototype.toString.call(function(){}) // “[object Function]”</li>
+<li>Object.prototype.toString.call({name: ‘An’}) // “[object Object]”</li>
+</ul>
+</li>
+<li><p>[]  instanceof Array; // true  </p>
+<ul>
+<li>instanceof是判断类型的prototype是否出现在对象的原型链中，但是对象的原型可以随意修改，所以这种判断并不准确。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;&#125;</span><br><span class="line">obj.__proto__ = <span class="built_in">Array</span>.prototype</span><br><span class="line"><span class="comment">// Object.setPrototypeOf(obj, Array.prototype)</span></span><br><span class="line">obj <span class="keyword">instanceof</span> <span class="built_in">Array</span> <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Array.isArray([]) // true</p>
+</li>
+</ul>
+<h1 id="let-和-const-声明的全局变量"><a href="#let-和-const-声明的全局变量" class="headerlink" title="let 和 const 声明的全局变量"></a>let 和 const 声明的全局变量</h1><p>并没有在全局对象中，只是一个块级作用域（Script）中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a)<span class="comment">//1       有暂时性死区，a不能在let声明前调用</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a) <span class="comment">//undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.a) <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="IIFE-立即执行函数表达式-和函数表达式与函数声明与匿名函数"><a href="#IIFE-立即执行函数表达式-和函数表达式与函数声明与匿名函数" class="headerlink" title="IIFE(立即执行函数表达式)和函数表达式与函数声明与匿名函数"></a>IIFE(立即执行函数表达式)和函数表达式与函数声明与匿名函数</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> b = <span class="number">10</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 'use strict' // TypeError: Assignment to constant variable.</span></span><br><span class="line">  b = <span class="number">20</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(b); <span class="comment">//[Function: b]</span></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>函数表达式与函数声明不同，函数名只在该函数内部有效，并且此绑定是常量绑定。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">    <span class="built_in">console</span>.log(b)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a() <span class="comment">// [Function: b]</span></span><br><span class="line"><span class="built_in">console</span>.log(b) <span class="comment">// ReferenceError: b is not defined</span></span><br></pre></td></tr></table></figure></li>
+<li>对于一个常量进行赋值，在 strict 模式下会报错，非 strict 模式下静默失败。</li>
+<li>IIFE中的函数是函数表达式，而不是函数声明。</li>
+<li><strong>在非匿名自执行函数中，函数变量为只读状态无法修改</strong>；</li>
+</ul>
+<h1 id="Array-prototype-sort"><a href="#Array-prototype-sort" class="headerlink" title="Array.prototype.sort()"></a>Array.prototype.sort()</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">3</span>, <span class="number">15</span>, <span class="number">8</span>, <span class="number">29</span>, <span class="number">102</span>, <span class="number">22</span>].sort();</span><br><span class="line"><span class="comment">// [102, 15, 22, 29, 3, 8]</span></span><br><span class="line"></span><br><span class="line"> [<span class="number">3</span>, <span class="number">15</span>, <span class="number">8</span>, <span class="number">29</span>, <span class="number">102</span>, <span class="number">22</span>].sort(<span class="function">(<span class="params">a,b</span>) =&gt;</span> &#123;<span class="keyword">return</span> a - b&#125;);</span><br><span class="line"> <span class="comment">// [3, 8, 15, 22, 29, 102]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="类数组"><a href="#类数组" class="headerlink" title="类数组"></a>类数组</h1><p><strong>当对象的length属性为非负整数，同时splice属性为函数时， 对象就变成伪数组</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="string">'2'</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="string">'3'</span>: <span class="number">4</span>,</span><br><span class="line">    <span class="string">'length'</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">'splice'</span>: <span class="built_in">Array</span>.prototype.splice,</span><br><span class="line">    <span class="string">'push'</span>: <span class="built_in">Array</span>.prototype.push</span><br><span class="line">&#125;</span><br><span class="line">obj.push(<span class="number">1</span>)</span><br><span class="line">obj.push(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">console</span>.log(obj) <span class="comment">// Object(4) [empty × 2, 1, 2, splice: ƒ, push: ƒ]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>类数组（ArrayLike）：<br>一组数据，由数组来存，但是如果要对这组数据进行扩展，会影响到数组原型，ArrayLike的出现则提供了一个中间数据桥梁，ArrayLike有数组的特性， 但是对ArrayLike的扩展并不会影响到原生的数组。</p>
+</li>
+<li><p>push方法：<br>push 方法有意具有通用性。该方法和 call() 或 apply() 一起使用时，可应用在类似数组的对象上。push 方法根据 length 属性来决定从哪里开始插入给定的值。如果 length 不能被转成一个数值，则插入的元素索引为 0，包括 length 不存在时。当 length 不存在时，将会创建它。 唯一的原生类数组（array-like）对象是 Strings，尽管如此，它们并不适用该方法，因为字符串是不可改变的。</p>
+</li>
+</ul>
+<h1 id="call和apply"><a href="#call和apply" class="headerlink" title="call和apply"></a>call和apply</h1><ul>
+<li>Function.prototype.apply和Function.prototype.call 的作用是一样的，区别在于传入参数的不同；</li>
+<li>第一个参数都是，指定函数体内this的指向；</li>
+<li>第二个参数开始不同，apply是传入带下标的集合，数组或者类数组，apply把它传给函数作为参数，call从第二个开始传入的参数是不固定的，都会传给函数作为参数。</li>
+<li><a href="https://blog.csdn.net/QDY5945/article/details/101671581" target="_blank" rel="noopener">call比apply的性能要好</a>，平常可以多用call。例如obj.call(obj, …params)</li>
+</ul>
+<h1 id="箭头函数与普通函数的区别"><a href="#箭头函数与普通函数的区别" class="headerlink" title="箭头函数与普通函数的区别"></a>箭头函数与普通函数的区别</h1><h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><ul>
+<li>没有 this，它会从自己的作用域链的上一层继承 this（因此无法使用 apply / call / bind 进行绑定 this 值）；</li>
+<li>没有 arguments，当在箭头函数中调用 aruguments 时同样会向作用域链中查询结果；</li>
+<li>没有 prototype 属性 ，而 new 命令在执行时需要将构造函数的 prototype 赋值给新的对象的 proto，同时执行一次构造函数绑定this，所以箭头函数无法new</li>
+</ul>
+<h3 id="new"><a href="#new" class="headerlink" title="new"></a>new</h3><p>let obj = new Object()<br>let Con = [].shift.call(arguments)<br>obj.<strong>proto</strong> = Con.prototype<br>Con.call(obj,arguments) </p>
+<h2 id="普通函数"><a href="#普通函数" class="headerlink" title="普通函数"></a>普通函数</h2><ul>
+<li>普通函数 this是看情况指向的，一般优先级是 new &gt; bind &gt; obj. &gt; window </li>
+</ul>
+<h1 id="a-b-c-d-和-a-‘b’-‘c’-‘d’-，性能比较"><a href="#a-b-c-d-和-a-‘b’-‘c’-‘d’-，性能比较" class="headerlink" title="a.b.c.d 和 a[‘b’][‘c’][‘d’]，性能比较"></a>a.b.c.d 和 a[‘b’][‘c’][‘d’]，性能比较</h1><p>a.b.c.d 比 a[‘b’][‘c’][‘d’] 性能高点，后者还要考虑 [ ] 中是变量的情况，再者，从两种形式的结构来看，显然编译器解析前者要比后者容易些，自然也就快一点。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> recast = <span class="built_in">require</span>(<span class="string">'recast'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> code1 = <span class="string">`a.b.c.d`</span></span><br><span class="line"><span class="keyword">const</span> code2 = <span class="string">`a['b']['c']['d']`</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//解析</span></span><br><span class="line"><span class="keyword">const</span> ast1 = recast.parse(code1);</span><br><span class="line"><span class="keyword">const</span> ast2 = recast.parse(code2);</span><br></pre></td></tr></table></figure>
+
+<h1 id="ES6-转ES5"><a href="#ES6-转ES5" class="headerlink" title="ES6 转ES5"></a>ES6 转ES5</h1><ul>
+<li>AST 抽象语法树：将代码逐字母解析成 树状对象 的形式<br>Babel + polyfill<br>Babel编译原理：</li>
+<li>解析：babylon 将 ES6/ES7 代码解析成 AST</li>
+<li>转换：babel-traverse 对 AST 进行遍历转译，得到新的 AST</li>
+<li>生成：新 AST 通过 babel-generator 转换成 ES5<br>.vue文件通过webpack的vue-loader分析出script style template 再走上面的ES6转ES5流程</li>
+</ul>
+<h1 id="普通-for-循环的性能远远高于-forEach-的性能"><a href="#普通-for-循环的性能远远高于-forEach-的性能" class="headerlink" title="普通 for 循环的性能远远高于 forEach 的性能"></a>普通 for 循环的性能远远高于 forEach 的性能</h1><h1 id="数组里面有10万个数据，取第一个元素和第10万个元素的时间相差多少"><a href="#数组里面有10万个数据，取第一个元素和第10万个元素的时间相差多少" class="headerlink" title="数组里面有10万个数据，取第一个元素和第10万个元素的时间相差多少"></a>数组里面有10万个数据，取第一个元素和第10万个元素的时间相差多少</h1><p>数组元素的存储方式并不是连续的，而是哈希映射关系。哈希映射关系，可以通过键名 key，直接计算出值存储的位置</p>
+<p>得出结论：消耗时间几乎一致，差异可以忽略不计</p>
+<h1 id="对象的键名的转换"><a href="#对象的键名的转换" class="headerlink" title="对象的键名的转换"></a>对象的键名的转换</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// example 1</span></span><br><span class="line"><span class="keyword">var</span> a=&#123;&#125;, b=<span class="string">'123'</span>, c=<span class="number">123</span>;  </span><br><span class="line">a[b]=<span class="string">'b'</span>;</span><br><span class="line">a[c]=<span class="string">'c'</span>;  </span><br><span class="line"><span class="built_in">console</span>.log(a[b]);  <span class="comment">// 'c'</span></span><br><span class="line"></span><br><span class="line">---------------------</span><br><span class="line"><span class="comment">// example 2</span></span><br><span class="line"><span class="keyword">var</span> a=&#123;&#125;, b=<span class="built_in">Symbol</span>(<span class="string">'123'</span>), c=<span class="built_in">Symbol</span>(<span class="string">'123'</span>);  </span><br><span class="line">a[b]=<span class="string">'b'</span>;</span><br><span class="line">a[c]=<span class="string">'c'</span>;  </span><br><span class="line"><span class="built_in">console</span>.log(a[b]);  <span class="comment">// 'b'</span></span><br><span class="line"></span><br><span class="line">---------------------</span><br><span class="line"><span class="comment">// example 3</span></span><br><span class="line"><span class="keyword">var</span> a=&#123;&#125;, b=&#123;<span class="attr">key</span>:<span class="string">'123'</span>&#125;, c=&#123;<span class="attr">key</span>:<span class="string">'456'</span>&#125;;  </span><br><span class="line">a[b]=<span class="string">'b'</span>;   <span class="comment">// 对象类型会调用 toString 方法转换成字符串 [object Object]。</span></span><br><span class="line">a[c]=<span class="string">'c'</span>;   <span class="comment">// 这里会把 b 覆盖掉。</span></span><br><span class="line"><span class="built_in">console</span>.log(a[b]); <span class="comment">// 'c'</span></span><br></pre></td></tr></table></figure>
+<p>对象的键名只能是字符串和 Symbol 类型。<br>其他类型的键名会被转换成字符串类型。<br>对象转字符串默认会调用 Object原型上的toString 方法。</p>
+<h1 id="var、let-和-const-区别的实现原理"><a href="#var、let-和-const-区别的实现原理" class="headerlink" title="var、let 和 const 区别的实现原理"></a>var、let 和 const 区别的实现原理</h1><p>变量生命周期：<strong>声明</strong>（作用域注册一个变量）、<strong>初始化</strong>（分配栈内存，初始化为undefined）、<strong>赋值</strong></p>
+<ul>
+<li>var：遇到有var的作用域，在任何语句执行前都已经完成了<strong>声明</strong>和<strong>初始化</strong>，也就是变量提升而且拿到undefined的原因由来</li>
+<li>function： <strong>声明、初始化、赋值</strong>一开始就全部完成，所以函数的变量提升优先级更高</li>
+<li>const、class、let：解析器进入一个块级作用域，发现let关键字，变量只是先完成<strong>声明</strong>，并没有到初始化那一步。此时如果在此作用域提前访问，则报错xx is not defined，这就是暂时性死区的由来。等到解析到有let那一行的时候，才会进入初始化阶段。如果let的那一行是赋值操作，则初始化和赋值同时进行<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);    <span class="comment">// ReferenceError: Cannot access 'a' before initialization</span></span><br><span class="line"><span class="keyword">let</span> a;</span><br><span class="line"><span class="built_in">console</span>.log(a);    <span class="comment">// undefined;</span></span><br><span class="line">a = <span class="number">1</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a);       <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h2><ul>
+<li>let只是创建过程提升，初始化过程并没有提升，所以会产生暂时性死区。 </li>
+<li>var的创建和初始化过程都提升了，所以在赋值前访问会得到undefined </li>
+<li>function 的创建、初始化、赋值都被提升了</li>
+</ul>
+<h2 id="函数提升"><a href="#函数提升" class="headerlink" title="函数提升"></a>函数提升</h2><p>函数声明 声明和定义都会提前<br>函数表达式 var a =function(){}声明和定义不会提前</p>
+<p>带函数名的函数表达式，var a =function b(){}它的函数名b只在函数内部有效，并且此绑定属于常量绑定。<br>带函数名的IIFE，var a =(function b(){})() 函数名b为 只读 状态，无法修改,变量名a在函数内部无法访问（块作用域）<br><a href="./IIFE和函数表达式.js">js样例</a></p>
+<h2 id="let"><a href="#let" class="headerlink" title="let"></a>let</h2><ul>
+<li>let 声明的变量的作用域是块级的；</li>
+<li>let 不能重复声明已存在的变量；</li>
+<li>let 有暂时死区，不会被提升。</li>
+</ul>
+<h1 id="js值传递"><a href="#js值传递" class="headerlink" title="js值传递"></a>js值传递</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeObjProperty</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">  o.siteUrl = <span class="string">"http://www.baidu.com"</span></span><br><span class="line">  o = <span class="keyword">new</span> <span class="built_in">Object</span>()</span><br><span class="line">  o.siteUrl = <span class="string">"http://www.google.com"</span></span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">let</span> webSite = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">changeObjProperty(webSite);</span><br><span class="line"><span class="built_in">console</span>.log(webSite.siteUrl); <span class="comment">// http://www.baidu.com</span></span><br></pre></td></tr></table></figure>
+<h1 id="函数的方法挂载"><a href="#函数的方法挂载" class="headerlink" title="函数的方法挂载"></a>函数的方法挂载</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    Foo.a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 以上只是 Foo 的构建方法，没有产生实例，此刻也没有执行</span></span><br><span class="line"></span><br><span class="line">Foo.prototype.a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 现在在 Foo 上挂载了原型方法 a ，方法输出值为 3</span></span><br><span class="line"></span><br><span class="line">Foo.a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 现在在 Foo 上挂载了直接方法 a ，输出值为 4</span></span><br><span class="line"></span><br><span class="line">Foo.a();</span><br><span class="line"><span class="comment">// 立刻执行了 Foo 上的 a 方法，也就是刚刚定义的，所以</span></span><br><span class="line"><span class="comment">// # 输出 4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = <span class="keyword">new</span> Foo();</span><br><span class="line"><span class="comment">/* 这里调用了 Foo 的构建方法。Foo 的构建方法主要做了两件事：</span></span><br><span class="line"><span class="comment">1. 将全局的 Foo 上的直接方法 a 替换为一个输出 1 的方法。</span></span><br><span class="line"><span class="comment">2. 在新对象上挂载直接方法 a ，输出值为 2。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line">obj.a();</span><br><span class="line"><span class="comment">// 因为有直接方法 a ，不需要去访问原型链，所以使用的是构建方法里所定义的 this.a，</span></span><br><span class="line"><span class="comment">// # 输出 2</span></span><br><span class="line"></span><br><span class="line">Foo.a();</span><br><span class="line"><span class="comment">// 构建方法里已经替换了全局 Foo 上的 a 方法，所以</span></span><br><span class="line"><span class="comment">// # 输出 1</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="字符串String-‘11’-‘11’"><a href="#字符串String-‘11’-‘11’" class="headerlink" title="字符串String(‘11’) === ‘11’"></a>字符串String(‘11’) === ‘11’</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span>(<span class="string">'11'</span>) == <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'11'</span>); <span class="comment">// 实际运行的是 String('11') == new String('11').toString();</span></span><br><span class="line"><span class="built_in">String</span>(<span class="string">'11'</span>) === <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'11'</span>);</span><br></pre></td></tr></table></figure>
+
+<h1 id="var无视块级作用域"><a href="#var无视块级作用域" class="headerlink" title="var无视块级作用域"></a>var无视块级作用域</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'Tom'</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.info(<span class="string">'name'</span>, name); <span class="comment">// name undefined</span></span><br><span class="line">    <span class="built_in">console</span>.info(<span class="string">'typeof name'</span>, <span class="keyword">typeof</span> name); <span class="comment">//typeof name undefined</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> name == <span class="string">'undefined'</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> name = <span class="string">'Jack'</span>;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Goodbye '</span> + name); <span class="comment">// Goodbye Jack</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Hello '</span> + name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>undefined </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;typeof null &#x3D;&#x3D;&#x3D; &quot;object&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'Tom'</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.info(<span class="string">'name'</span>, name); <span class="comment">// name tom</span></span><br><span class="line">  <span class="built_in">console</span>.info(<span class="string">'typeof name'</span>, <span class="keyword">typeof</span> name); <span class="comment">// typeof name string</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> name == <span class="string">'undefined'</span>) &#123;</span><br><span class="line">  name = <span class="string">'Jack'</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Goodbye '</span> + name);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Hello '</span> + name);   <span class="comment">// Hello Tom</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>1、首先在进入函数作用域当中，获取name属性<br>2、在当前作用域没有找到name<br>3、通过作用域链找到最外层，得到name属性<br>4、执行else的内容，得到Hello Tom</p>
+<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><p>大家都知道 JS 中在使用运算符号或者对比符时，会自带隐式转换，规则如下:</p>
+<ul>
+<li>-、*、/、% ：一律转换成数值后计算</li>
+<li>+：<ul>
+<li>数字 + 字符串 = 字符串， 运算顺序是从左到右</li>
+<li>数字 + 对象， 优先调用对象的valueOf -&gt; toString</li>
+<li>数字 + boolean/null -&gt; 数字</li>
+<li>数字 + undefined -&gt; NaN</li>
+</ul>
+</li>
+<li>[1].toString() === ‘1’</li>
+<li>{}.toString() === ‘[object object]’</li>
+<li>NaN !== NaN 、+undefined 为 NaN<h3 id="类型检查"><a href="#类型检查" class="headerlink" title="类型检查"></a>类型检查</h3></li>
+<li>typeof （number boolean object function string undefined）<ul>
+<li>NaN 的数据类型是 number</li>
+<li>数组(Array)的数据类型是 object</li>
+<li>日期(Date)的数据类型为 object</li>
+<li><strong>null 的数据类型是 object</strong>  String(null) 来判断</li>
+<li>未定义变量的数据类型为 undefined</li>
+</ul>
+</li>
+<li>instanceof （Array Date RegExp Object）</li>
+<li>constructor 返回构造函数</li>
+<li>Object.prototype.toString() 返回[Object XXX] 来判断<h1 id="加性操作符，乘性操作符"><a href="#加性操作符，乘性操作符" class="headerlink" title="加性操作符，乘性操作符"></a>加性操作符，乘性操作符</h1>1 + “1”<br>加性操作符：如果只有一个操作数是字符串，则将另一个操作数转换为字符串，然后再将两个字符串拼接起来</li>
+</ul>
+<p>所以值为：“11”</p>
+<p>2 * “2”<br>乘性操作符：如果有一个操作数不是数值，则在后台调用 Number()将其转换为数值</p>
+<p>[1, 2] + [2, 1]<br>Javascript中所有对象基本都是先调用valueOf方法，如果不是数值，再调用toString方法。</p>
+<p>所以两个数组对象的toString方法相加，值为：”1,22,1”</p>
+<p>“a” + + “b”<br>后边的“+”将作为一元操作符，如果操作数是字符串，将调用Number方法将该操作数转为数值，如果操作数无法转为数值，则为NaN。</p>
+<h1 id="循环嵌套"><a href="#循环嵌套" class="headerlink" title="循环嵌套"></a>循环嵌套</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> t1 = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; <span class="number">1000</span>; j++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> k = <span class="number">0</span>; k &lt; <span class="number">10000</span>; k++) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> t2 = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'first time'</span>, t2 - t1)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; <span class="number">1000</span>; j++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> k = <span class="number">0</span>; k &lt; <span class="number">100</span>; k++) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> t3 = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'two time'</span>, t3 - t2)</span><br></pre></td></tr></table></figure>
+
+<p>两个循环的次数的是一样的，但是 j 与 k 的初始化次数是不一样的</p>
+<p>第一个循环的 j 的初始化次数是 100 次，k 的初始化次数是 10w 次<br>第二个循环的 j 的初始化次数是 1w 次， k 的初始化次数是 1000w 次</p>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2018/11/21/js%E5%9F%BA%E7%A1%80/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2018/11/21/IIFE%E5%92%8C%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            IIFE和函数表达式
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2018/11/21/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">深拷贝</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+
+          <div class="to_top">
+            <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+          </div>
+      </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Matt&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/resume">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9001/" target="_blank" rel="noopener">项目展示</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+        
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['https://github.com/chiangming/','sa517144@mail.ustc.edu.cn',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+    </div>
+  </body>
+
+  </html>
