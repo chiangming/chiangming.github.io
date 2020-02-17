@@ -141,6 +141,180 @@
 
 </article>
     
+    <article id="post-interview/手写代码" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/17/interview/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/"
+    >源码模拟</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/02/17/interview/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/" class="article-date">
+  <time datetime="2020-02-16T16:15:39.000Z" itemprop="datePublished">2020-02-17</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h2 id="call"><a href="#call" class="headerlink" title="call"></a>call</h2><ul>
+<li>思想: fn.call(obj,…args)转换成obj.fn(…args)<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.call2 = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="keyword">this</span> !== <span class="string">'function'</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'Error'</span>)</span><br><span class="line">  </span><br><span class="line">  obj = obj || <span class="built_in">window</span>;</span><br><span class="line">  <span class="comment">// 保存obj中原有的fn</span></span><br><span class="line">  <span class="keyword">const</span> &#123;fn&#125; = obj</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 将函数本身作为对象obj的属性调用，自动绑定this</span></span><br><span class="line">  obj.fn = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">const</span> args = [...arguments].slice(<span class="number">1</span>)</span><br><span class="line">  <span class="keyword">const</span> result =obj.fn(...args)</span><br><span class="line"></span><br><span class="line">  obj.fn = fn</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h2><ul>
+<li>思想：fn.call(obj,args) 转换成obj.fn(args)<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply2 = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="keyword">this</span> !== <span class="string">'function'</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'Error'</span>)</span><br><span class="line">  </span><br><span class="line">  obj = obj || <span class="built_in">window</span>;</span><br><span class="line">  <span class="comment">// 保存obj中原有的fn</span></span><br><span class="line">  <span class="keyword">const</span> &#123;fn&#125; = obj</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 将函数本身作为对象obj的属性调用，自动绑定this</span></span><br><span class="line">  obj.fn = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">const</span> args = <span class="built_in">arguments</span>[<span class="number">1</span>]</span><br><span class="line">  <span class="keyword">let</span> result</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">Array</span>.isArray(args)) &#123;</span><br><span class="line">    result =obj.fn(...args)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    result = obj.fn()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  obj.fn = fn</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><ul>
+<li>思想 return function F(){ return new fn() 或者return fn.apply(…)}<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind2= <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">this</span> !== <span class="string">"function"</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">"Error"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> fn = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">let</span> obj = <span class="built_in">arguments</span>[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">let</span> args = [...arguments].slice(<span class="number">1</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span> <span class="keyword">instanceof</span> F)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> fn(...args,...arguments)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fn.apply(obj,args.concat(...arguments))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2></li>
+<li>思路：1. 数组拷贝（递归）2.对象拷贝（递归） 3.基本类型 </li>
+<li>Object.keys()返回属性key，但仅包括可枚举的属性</li>
+<li>Reflect.ownKeys()返回所有属性key<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObject</span>(<span class="params">src</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> src &amp;&amp; <span class="keyword">typeof</span> src == <span class="string">'object'</span> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cloneObject</span>(<span class="params">src,hash=new WeakMap(</span>))</span>&#123;    <span class="comment">// 添加hash解决嵌套引用</span></span><br><span class="line">  <span class="keyword">if</span>(!isObject(src))&#123; <span class="keyword">return</span> src&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (hash.has(src)) <span class="keyword">return</span> hash.get(src);  <span class="comment">// 添加hash解决嵌套引用</span></span><br><span class="line">  <span class="keyword">let</span> keys = <span class="built_in">Reflect</span>.ownKeys(src)</span><br><span class="line">  <span class="keyword">let</span> target = <span class="built_in">Array</span>.isArray(src)?[]:&#123;&#125;</span><br><span class="line">  hash.set(src, target);  <span class="comment">//// 添加hash解决嵌套引用</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> keys)&#123;</span><br><span class="line">    <span class="keyword">let</span> value = src[key]</span><br><span class="line">    <span class="keyword">if</span>(isObject(value))&#123;  <span class="comment">//object和array</span></span><br><span class="line">      target[key] = cloneObject(value,hash)</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">      target[key] = value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> target</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h2><ul>
+<li>es5 Object.defineProperty(obj,”value”,{})<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">      <span class="keyword">const</span> obj = &#123;</span></span><br><span class="line"><span class="actionscript">        value: <span class="string">""</span></span></span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">      <span class="function"><span class="keyword">function</span> <span class="title">onKeyUp</span><span class="params">(event)</span> </span>&#123;</span></span><br><span class="line">        obj.value = event.target.value;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">      <span class="comment">// 对 obj.value 进行拦截</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">Object</span>.defineProperty(obj, <span class="string">"value"</span>, &#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">get</span>: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">          <span class="keyword">return</span> value;</span></span><br><span class="line">        &#125;,</span><br><span class="line"><span class="actionscript">        <span class="keyword">set</span>: <span class="function"><span class="keyword">function</span><span class="params">(newValue)</span> </span>&#123;</span></span><br><span class="line">          value = newValue;</span><br><span class="line"><span class="javascript">          <span class="built_in">document</span>.querySelector(<span class="string">"#value"</span>).innerHTML = newValue; <span class="comment">// 更新视图层</span></span></span><br><span class="line"><span class="javascript">          <span class="built_in">document</span>.querySelector(<span class="string">"input"</span>).value = newValue; <span class="comment">// 数据模型改变</span></span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>值是：<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"value"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">onkeyup</span>=<span class="string">"onKeyUp(event)"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+es6 vue3.0放弃IE，使用Proxy来实现双向数据绑定<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> obj = &#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> newObj = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</span></span><br><span class="line"><span class="actionscript">      <span class="keyword">get</span>: <span class="function"><span class="keyword">function</span><span class="params">(target, key, receiver)</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(target, key, receiver)</span></span><br><span class="line">      &#125;,</span><br><span class="line"><span class="actionscript">      <span class="keyword">set</span>: <span class="function"><span class="keyword">function</span><span class="params">(target, key, value, receiver)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">if</span>(key === <span class="string">'value'</span>) &#123;</span></span><br><span class="line"><span class="javascript">          <span class="built_in">document</span>.querySelector(<span class="string">'#value'</span>).innerHTML = value</span></span><br><span class="line"><span class="javascript">          <span class="built_in">document</span>.querySelector(<span class="string">'input'</span>).value = value</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.set(target, key, value, receiver)</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="function"><span class="keyword">function</span> <span class="title">onKeyUp</span><span class="params">(event)</span> </span>&#123;</span></span><br><span class="line">      newObj.value = event.target.value</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">    值是：<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"value"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">onkeyup</span>=<span class="string">"onKeyUp(event)"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h2><p>通过原型链来进行判断的，所以只要不断地通过访问<strong>proto</strong>，就可以拿到构造函数的原型prototype。直到null停止。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">iof</span>(<span class="params">obj,cons</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> prototype = cons.prototype</span><br><span class="line">  <span class="keyword">let</span> _proto = obj.__proto__</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(!_proto)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(_proto == prototype)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    _proto = _proto.__proto__</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="时间绑定-解绑-触发"><a href="#时间绑定-解绑-触发" class="headerlink" title="时间绑定/解绑/触发"></a>时间绑定/解绑/触发</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组置空：</span></span><br><span class="line"><span class="comment">// arr = []; arr.length = 0; arr.splice(0, arr.length)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Event</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>._cache = &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 注册事件：如果不存在此种type，创建相关数组</span></span><br><span class="line">  on(type, callback) &#123;</span><br><span class="line">    <span class="keyword">this</span>._cache[type] = <span class="keyword">this</span>._cache[type] || [];</span><br><span class="line">    <span class="keyword">let</span> fns = <span class="keyword">this</span>._cache[type];</span><br><span class="line">    <span class="keyword">if</span> (fns.indexOf(callback) === <span class="number">-1</span>) &#123;</span><br><span class="line">      fns.push(callback);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 触发事件：对于一个type中的所有事件函数，均进行触发</span></span><br><span class="line">  trigger(type, ...data) &#123;</span><br><span class="line">    <span class="keyword">let</span> fns = <span class="keyword">this</span>._cache[type];</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(fns)) &#123;</span><br><span class="line">      fns.forEach(<span class="function"><span class="params">fn</span> =&gt;</span> &#123;</span><br><span class="line">        fn(...data);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 删除事件：删除事件类型对应的array</span></span><br><span class="line">  off(type, callback) &#123;</span><br><span class="line">    <span class="keyword">let</span> fns = <span class="keyword">this</span>._cache[type];</span><br><span class="line">    <span class="comment">// 检查是否存在type的事件绑定</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(fns)) &#123;</span><br><span class="line">      <span class="keyword">if</span> (callback) &#123;</span><br><span class="line">        <span class="comment">// 卸载指定的回调函数</span></span><br><span class="line">        <span class="keyword">let</span> index = fns.indexOf(callback);</span><br><span class="line">        <span class="keyword">if</span> (index !== <span class="number">-1</span>) &#123;</span><br><span class="line">          fns.splice(index, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 全部清空</span></span><br><span class="line">        fns = [];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以下是测试函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> event = <span class="keyword">new</span> Event();</span><br><span class="line">event</span><br><span class="line">  .on(<span class="string">"test"</span>, a =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a);</span><br><span class="line">  &#125;)</span><br><span class="line">  .trigger(<span class="string">"test"</span>, <span class="string">"hello"</span>);</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-阮一峰/1" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/17/%E9%98%AE%E4%B8%80%E5%B3%B0/1/"
+    >阮一峰的网络日志</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/02/17/%E9%98%AE%E4%B8%80%E5%B3%B0/1/" class="article-date">
+  <time datetime="2020-02-16T16:15:39.000Z" itemprop="datePublished">2020-02-17</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%98%AE%E4%B8%80%E5%B3%B0/">阮一峰</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h2 id="Javascript获取页面元素的位置"><a href="#Javascript获取页面元素的位置" class="headerlink" title="Javascript获取页面元素的位置"></a>Javascript获取页面元素的位置</h2><ul>
+<li>document.body<ul>
+<li>页面大小：clientWidth</li>
+<li>滚动页面大小：scrollWidth</li>
+<li>滚动左侧：scrollLeft</li>
+</ul>
+</li>
+<li>HTMLElement<ul>
+<li>偏移距离：offsetTop</li>
+</ul>
+</li>
+<li>相对浏览器窗口（viewport）左上角距离：getBoundingClientRect()<ul>
+<li>相对位置：var X= this.getBoundingClientRect().left;</li>
+<li>绝对位置：var X= this.getBoundingClientRect().left+document.body.scrollLeft;</li>
+</ul>
+</li>
+</ul>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%AE%E4%B8%80%E5%B3%B0/" rel="tag">阮一峰</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-es6相关" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -182,13 +356,7 @@
                       
 
                         
-                                  <h1 id="私有属性"><a href="#私有属性" class="headerlink" title="私有属性"></a>私有属性</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name,age</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span> age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> p1 = <span class="keyword">new</span> Person(<span class="string">'Matt'</span>,<span class="number">25</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p1.name)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> _gender = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">P</span>(<span class="params">name,age,gen</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line">    _gender = gen</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  P.prototype.getGen=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> _gender</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> P;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-
-<h1 id="Symbol与作用域"><a href="#Symbol与作用域" class="headerlink" title="Symbol与作用域"></a>Symbol与作用域</h1><p>Symbol用于属性私有化</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> _gender = <span class="built_in">Symbol</span>(<span class="string">'gender'</span>)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">P</span>(<span class="params">name,age,gen</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line">    <span class="keyword">this</span>[_gender] = gen</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> P;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-
+                                  
                                     
 
                                       <!-- copyright -->
@@ -661,160 +829,6 @@
                           <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p><a href="./demo/slot.html">demo</a></p>
                             
                               <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/9.双向绑定v-model" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/"
-    >9.双向绑定</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/" class="article-date">
-  <time datetime="2019-12-21T16:15:34.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h2 id="补充表单知识点"><a href="#补充表单知识点" class="headerlink" title="补充表单知识点"></a>补充表单知识点</h2><h4 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h4><p>input</p>
-<ul>
-<li>text 单行文本<ul>
-<li>placeholder 默认文本</li>
-</ul>
-</li>
-<li>radio 单选框<ul>
-<li>value</li>
-<li>name  单选框组名字相同</li>
-</ul>
-</li>
-<li>checkbox 复选框<ul>
-<li>value 提交的值 </li>
-</ul>
-</li>
-</ul>
-<p>textarea 多行文本</p>
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/8.event" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/"
-    >8.事件绑定</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/" class="article-date">
-  <time datetime="2019-12-21T16:15:33.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h4 id="生成-ast树"><a href="#生成-ast树" class="headerlink" title="生成 ast树"></a>生成 ast树</h4><p> 根据 assts的属性来提取出其中的 事件属性<br>
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/">
                                 阅读更多...
                               </a>
                               

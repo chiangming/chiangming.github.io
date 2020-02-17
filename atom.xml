@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://chiangming.github.io/"/>
-  <updated>2020-02-17T08:23:46.242Z</updated>
+  <updated>2020-02-17T14:57:44.185Z</updated>
   <id>https://chiangming.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://chiangming.github.io/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
     <id>https://chiangming.github.io/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/</id>
     <published>2020-02-16T16:15:39.000Z</published>
-    <updated>2020-02-17T08:23:46.242Z</updated>
+    <updated>2020-02-17T14:57:44.185Z</updated>
     
     <summary type="html">
     
@@ -46,11 +46,11 @@
   </entry>
   
   <entry>
-    <title>ES6</title>
-    <link href="https://chiangming.github.io/2020/02/16/es6%E7%9B%B8%E5%85%B3/"/>
-    <id>https://chiangming.github.io/2020/02/16/es6%E7%9B%B8%E5%85%B3/</id>
-    <published>2020-02-15T16:15:25.000Z</published>
-    <updated>2020-02-16T04:29:18.055Z</updated>
+    <title>源码模拟</title>
+    <link href="https://chiangming.github.io/2020/02/17/interview/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/"/>
+    <id>https://chiangming.github.io/2020/02/17/interview/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/</id>
+    <published>2020-02-16T16:15:39.000Z</published>
+    <updated>2020-02-17T14:59:02.099Z</updated>
     
     <summary type="html">
     
@@ -58,9 +58,58 @@
       
         
         
-          &lt;h1 id=&quot;私有属性&quot;&gt;&lt;a href=&quot;#私有属性&quot; class=&quot;headerlink&quot; title=&quot;私有属性&quot;&gt;&lt;/a&gt;私有属性&lt;/h1&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
+          &lt;h2 id=&quot;call&quot;&gt;&lt;a href=&quot;#call&quot; class=&quot;headerlink&quot; title=&quot;call&quot;&gt;&lt;/a&gt;call&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;思想: fn.call(obj,…args)转换成obj.fn(…args)&lt;figure
         
       
+    
+    </summary>
+    
+    
+      <category term="面试" scheme="https://chiangming.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="javascript" scheme="https://chiangming.github.io/tags/javascript/"/>
+    
+      <category term="面试题" scheme="https://chiangming.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>阮一峰的网络日志</title>
+    <link href="https://chiangming.github.io/2020/02/17/%E9%98%AE%E4%B8%80%E5%B3%B0/1/"/>
+    <id>https://chiangming.github.io/2020/02/17/%E9%98%AE%E4%B8%80%E5%B3%B0/1/</id>
+    <published>2020-02-16T16:15:39.000Z</published>
+    <updated>2020-02-17T15:30:23.558Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Javascript获取页面元素的位置&quot;&gt;&lt;a href=&quot;#Javascript获取页面元素的位置&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="阮一峰" scheme="https://chiangming.github.io/categories/%E9%98%AE%E4%B8%80%E5%B3%B0/"/>
+    
+    
+      <category term="阮一峰" scheme="https://chiangming.github.io/tags/%E9%98%AE%E4%B8%80%E5%B3%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ES6</title>
+    <link href="https://chiangming.github.io/2020/02/16/es6%E7%9B%B8%E5%85%B3/"/>
+    <id>https://chiangming.github.io/2020/02/16/es6%E7%9B%B8%E5%85%B3/</id>
+    <published>2020-02-15T16:15:25.000Z</published>
+    <updated>2020-02-17T08:28:39.777Z</updated>
+    
+    <summary type="html">
     
     </summary>
     
@@ -532,64 +581,6 @@
     
     
       <category term="css" scheme="https://chiangming.github.io/tags/css/"/>
-    
-      <category term="面试题" scheme="https://chiangming.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>html题目</title>
-    <link href="https://chiangming.github.io/2019/11/23/interview/html/"/>
-    <id>https://chiangming.github.io/2019/11/23/interview/html/</id>
-    <published>2019-11-22T16:15:39.000Z</published>
-    <updated>2020-02-10T07:10:53.600Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;页面导入样式时，使用link和-import有什么区别？&quot;&gt;&lt;a href=&quot;#页面导入样式时，使用link和-import有什么区别？&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="面试" scheme="https://chiangming.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
-    
-    
-      <category term="面试题" scheme="https://chiangming.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
-    
-      <category term="html" scheme="https://chiangming.github.io/tags/html/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>javascript题目</title>
-    <link href="https://chiangming.github.io/2019/11/23/interview/js/"/>
-    <id>https://chiangming.github.io/2019/11/23/interview/js/</id>
-    <published>2019-11-22T16:15:39.000Z</published>
-    <updated>2020-02-10T07:10:51.640Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;用递归算法实现，数组长度为5且元素的随机数在2-32间不重复的值&quot;&gt;&lt;a href=&quot;#用递归算法实现，数组长度为5且元素的随机数在2-32间不重复的值&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="面试" scheme="https://chiangming.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
-    
-    
-      <category term="javascript" scheme="https://chiangming.github.io/tags/javascript/"/>
     
       <category term="面试题" scheme="https://chiangming.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
     
