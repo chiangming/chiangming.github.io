@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    javascript |  Matt&#39;s Blog
+     Matt&#39;s Blog
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -32,90 +32,230 @@
     <div id="app">
       <main class="content">
         <section class="outer">
-  <article class="articles">
+  <article id="page-" class="article article-type-page" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
     
-    
-    <h1 class="page-type-title">javascript</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2018" class="archive-year">2018</a>
+
+        
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  <style>
+
+  </style>
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  <div id="app">
+    <p></p>
+    <keep-alive>
+      <my-components :msg="msg1" v-if="show"></my-components>
+    </keep-alive>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+  var child = {
+    template: '<div>from child: </div>',
+    props: ['msg'],
+    data: function() {
+      return {
+        childMsg: 'child'
+      }
+    },
+    beforeCreate: function() {
+      console.log('child:' + 'beforeCreate')
+      debugger;
+    },
+    created: function() {
+      console.log('child:' + 'created')
+      debugger;
+    },
+    beforeMount: function() {
+      console.log('child:' + 'beforeMount')
+      debugger;
+    },
+    mounted: function() {
+      console.log('child:' + 'mounted')
+      debugger;
+    },
+    deactivated: function() {
+      console.log("child: deactivated");
+    },
+    activated: function() {
+      console.log('child: activated');
+    },
+    beforeDestroy: function() {
+      console.group('beforeDestroy 销毁前状态===============》');
+      var state = {
+        'el': this.$el,
+        'data': this.$data,
+        'message': this.message
+      }
+      console.log(this.$el);
+      console.log(state);
+      console.groupEnd();
+    },
+    destroyed: function() {
+      console.group('destroyed 销毁完成状态===============》');
+      var state = {
+        'el': this.$el,
+        'data': this.$data,
+        'message': this.message
+      }
+      console.log(this.$el);
+      console.log(state);
+      console.groupEnd();
+    },
+  };
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      message: 'father',
+      msg1: "hello",
+      show: true
+    },
+    beforeCreate: function() {
+      console.log('vm:' + 'beforeCreate')
+      debugger;
+    },
+    created: function() {
+      console.log('vm:' + 'created')
+      debugger;
+    },
+    beforeMount: function() {
+      console.log('vm:' + 'beforeMount')
+      debugger;
+    },
+    mounted: function() {
+      console.log('vm:' + 'mounted')
+      debugger;
+    },
+    beforeUpdate: function() {
+      console.log('vm' + "beforeUpdate");
+
+    },
+    updated: function() {
+      console.log('vm:' + "updated");
+    },
+    beforeDestroy: function() {
+      console.group('beforeDestroy 销毁前状态===============》');
+      var state = {
+        'el': this.$el,
+        'data': this.$data,
+        'message': this.message
+      }
+      console.log(this.$el);
+      console.log(state);
+      console.groupEnd();
+    },
+    destroyed: function() {
+      console.group('destroyed 销毁完成状态===============》');
+      var state = {
+        'el': this.$el,
+        'data': this.$data,
+        'message': this.message
+      }
+      console.log(this.$el);
+      console.log(state);
+      console.groupEnd();
+    },
+    components: {
+      'my-components': child
+    }
+  });
+</script>
+
+</html>
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/demo/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/life.html" alt="微信分享二维码">
     </div>
-    <div class="archives">
+</div>
+
+<div id="share-mask"></div>
       
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/11/21/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" class="archive-article-date">
-  <time datetime="2018-11-20T16:15:21.000Z" itemprop="datePublished">11/21</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2018/11/21/%E6%B7%B1%E6%8B%B7%E8%B4%9D/"
-    >深拷贝</a
-  >
-</h2>
+      
+
+    </footer>
+
+  </div>
+
+  
   
 
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/javascript/">javascript</a>
-  </div>
+  
 
-    
-    
-  </div>
+  
+
+  
+
 </article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/11/21/WebSocket/" class="archive-article-date">
-  <time datetime="2018-11-20T16:15:20.000Z" itemprop="datePublished">11/21</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2018/11/21/WebSocket/"
-    >WebSocket</a
-  >
-</h2>
-  
-
-    </header>
-    
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/javascript/">javascript</a>
-  </div>
-
-    
-    
-  </div>
-</article>
-      
-      
-    </div>
-  </div>
-  
-  
-
-  
-  <nav class="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/categories/javascript/">上一页</a><a class="page-number" href="/categories/javascript/">1</a><span class="page-number current">2</span>
-  </nav>
-  
 </section>
 
           <div class="to_top">

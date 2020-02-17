@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://chiangming.github.io/"/>
-  <updated>2020-02-10T14:03:13.101Z</updated>
+  <updated>2020-02-16T04:29:18.055Z</updated>
   <id>https://chiangming.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ES6</title>
+    <link href="https://chiangming.github.io/2020/02/16/es6%E7%9B%B8%E5%85%B3/"/>
+    <id>https://chiangming.github.io/2020/02/16/es6%E7%9B%B8%E5%85%B3/</id>
+    <published>2020-02-15T16:15:25.000Z</published>
+    <updated>2020-02-16T04:29:18.055Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;私有属性&quot;&gt;&lt;a href=&quot;#私有属性&quot; class=&quot;headerlink&quot; title=&quot;私有属性&quot;&gt;&lt;/a&gt;私有属性&lt;/h1&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
+        
+      
+    
+    </summary>
+    
+    
+      <category term="javascript" scheme="https://chiangming.github.io/categories/javascript/"/>
+    
+    
+      <category term="javascript" scheme="https://chiangming.github.io/tags/javascript/"/>
+    
+  </entry>
   
   <entry>
     <title>防抖</title>
@@ -540,11 +567,11 @@
   </entry>
   
   <entry>
-    <title>前端性能优化</title>
-    <link href="https://chiangming.github.io/2018/12/22/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    <id>https://chiangming.github.io/2018/12/22/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</id>
-    <published>2018-12-21T16:15:28.000Z</published>
-    <updated>2020-02-10T06:58:16.440Z</updated>
+    <title>Vue题目</title>
+    <link href="https://chiangming.github.io/2019/11/23/interview/vue/"/>
+    <id>https://chiangming.github.io/2019/11/23/interview/vue/</id>
+    <published>2019-11-22T16:15:39.000Z</published>
+    <updated>2020-02-12T09:35:41.965Z</updated>
     
     <summary type="html">
     
@@ -552,45 +579,19 @@
       
         
         
-          &lt;h2 id=&quot;请求速度&quot;&gt;&lt;a href=&quot;#请求速度&quot; class=&quot;headerlink&quot; title=&quot;请求速度&quot;&gt;&lt;/a&gt;请求速度&lt;/h2&gt;&lt;h2 id=&quot;缓存-路径选择&quot;&gt;&lt;a href=&quot;#缓存-路径选择&quot; class=&quot;headerlink&quot; title=&quot;缓存
+          &lt;h2 id=&quot;写-Vue-项目时为什么要在列表组件中写-key，其作用是什么？&quot;&gt;&lt;a href=&quot;#写-Vue-项目时为什么要在列表组件中写-key，其作用是什么？&quot; class=&quot;headerlink&quot; title=&quot;写 Vue 项目时为什么要在列表组件中写
         
       
     
     </summary>
     
     
-      <category term="前端理论" scheme="https://chiangming.github.io/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/"/>
+      <category term="面试" scheme="https://chiangming.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
     
     
-      <category term="前端理论" scheme="https://chiangming.github.io/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/"/>
+      <category term="面试题" scheme="https://chiangming.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
     
-  </entry>
-  
-  <entry>
-    <title>同步与异步</title>
-    <link href="https://chiangming.github.io/2018/12/22/%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/"/>
-    <id>https://chiangming.github.io/2018/12/22/%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/</id>
-    <published>2018-12-21T16:15:28.000Z</published>
-    <updated>2020-02-10T06:57:29.761Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;同步-异步&quot;&gt;&lt;a href=&quot;#同步-异步&quot; class=&quot;headerlink&quot; title=&quot;同步 异步&quot;&gt;&lt;/a&gt;同步 异步&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;同步
-        
-      
-    
-    </summary>
-    
-    
-      <category term="前端理论" scheme="https://chiangming.github.io/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/"/>
-    
-    
-      <category term="前端理论" scheme="https://chiangming.github.io/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/"/>
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
     
   </entry>
   

@@ -66,6 +66,435 @@
     
     
     
+    <article id="post-interview/javascript知识点" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/11/23/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/"
+    >javascript知识点</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/11/23/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-date">
+  <time datetime="2019-11-22T16:15:39.000Z" itemprop="datePublished">2019-11-23</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="JS知识点"><a href="#JS知识点" class="headerlink" title="JS知识点"></a>JS知识点</h1><h2 id="this绑定"><a href="#this绑定" class="headerlink" title="this绑定"></a>this绑定</h2><ul>
+<li>直接调用，立即执行 -&gt; window|gloable</li>
+<li>obj.foo() -&gt; obj</li>
+<li>new Foo() -&gt; foo</li>
+<li>箭头函数 -&gt; 没有this、arguments、prototype</li>
+<li>bind({a:100}) -&gt; {a:100} 第一个bind</li>
+<li>new &gt; bind &gt; 对象调用 &gt; 直接调用</li>
+</ul>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><ul>
+<li>原始类型不包含 Object 和 Function</li>
+<li>新增Symbol和BigInt</li>
+<li>typeof null和typeof [1, 2, 3]均返回”object”</li>
+<li>instanceof 用于实例和构造函数对应</li>
+<li>判断是否是数组：[1, 2, 3] instanceof Array</li>
+<li>Array.isArray({})返回false</li>
+</ul>
+<h2 id="数据类型转换-“-”"><a href="#数据类型转换-“-”" class="headerlink" title="数据类型转换 “+”"></a>数据类型转换 “+”</h2><ul>
+<li>调用实例方法优先级：[Symbol.toPrimitive] &gt; valueOf &gt; toString</li>
+</ul>
+<h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
+<li>地址引用的函数和对象都是浅拷贝</li>
+<li>Object.assign()和 …</li>
+</ul>
+<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><ul>
+<li>JSON.parse(JSON.stringify(src))：属性值是函数或者一个类的实例的时候，无法正确拷贝</li>
+</ul>
+<h2 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h2><ul>
+<li><p>事件捕获 -&gt; 事件冒泡</p>
+</li>
+<li><p>捕获：从根节点开始执行，一直向子节点传递，直到目标节点。</p>
+</li>
+<li><p>冒泡：可以通过stopPropagation方法终止冒泡。</p>
+</li>
+<li><p>DOM2：element.addEventListener(event, function, useCapture)  默认false冒泡</p>
+</li>
+<li><p>DOM0：html/js绑定on不推荐</p>
+</li>
+</ul>
+<h2 id="ES5继承"><a href="#ES5继承" class="headerlink" title="ES5继承"></a>ES5继承</h2><ul>
+<li>绑定构造函数 -&gt; 不能继承父类原型方法/属性 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 执行父类的构造方法, 上下文为实例对象</span></span><br><span class="line">    Animal.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>原型链继承 -&gt; 父构造函数传参<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cat.prototype = <span class="keyword">new</span> Animal();</span><br><span class="line">Cat.prototype.constructor = Cat;</span><br></pre></td></tr></table></figure></li>
+<li>组合继承 -&gt;绑定+原型 调用了2次父类的构造函数</li>
+<li>寄生组合继承 -&gt; 最理想<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cat.prototype = <span class="built_in">Object</span>.create(Animal.prototype);</span><br><span class="line">Cat.prototype.constructor = Cat;</span><br></pre></td></tr></table></figure>
+<h2 id="原型和原型链"><a href="#原型和原型链" class="headerlink" title="原型和原型链"></a>原型和原型链</h2></li>
+<li>所有的引用类型（数组、对象、函数），<strong>proto</strong>属性值指向它的构造函数的 prototype 属性值</li>
+<li>当试图得到一个对象的某个属性时，如果这个对象本身没有这个属性，那么会去它的<strong>proto</strong>（即它的构造函数的prototype）中寻找</li>
+<li>Foo.prototype.<strong>proto</strong> = Object.prototype</li>
+<li>Object.prototype.<strong>proto</strong> = null</li>
+</ul>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><ul>
+<li>ES5 有”全局作用域“和”函数作用域“。<ul>
+<li>IIFE 块级闭包：var a =(function b(){})()<ul>
+<li>函数名b为 <strong>只读</strong> 状态，无法修改,</li>
+<li>变量名a在函数内部无法访问（块作用域）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ES6 的let和const 有”块级作用域“。<ul>
+<li>变量生命周期：<ul>
+<li><strong>声明</strong>（作用域注册一个变量）</li>
+<li><strong>初始化</strong>（分配栈内存，初始化为undefined）</li>
+<li><strong>赋值</strong></li>
+</ul>
+</li>
+<li>let/const 声明提升 -&gt; 暂时性死区、var 初始化提升、function赋值提升 <ul>
+<li>函数声明 &gt; 函数表达式 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>作用域链:当前作用域没有找到定义，继续向父级作用域寻找，直至全局作用域。</li>
+</ul>
+<h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><ul>
+<li><p>JS 是单线程的，先跑<strong>执行栈里</strong>的<strong>同步任务</strong>，然后再跑<strong>任务队列</strong>的<strong>异步任务</strong>。</p>
+</li>
+<li><p>当执行栈的栈空，js会读取任务队列，</p>
+<ul>
+<li>执行一个宏任务(先执行同步代码)–&gt;执行所有微任务–&gt;UI render</li>
+<li>宏任务：主代码块 &gt; setTimeout / setInterval &gt; IO回调 &gt; requestAnimationFrame &gt; UIrender(重绘)</li>
+<li>微任务：Promise回调</li>
+</ul>
+</li>
+<li><p>循环进行，所以称作Loop</p>
+</li>
+</ul>
+<h2 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h2><ul>
+<li>全局执行上下文:解析JS时创建。<ul>
+<li>this（全局对象window）</li>
+<li>变量对象（全局变量）</li>
+<li>作用域链。</li>
+</ul>
+</li>
+<li>函数执行上下文：调用函数时创建<ul>
+<li>this,</li>
+<li>变量对象（局部变量、<strong>多了arguments和参数</strong>),</li>
+<li>作用域链（AO+父作用域[词法环境下]）</li>
+</ul>
+</li>
+<li>词法环境：Js 中的函数运行在它们被<strong>定义</strong>的作用域，而不是它们被执行的作用域</li>
+<li>this:<strong>执行</strong>的时候确定</li>
+</ul>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><ul>
+<li>闭包是函数和声明该函数的词法环境的组合</li>
+<li>优：避免全局污染</li>
+<li>缺：内存泄漏（浏览器强制刷新、node显示null清理）</li>
+</ul>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-前端性能优化" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/12/22/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"
+    >前端性能优化</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/12/22/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="article-date">
+  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h2 id="请求速度"><a href="#请求速度" class="headerlink" title="请求速度"></a>请求速度</h2><h2 id="缓存-路径选择"><a href="#缓存-路径选择" class="headerlink" title="缓存 路径选择"></a>缓存 路径选择</h2><h2 id="http请求大小-减少http请求"><a href="#http请求大小-减少http请求" class="headerlink" title="http请求大小 减少http请求"></a>http请求大小 减少http请求</h2><h2 id="首屏-vue服务端渲染"><a href="#首屏-vue服务端渲染" class="headerlink" title="首屏 vue服务端渲染"></a>首屏 vue服务端渲染</h2><h2 id="减少请求数量"><a href="#减少请求数量" class="headerlink" title="减少请求数量"></a>减少请求数量</h2><h2 id="减少请求大小"><a href="#减少请求大小" class="headerlink" title="减少请求大小"></a>减少请求大小</h2><h3 id="html压缩"><a href="#html压缩" class="headerlink" title="html压缩"></a>html压缩</h3><p>不显示空格、制表符、换行符，以及压缩注释</p>
+<h3 id="css压缩"><a href="#css压缩" class="headerlink" title="css压缩"></a>css压缩</h3><ul>
+<li>去掉回车和空格</li>
+<li>无效代码删除</li>
+<li>css语义合并</li>
+</ul>
+<h3 id="js压缩"><a href="#js压缩" class="headerlink" title="js压缩"></a>js压缩</h3><ul>
+<li>无效字符的删除，注释回车空格</li>
+<li>代码语义的缩减和优化 </li>
+<li>代码混乱降低代码可读性，代码保护，防止内部逻辑泄露</li>
+</ul>
+<h3 id="文件合并"><a href="#文件合并" class="headerlink" title="文件合并"></a>文件合并</h3><p>虽然使用keep-alive保证长连接，但依旧是串行的请求，多次发送请求来获得不同的资源</p>
+<p>文件合并，只需发起一次请求</p>
+<p>存在问题：</p>
+<ul>
+<li><p>首屏渲染等待合并后的js文件加载完后才会进行渲染，首屏渲染时间增加</p>
+</li>
+<li><p>缓存失效，更改一小部分js代码，就需要重新下载新的合并的js文件</p>
+</li>
+<li><p>公共库合并，公共库代码改动较少，业务代码打包成一个文件</p>
+</li>
+<li><p>不同页面的js文件单独打包</p>
+</li>
+</ul>
+<h2 id="图片相关优化"><a href="#图片相关优化" class="headerlink" title="图片相关优化"></a>图片相关优化</h2><ul>
+<li>雪碧图，将多张图片合并到一张单独的图片，来减少http请求数量</li>
+<li>image inline，使用base64格式保存在html页面中，减少http请求</li>
+<li>使用矢量图 svg</li>
+</ul>
+<h2 id="css-js-加载"><a href="#css-js-加载" class="headerlink" title="css js 加载"></a>css js 加载</h2><h3 id="css"><a href="#css" class="headerlink" title="css"></a>css</h3><ul>
+<li>顺序执行，并发加载，但是同一个域名下并发加载的数量有限</li>
+<li>css header中阻塞页面的渲染，而@import所引用的 css 会等到<strong>页面加载完</strong>才被加载</li>
+<li>css 阻塞js执行，不阻塞js的加载<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"****.css"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">    <span class="keyword">@import</span> <span class="string">"***.css"</span>;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="js"><a href="#js" class="headerlink" title="js"></a>js</h3><ul>
+<li>直接引入的js的会阻塞页面的渲染（同步加载），（defer async异步加载）</li>
+<li>js的执行不会阻塞资源的加载</li>
+<li>js顺序执行，会阻塞之后的js执行</li>
+</ul>
+<h3 id="懒加载"><a href="#懒加载" class="headerlink" title="懒加载"></a>懒加载</h3><p>较少无效的资源加载，由于同一个域名下资源的请求数量有限，防止图片的加载阻塞js文件的加载</p>
+<ol>
+<li>设置 data-src = url;</li>
+<li>当图片进入可视区域，将 src设置为 data-src</li>
+</ol>
+<h3 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h3><p>图片等静态资源在使用之前提前请求，当需要使用该资源时直接从缓存中加载</p>
+<ul>
+<li>设置 display:none</li>
+<li>使用Image对象 <code>var image = new Image(); imgahe.src=url</code></li>
+<li>XMLHttpRequest 请求图片,但会有跨域问题<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XMLhttpRequest()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="减少-重绘-回流"><a href="#减少-重绘-回流" class="headerlink" title="减少 重绘 回流"></a>减少 重绘 回流</h2><p>ui的渲染线程会冻结 js线程的执行</p>
+<ul>
+<li>将会触发回流的样式，使用不触发回流的方式实现</li>
+<li>将频繁重绘回流的dom元素作为一个单独的图层，那么他的重绘回流只会影响当前图层。（少用，图层的合并计算量非常大）<ul>
+<li>创建图层的条件： perspective transform video webgl canvas 动画 </li>
+</ul>
+</li>
+<li></li>
+</ul>
+<h2 id="浏览器存储"><a href="#浏览器存储" class="headerlink" title="浏览器存储"></a>浏览器存储</h2><h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>域名下的所有请求都会带上cookie，造成流量的浪费， </p>
+<p>解决：cdn域名和主站域名要分开，在请求静态文件时不携带cookie</p>
+<h3 id="localStorage"><a href="#localStorage" class="headerlink" title="localStorage"></a>localStorage</h3><p>进行本地缓存，（js方法，css，icon图片，浏览器能力检测结果）提升首屏渲染速度，以及函数调用的速度</p>
+<p>setItem getItem</p>
+<h3 id="sessionStorage"><a href="#sessionStorage" class="headerlink" title="sessionStorage"></a>sessionStorage</h3><p>不小心将页面刷新，也能将信息从sessionStorage中读取</p>
+<h3 id="indexDB"><a href="#indexDB" class="headerlink" title="indexDB"></a>indexDB</h3><p>存储客户端大量的结构化数据</p>
+<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><h2 id="服务端优化"><a href="#服务端优化" class="headerlink" title="服务端优化"></a>服务端优化</h2><p>减少前端的计算</p>
+<h3 id="vue-ssr"><a href="#vue-ssr" class="headerlink" title="vue-ssr"></a>vue-ssr</h3><p>服务端渲染</p>
+<p>Vue.js 是构建客户端应用程序的框架。默认情况下，可以在浏览器中输出 Vue 组件，进行生成 DOM 和操作 DOM。然而，也可以将同一个组件渲染为服务器端的 HTML 字符串，将它们直接发送到浏览器，最后将这些静态标记”激活”为客户端上完全可交互的应用程序。</p>
+<h2 id="首次加载白屏时间"><a href="#首次加载白屏时间" class="headerlink" title="首次加载白屏时间"></a>首次加载白屏时间</h2><p>可以通过 perpormance 来获取相关信息</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> timing = performance.timing,</span><br><span class="line">    start = timing.navigationStart,</span><br><span class="line">    dnsTime = <span class="number">0</span>,</span><br><span class="line">    tcpTime = <span class="number">0</span>,</span><br><span class="line">    firstPaintTime = <span class="number">0</span>,</span><br><span class="line">    domRenderTime = <span class="number">0</span>,</span><br><span class="line">    loadTime = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">dnsTime = timing.domainLookupEnd - timing.domainLookupStart; <span class="comment">//DNS解析时间</span></span><br><span class="line">tcpTime = timing.connectEnd - timing.connectStart; <span class="comment">//TCP建立时间</span></span><br><span class="line">firstPaintTime = timing.responseStart - start; <span class="comment">//首屏时间</span></span><br><span class="line">domRenderTime = timing.domContentLoadedEventEnd - start; <span class="comment">//dom渲染完成时间</span></span><br><span class="line">loadTime = timing.loadEventEnd - start; <span class="comment">//页面onload时间</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'DNS解析时间:'</span>, dnsTime, </span><br><span class="line">            <span class="string">'\nTCP建立时间:'</span>, tcpTime, </span><br><span class="line">            <span class="string">'\n首屏时间:'</span>, firstPaintTime,</span><br><span class="line">            <span class="string">'\ndom渲染完成时间:'</span>, domRenderTime, </span><br><span class="line">            <span class="string">'\n页面onload时间:'</span>, loadTime);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>减少网络请求数量和请求大小，以及传输数据的大小</p>
+<ul>
+<li>合并文件，文件的压缩（去除空格、注释、换行符），图片（雪碧图，image inline，base64）头部压缩</li>
+<li>cdn 域名和服务器域名区分开，提高并行的请求数量，也可以减少不必要的cookie</li>
+<li>缓存 DNS 结果</li>
+<li>缓存一些静态资源，如icon、js通用方法到localStorage</li>
+</ul>
+</li>
+<li><p>将javascript脚本放在底部，js的执行会阻塞页面的渲染</p>
+<ul>
+<li>html顺序解析执行，加载是并发的</li>
+<li>css 在head中通过 link方法引入，css加载会阻塞页面的渲染</li>
+<li>css 加载 阻塞 js的执行，不阻塞加载</li>
+<li>直接引入的js加载会阻塞 页面渲染  （defer async）</li>
+<li>js顺序执行，阻塞后续js的执行</li>
+</ul>
+</li>
+<li><p>将CSS样式表放在顶部，因为页面的渲染需要css的加载完毕，非则会出现白屏，所以使用 <code>&lt;link&gt;</code> 来代替 @import</p>
+</li>
+<li><p>懒加载 预加载</p>
+</li>
+<li><p>减少重绘回流</p>
+<ul>
+<li>css <ul>
+<li>尽量使用不触发回流的方式来实现样式</li>
+<li>尽量修改dom树末端的dom样式</li>
+<li>复杂的动画，让其脱离文档流</li>
+</ul>
+</li>
+<li>js<ul>
+<li>对于获取布局信息，尽量保存在变量中</li>
+<li>一次性修改样式 display：none 脱离文档流 （现代浏览器已优化）className</li>
+<li>使用 GPU 加速，transition：transform opacity</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-同步与异步" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/12/22/%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/"
+    >同步与异步</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/12/22/%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5/" class="article-date">
+  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="同步-异步"><a href="#同步-异步" class="headerlink" title="同步 异步"></a>同步 异步</h1><ul>
+<li>同步 <ul>
+<li>如果在函数返回的时候，调用者就能够得到预期结果</li>
+<li>如果函数是同步的，即使调用函数执行的任务比较耗时，也会一直等待直到得到预期结果。</li>
+</ul>
+</li>
+<li>异步<ul>
+<li>如果在函数返回的时候，调用者还不能够得到预期结果，而是需要在将来通过一定的手段得到，那么这个函数就是异步的。</li>
+<li>如果函数是异步的，发出调用之后，马上返回，但是不会马上返回预期结果。调用者不必主动等待，当被调用者得到结果之后会通过回调函数主动通知调用者。</li>
+</ul>
+</li>
+</ul>
+<h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><ul>
+<li>new Promise直接执行，返回Promise对象<br>new Promise((resolve,reject)=&gt;{<br>  if(successed)<br>  {<pre><code>resolve(value); //成功返回结果</code></pre>  }<br>  else{<pre><code>reject(error);  //失败返回错误信息</code></pre>  }<br>}).then((value)=&gt;{<br>  // 成功的回调函数<br>},<br>(error)=&gt;{<br>})</li>
+</ul>
+<h1 id="async-await"><a href="#async-await" class="headerlink" title="async await"></a>async await</h1>
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-事件循环" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -1125,253 +1554,6 @@ for (microTask of microTaskQueue) {
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-bind和new" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/21/bind%E5%92%8Cnew/"
-    >bind和new</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/11/21/bind%E5%92%8Cnew/" class="article-date">
-  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/javascript/">javascript</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <h1 id="bind"><a href="#bind" class="headerlink" title="bind()"></a>bind()</h1><p>bind() 方法会 <strong>1. 创建一个新函数</strong> ，当这个新函数被调用时，它 <strong>2. 指定this值</strong> 是传递给 bind() 的第一个参数，传入bind方法的第二个以及以后的 <strong>3. 传入参数</strong> 加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。 <strong>4. 可以用来柯里化</strong><br>bind返回的绑定函数也能使用 new 操作符创建对象：这种行为就像把原函数当成构造器，提供的 this 值被忽略，同时调用时的参数被提供给模拟函数。</p>
-<h1 id="bind模拟"><a href="#bind模拟" class="headerlink" title="bind模拟"></a>bind模拟</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind2 = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">  context = context ? <span class="built_in">Object</span>(context) : <span class="built_in">window</span>;</span><br><span class="line">  context.fn = <span class="keyword">this</span>                                                       <span class="comment">// 2. 指定this值</span></span><br><span class="line">  <span class="keyword">let</span> args = [...arguments].slice(<span class="number">1</span>);                                     <span class="comment">// 3. 传入参数</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;                                                 <span class="comment">// 1. 创建一个新函数</span></span><br><span class="line">    args = args.concat([...arguments])                                    <span class="comment">// 4. 柯里化（补充参数）</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span> <span class="keyword">instanceof</span> func ? <span class="keyword">this</span>.fn(...args) : context.fn(...args)  <span class="comment">// 5.实现函数构造化的new值绑定</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  func.prototype = <span class="keyword">this</span>.prototype                                         <span class="comment">// 5. 修改返回函数的原型</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> func</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>完整模拟见<a href="./javascript/call&apply&bind/bind.js">bind</a></p>
-<h1 id="new"><a href="#new" class="headerlink" title="new"></a>new</h1><p> new 创建的实例:</p>
-<ol>
-<li>访问到构造函数里的属性</li>
-<li>访问到原型里的属性</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">create</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 创建一个空的对象</span></span><br><span class="line">    <span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>(),</span><br><span class="line">	<span class="comment">// 获得构造函数，arguments中去除第一个参数</span></span><br><span class="line">    Con = [].shift.call(<span class="built_in">arguments</span>);</span><br><span class="line">	<span class="comment">// 链接到原型，obj 可以访问到构造函数原型中的属性</span></span><br><span class="line">    obj.__proto__ = Con.prototype;</span><br><span class="line">	<span class="comment">// 绑定 this 实现继承，obj 可以访问到构造函数中的属性</span></span><br><span class="line">    Con.apply(obj, <span class="built_in">arguments</span>);</span><br><span class="line">	<span class="comment">// 返回对象</span></span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-移动端适配" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/21/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/"
-    >移动端适配</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/11/21/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/" class="article-date">
-  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <h3 id="手机端不同设备的适配"><a href="#手机端不同设备的适配" class="headerlink" title="手机端不同设备的适配"></a>手机端不同设备的适配</h3><h4 id="media"><a href="#media" class="headerlink" title="@media"></a>@media</h4><p>通过@media来获取设备的各种属性，根据设备属性的条件来应用不同的CSS</p>
-<p>例：1px边框的适配</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span>  (<span class="attribute">-webkit-min-device-pixel-ratio:</span> <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="selector-class">.c</span>&#123;</span><br><span class="line">            <span class="attribute">transform</span>: <span class="built_in">scaleY</span>(<span class="number">0.5</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="lt-meta-gt-rem"><a href="#lt-meta-gt-rem" class="headerlink" title="&lt;meta&gt; + rem"></a>&lt;meta&gt; + rem</h4><ul>
-<li><code>name = &#39;viewport&#39;</code>, 它提供有关视口初始大小的提示，仅供移动设备使用</li>
-<li>content<ul>
-<li>width    一个正整数或者字符串 device-width    以pixels（像素）为单位， 定义viewport（视口）的宽度。</li>
-<li>height    一个正整数或者字符串 device-height    以pixels（像素）为单位， 定义viewport（视口）的高度。</li>
-<li>initial-scale    一个0.0 到10.0之间的正数    定义设备宽度（纵向模式下的设备宽度或横向模式下的设备高度）与视口大小之间的缩放比率。</li>
-<li>maximum-scale    一个0.0 到10.0之间的正数    定义缩放的最大值；它必须大于或等于minimum-scale的值，不然会导致不确定的行为发生。</li>
-<li>minimum-scale    一个0.0 到10.0之间的正数    定义缩放的最小值；它必须小于或等于maximum-scale的值，不然会导致不确定的行为发生。</li>
-<li>user-scalable    一个布尔值（yes 或者no）    如果设置为 no，用户将不能放大或缩小网页。默认值为 yes。</li>
-</ul>
-</li>
-</ul>
-<h4 id="rem"><a href="#rem" class="headerlink" title="rem"></a>rem</h4><p>根据根元素（即html）的<code>font-size</code>来设置大小，比如html的字体大小设置为<code>16px</code>，那么<code>2rem = 32px</code>。</p>
-<p>这里区分一下<strong>em</strong>，em是根据父元素的字体大小来设置的</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><ol>
-<li>通过meta来进行缩放</li>
-<li>设置html的字体大小，后面的大小单位全都使用rem</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"initial-scale = 1,maxinum-scale = 1,minimum-scale=1,user-scalable=no"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>  </span><br><span class="line">            </span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> viewport = <span class="built_in">document</span>.querySelector(<span class="string">"meta[name=viewport]"</span>);  </span></span><br><span class="line"><span class="actionscript">              <span class="comment">//下面是根据设备像素设置viewport  </span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span> (<span class="built_in">window</span>.devicePixelRatio == <span class="number">1</span>) &#123;  </span></span><br><span class="line"><span class="actionscript">        viewport.setAttribute(<span class="string">'content'</span>, <span class="string">'width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'</span>);  </span></span><br><span class="line">    &#125;  </span><br><span class="line"><span class="javascript">     <span class="keyword">if</span> (<span class="built_in">window</span>.devicePixelRatio == <span class="number">2</span>) &#123;  </span></span><br><span class="line"><span class="actionscript">       viewport.setAttribute(<span class="string">'content'</span>, <span class="string">'width=device-width,initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no'</span>);  </span></span><br><span class="line">     &#125;          </span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> docEl = <span class="built_in">document</span>.documentElement;  </span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> fontsize = <span class="number">10</span> * (docEl.clientWidth / <span class="number">320</span>) + <span class="string">'px'</span>;  </span></span><br><span class="line">    docEl.style.fontSize = fontsize;   </span><br><span class="line">                </span><br><span class="line"> <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-选择器" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/21/%E9%80%89%E6%8B%A9%E5%99%A8/"
-    >选择器</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/11/21/%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
-  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/css/">css</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <ul>
-<li>类型选择器    </li>
-<li>后代选择器    两个选择器之间的空格</li>
-</ul>
-<p>id &gt; class &gt; 标签</p>
-<h3 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h3><p>a:visted \ :link<br>a:hover \ :active \ :focus<br>a:last-child …</p>
-<p>连接伪类</p>
-<p>a:visited:hover</p>
-<h3 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h3><p> a::first-line<br> a::first-letter<br> a::before<br> a::after</p>
-<h3 id="通用选择器-匹配所有可用元素"><a href="#通用选择器-匹配所有可用元素" class="headerlink" title="通用选择器 * 匹配所有可用元素"></a>通用选择器 * 匹配所有可用元素</h3><h3 id="高级选择器"><a href="#高级选择器" class="headerlink" title="高级选择器"></a>高级选择器</h3><ul>
-<li>子选择器 &gt;  只选择元素的直接后代 不同于后代选择器（h1 em { }）</li>
-<li>相邻同胞选择器 + 选择同一个父元素下某个元素之后的元素 （h2 + p 选择h2之后相邻的p）</li>
-<li>属性选择器 [] 选择某个属性是否存在 或 某个属性的值 来寻找元素<ul>
-<li>E[att]</li>
-<li>E[att=”val”]</li>
-<li>E[att~=”val”] 匹配所有att属性具有多个空格分隔的值、其中一个值等于”val”的E元素 (rel=”friend met colleage co-worker”)</li>
-<li>E[att|=”val”] 匹配所有att属性具有多个连字号分隔（hyphen-separated）的值 其中一个值以”val”开头的E元素 (lang=”zh-CN”)</li>
-<li>[attr^=value] 表示带有以 attr 命名的属性，且属性值是以”value”开头的元素。</li>
-<li>[attr$=value] 表示带有以 attr 命名的属性，且属性值是以”value”结尾的元素。</li>
-<li>[attr*=value] 表示带有以 attr 命名的属性，且属性值包含有”value”的元素。</li>
-</ul>
-</li>
-</ul>
-
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li></ul>
 
 
     </footer>
