@@ -9,7 +9,9 @@
 <li>new Foo() -&gt; foo</li>
 <li>箭头函数 -&gt; 没有this、arguments、prototype</li>
 <li>bind({a:100}) -&gt; {a:100} 第一个bind</li>
-<li>new &gt; bind &gt; 对象调用 &gt; 直接调用</li>
+<li>new &gt; bind &gt; 对象调用 &gt; 直接调用<a id="more"></a>
+
+</li>
 </ul>
 <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><ul>
 <li>原始类型不包含 Object 和 Function</li>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://chiangming.github.io/"/>
-  <updated>2020-02-17T08:17:53.615Z</updated>
+  <updated>2020-02-17T08:23:46.242Z</updated>
   <id>https://chiangming.github.io/</id>
   
   <author>
@@ -21,17 +21,17 @@
     <link href="https://chiangming.github.io/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
     <id>https://chiangming.github.io/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/</id>
     <published>2020-02-16T16:15:39.000Z</published>
-    <updated>2020-02-17T08:17:53.615Z</updated>
+    <updated>2020-02-17T08:23:46.242Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h1 id=&quot;JS知识点&quot;&gt;&lt;a href=&quot;#JS知识点&quot; class=&quot;headerlink&quot; title=&quot;JS知识点&quot;&gt;&lt;/a&gt;JS知识点&lt;/h1&gt;&lt;h2 id=&quot;this绑定&quot;&gt;&lt;a href=&quot;#this绑定&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h1 id=&quot;JS知识点&quot;&gt;&lt;a href=&quot;#JS知识点&quot; class=&quot;headerlink&quot; title=&quot;JS知识点&quot;&gt;&lt;/a&gt;JS知识点&lt;/h1&gt;&lt;h2 id=&quot;this绑定&quot;&gt;&lt;a href=&quot;#this绑定&quot; class=&quot;headerlink&quot; title=&quot;this绑定&quot;&gt;&lt;/a&gt;this绑定&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;直接调用，立即执行 -&amp;gt; window|gloable&lt;/li&gt;
+&lt;li&gt;obj.foo() -&amp;gt; obj&lt;/li&gt;
+&lt;li&gt;new Foo() -&amp;gt; foo&lt;/li&gt;
+&lt;li&gt;箭头函数 -&amp;gt; 没有this、arguments、prototype&lt;/li&gt;
+&lt;li&gt;bind({a:100}) -&amp;gt; {a:100} 第一个bind&lt;/li&gt;
+&lt;li&gt;new &amp;gt; bind &amp;gt; 对象调用 &amp;gt; 直接调用
     
     </summary>
     
