@@ -66,15 +66,15 @@
     
     
     
-    <article id="post-interview/javascript知识点" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+    <article id="post-interview/vue" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
     
       <header class="article-header">
          
 <h2 itemprop="name">
-  <a class="article-title" href="/2019/11/23/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/"
-    >javascript知识点</a
+  <a class="article-title" href="/2019/11/23/interview/vue/"
+    >Vue题目</a
   >
 </h2>
   
@@ -84,7 +84,7 @@
 
         
           <div class="article-meta">
-            <a href="/2019/11/23/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-date">
+            <a href="/2019/11/23/interview/vue/" class="article-date">
   <time datetime="2019-11-22T16:15:39.000Z" itemprop="datePublished">2019-11-23</time>
 </a>
               
@@ -107,112 +107,235 @@
                       
 
                         
-                                  <h1 id="JS知识点"><a href="#JS知识点" class="headerlink" title="JS知识点"></a>JS知识点</h1><h2 id="this绑定"><a href="#this绑定" class="headerlink" title="this绑定"></a>this绑定</h2><ul>
-<li>直接调用，立即执行 -&gt; window|gloable</li>
-<li>obj.foo() -&gt; obj</li>
-<li>new Foo() -&gt; foo</li>
-<li>箭头函数 -&gt; 没有this、arguments、prototype</li>
-<li>bind({a:100}) -&gt; {a:100} 第一个bind</li>
-<li>new &gt; bind &gt; 对象调用 &gt; 直接调用</li>
+                                  <h2 id="写-Vue-项目时为什么要在列表组件中写-key，其作用是什么？"><a href="#写-Vue-项目时为什么要在列表组件中写-key，其作用是什么？" class="headerlink" title="写 Vue 项目时为什么要在列表组件中写 key，其作用是什么？"></a>写 Vue 项目时为什么要在列表组件中写 key，其作用是什么？</h2><ul>
+<li>考虑到DOM节点更改的性能问题，Vue使用vnode做虚拟dom节点进行更新</li>
+<li>组件的更新，是通过每一个vue实例的watcher派发更新的，每一步更新都是更新一个vue实例对应的dom。因为update事件被推送到任务队列时，是按watcher的id从小到大进行排序，所以会先更新用户watcher，再更新父watcher，再更新子watcher</li>
+<li>响应式数据的变化触发渲染watcher的updateComponment方法，执行vm._patch(vm._render,false)过程</li>
 </ul>
-<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><ul>
-<li>原始类型不包含 Object 和 Function</li>
-<li>新增Symbol和BigInt</li>
-<li>typeof null和typeof [1, 2, 3]均返回”object”</li>
-<li>instanceof 用于实例和构造函数对应</li>
-<li>判断是否是数组：[1, 2, 3] instanceof Array</li>
-<li>Array.isArray({})返回false</li>
+<ol>
+<li>_render() 生成当前vm实例 新的vnode</li>
+<li>_update() 执行 patch方法，由于此时存在旧vnode，如果新旧vnode不同（key tag），会调用 patchVnode，如果是不同的vnode，createELm 创建新的dom，并删去旧的dom</li>
+<li>patchVnode 主要是进行更新dom操作 <ul>
+<li>新旧节点的孩子节点存在 且不同，调用diff算法</li>
+<li>比较 新旧节点的文本，进行更新</li>
 </ul>
-<h2 id="数据类型转换-“-”"><a href="#数据类型转换-“-”" class="headerlink" title="数据类型转换 “+”"></a>数据类型转换 “+”</h2><ul>
-<li>调用实例方法优先级：[Symbol.toPrimitive] &gt; valueOf &gt; toString</li>
-</ul>
-<h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
-<li>地址引用的函数和对象都是浅拷贝</li>
-<li>Object.assign()和 …</li>
-</ul>
-<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><ul>
-<li>JSON.parse(JSON.stringify(src))：属性值是函数或者一个类的实例的时候，无法正确拷贝</li>
-</ul>
-<h2 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h2><ul>
-<li><p>事件捕获 -&gt; 事件冒泡</p>
 </li>
-<li><p>捕获：从根节点开始执行，一直向子节点传递，直到目标节点。</p>
-</li>
-<li><p>冒泡：可以通过stopPropagation方法终止冒泡。</p>
-</li>
-<li><p>DOM2：element.addEventListener(event, function, useCapture)  默认false冒泡</p>
-</li>
-<li><p>DOM0：html/js绑定on不推荐</p>
-</li>
+<li>diff算法</li>
+</ol>
+<p>参考： <a href="https://segmentfault.com/a/1190000008782928" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008782928</a></p>
+<p>在diff算法中vue只对同级的vnode节点进行比较，oldCh和newCh各有两个头尾的变量StartIdx和EndIdx，它们的2个变量相互比较，一共有4种比较方式。如果4种比较都没匹配，如果设置了key，就会用key进行比较，在比较的过程中，变量会往中间靠，一旦StartIdx&gt;EndIdx表明oldCh和newCh至少有一个已经遍历完了，就会结束比较。<br>不设key，newCh和oldCh只会进行头尾两端的相互比较，设key后，除了头尾两端的比较外，还会从用key生成的对象oldKeyToIdx中查找newStartVnode.key匹配的节点(没有设置key的话需要执行findIdxInOld方法去比较newStartVnode和所有的oldCh），所以为节点设置key可以更高效的利用dom。</p>
+<p>对于带状态的组件渲染，唯一的key值在每次渲染列表时都会完全替换所有组件，使其拥有正确状态（而不是就地更新）。</p>
+<h1 id="Vue-的-diff-时间复杂度从-O-n-3-优化到-O-n"><a href="#Vue-的-diff-时间复杂度从-O-n-3-优化到-O-n" class="headerlink" title="Vue 的 diff 时间复杂度从 O(n^3) 优化到 O(n) ?"></a>Vue 的 diff 时间复杂度从 O(n^3) 优化到 O(n) ?</h1><ul>
+<li>Vue的diff是同层级比较;</li>
+<li>对于同一层级的一组子节点，通过分配唯一唯一id进行区分（key值）</li>
 </ul>
-<h2 id="ES5继承"><a href="#ES5继承" class="headerlink" title="ES5继承"></a>ES5继承</h2><ul>
-<li>绑定构造函数 -&gt; 不能继承父类原型方法/属性 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 执行父类的构造方法, 上下文为实例对象</span></span><br><span class="line">    Animal.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>原型链继承 -&gt; 父构造函数传参<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cat.prototype = <span class="keyword">new</span> Animal();</span><br><span class="line">Cat.prototype.constructor = Cat;</span><br></pre></td></tr></table></figure></li>
-<li>组合继承 -&gt;绑定+原型 调用了2次父类的构造函数</li>
-<li>寄生组合继承 -&gt; 最理想<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cat.prototype = <span class="built_in">Object</span>.create(Animal.prototype);</span><br><span class="line">Cat.prototype.constructor = Cat;</span><br></pre></td></tr></table></figure>
-<h2 id="原型和原型链"><a href="#原型和原型链" class="headerlink" title="原型和原型链"></a>原型和原型链</h2></li>
-<li>所有的引用类型（数组、对象、函数），<strong>proto</strong>属性值指向它的构造函数的 prototype 属性值</li>
-<li>当试图得到一个对象的某个属性时，如果这个对象本身没有这个属性，那么会去它的<strong>proto</strong>（即它的构造函数的prototype）中寻找</li>
-<li>Foo.prototype.<strong>proto</strong> = Object.prototype</li>
-<li>Object.prototype.<strong>proto</strong> = null</li>
-</ul>
-<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><ul>
-<li>ES5 有”全局作用域“和”函数作用域“。<ul>
-<li>IIFE 块级闭包：var a =(function b(){})()<ul>
-<li>函数名b为 <strong>只读</strong> 状态，无法修改,</li>
-<li>变量名a在函数内部无法访问（块作用域）</li>
-</ul>
+<h1 id="vuex中为什么把把异步操作封装在action，把同步操作放在mutations？"><a href="#vuex中为什么把把异步操作封装在action，把同步操作放在mutations？" class="headerlink" title="vuex中为什么把把异步操作封装在action，把同步操作放在mutations？"></a>vuex中为什么把把异步操作封装在action，把同步操作放在mutations？</h1><p><a href="https://www.zhihu.com/question/48759748/answer/112823337" target="_blank" rel="noopener">参考</a><br>尤雨溪：为了能用 devtools 追踪状态变化<br>同步的意义在于这样每一个 mutation 执行完成后都可以对应到一个新的状态（和 reducer 一样），这样 devtools 就可以打个 snapshot 存下来，然后就可以随便 time-travel 了。</p>
+<h1 id="双向绑定和-vuex-是否冲突？"><a href="#双向绑定和-vuex-是否冲突？" class="headerlink" title="双向绑定和 vuex 是否冲突？"></a>双向绑定和 vuex 是否冲突？</h1><p>在严格模式中使用Vuex，当用户输入时，v-model会试图直接修改属性值，但这个修改不是在mutation中修改的，所以会抛出一个错误。当需要在组件中使用vuex中的state时，有2种解决方案： 1、在input中绑定value(vuex中的state)，然后监听input的change或者input事件，在事件回调中调用mutation修改state的值 2、使用带有setter的双向绑定计算属性。见以下例子（来自官方文档）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;input v-model=<span class="string">"message"</span>&gt; </span><br><span class="line">computed: &#123; </span><br><span class="line">    message: &#123; </span><br><span class="line">        <span class="keyword">get</span> () &#123; <span class="keyword">return</span> <span class="keyword">this</span>.$store.state.obj.message &#125;, <span class="keyword">set</span> (value) &#123; <span class="keyword">this</span>.$store.commit(<span class="string">'updateMessage'</span>, value) </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Vuex的设计思想？"><a href="#Vuex的设计思想？" class="headerlink" title="Vuex的设计思想？"></a>Vuex的设计思想？</h1><p><img src="https://pic1.zhimg.com/80/v2-1b21813cd1d621658fe7402f0af4b104_hd.jpg" alt="vuex"><br>全局的 Store，包含着应用中的状态 State,这个 State 是单一的,子组件能通过 this.$store 访问到 state 。<br>Vuex 让 View 通过某种方式触发 Store 的事件或方法，Store 的事件或方法对 State 进行修改或返回一个新的 State，State 改变之后，View 发生响应式改变。</p>
+<h2 id="Vuex初始化"><a href="#Vuex初始化" class="headerlink" title="Vuex初始化"></a>Vuex初始化</h2><p>state 的是按模块划分的，按模块的嵌套形成一颗状态树。注册对子module迭代执行初始化流程（path上附加上父路径）。<br>而 actions、mutations 和 getters 的全局的，其中 actions 和 mutations 的 key 允许重复，但 getters 的 key 是不允许重复的。</p>
+<h2 id="mutations-只能执行同步操作"><a href="#mutations-只能执行同步操作" class="headerlink" title="mutations 只能执行同步操作"></a>mutations 只能执行同步操作</h2><p>store.commit(‘moduleA/incrementAge’)</p>
+<ol>
+<li>执行 store 的 commit函数</li>
+<li>通过传入的 key值 来获得对应的用户自定义的mutaitons方法 <code>store._mutaitons[key]</code></li>
+<li>在 store._withCommit 方法中 执行 mutations方法，为了保证对state的直接操作不会触发警告</li>
+</ol>
+<h3 id="Commit"><a href="#Commit" class="headerlink" title="Commit"></a>Commit</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">commit (type, payload, options) &#123;</span><br><span class="line">  <span class="comment">// check object-style commit</span></span><br><span class="line">  <span class="keyword">if</span> (isObject(type) &amp;&amp; type.type) &#123;</span><br><span class="line">    options = payload</span><br><span class="line">    payload = type</span><br><span class="line">    type = type.type</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> mutation = &#123; type, payload &#125;</span><br><span class="line">  <span class="keyword">const</span> entry = <span class="keyword">this</span>._mutations[type]</span><br><span class="line">  <span class="keyword">if</span> (!entry) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(<span class="string">`[vuex] unknown mutation type: <span class="subst">$&#123;type&#125;</span>`</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">this</span>._withCommit(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    entry.forEach(<span class="function"><span class="keyword">function</span> <span class="title">commitIterator</span> (<span class="params">handler</span>) </span>&#123;</span><br><span class="line">      handler(payload)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">if</span> (!options || !options.silent) &#123;</span><br><span class="line">    <span class="keyword">this</span>._subscribers.forEach(<span class="function"><span class="params">sub</span> =&gt;</span> sub(mutation, <span class="keyword">this</span>.state))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> subscribe 订阅（注册监听）store 的 mutation，调用这个返回的函数，就可以解除当前函数对 store 的 mutation 的监听</p>
+<h2 id="actions-可以异步操作"><a href="#actions-可以异步操作" class="headerlink" title="actions 可以异步操作"></a>actions 可以异步操作</h2><ol>
+<li>dispatch根据传入的 key 值 获得 用户自定义的 actions</li>
+<li>执行<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> entry = <span class="keyword">this</span>._actions[type]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> result = entry.length &gt; <span class="number">1</span></span><br><span class="line">      ? <span class="built_in">Promise</span>.all(entry.map(<span class="function"><span class="params">handler</span> =&gt;</span> handler(payload)))</span><br><span class="line">      : entry[<span class="number">0</span>](payload)</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result.then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>._actionSubscribers</span><br><span class="line">          .filter(<span class="function"><span class="params">sub</span> =&gt;</span> sub.after)</span><br><span class="line">          .forEach(<span class="function"><span class="params">sub</span> =&gt;</span> sub.after(action, <span class="keyword">this</span>.state))</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span>) &#123;</span><br><span class="line">          <span class="built_in">console</span>.warn(<span class="string">`[vuex] error in after action subscribers: `</span>)</span><br><span class="line">          <span class="built_in">console</span>.error(e)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> res</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="getters"><a href="#getters" class="headerlink" title="getters"></a>getters</h2></li>
+<li>this.$store.getters.xxxgetters访问回调函数，</li>
+<li>getter执行结果绑定到this.$store上。<ul>
+<li>resetStoreVM 函数重置一个<strong>私有的 _vm 对象</strong>，保留<strong>state树</strong>，以及用<strong>计算属性的方式</strong>存储了 store 的 getters<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty(store.getters, key, &#123;</span><br><span class="line">  <span class="keyword">get</span>: () =&gt; store._vm[key]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 </li>
-<li>ES6 的let和const 有”块级作用域“。<ul>
-<li>变量生命周期：<ul>
-<li><strong>声明</strong>（作用域注册一个变量）</li>
-<li><strong>初始化</strong>（分配栈内存，初始化为undefined）</li>
-<li><strong>赋值</strong></li>
-</ul>
-</li>
-<li>let/const 声明提升 -&gt; 暂时性死区、var 初始化提升、function赋值提升 <ul>
-<li>函数声明 &gt; 函数表达式 </li>
-</ul>
-</li>
-</ul>
-</li>
-<li>作用域链:当前作用域没有找到定义，继续向父级作用域寻找，直至全局作用域。</li>
-</ul>
-<h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><ul>
-<li><p>JS 是单线程的，先跑<strong>执行栈里</strong>的<strong>同步任务</strong>，然后再跑<strong>任务队列</strong>的<strong>异步任务</strong>。</p>
-</li>
-<li><p>当执行栈的栈空，js会读取任务队列，</p>
+</ol>
+<h2 id="辅助函数"><a href="#辅助函数" class="headerlink" title="辅助函数"></a>辅助函数</h2><h3 id="mapState"><a href="#mapState" class="headerlink" title="mapState"></a>mapState</h3><p>将数组转换成{key, val: key}的对象，将对象转换成{ key, val: obj[key] }的对象返回结果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">mapState</span> (<span class="params">states</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> res = &#123;&#125;</span><br><span class="line">  normalizeMap(states).forEach(<span class="function">(<span class="params">&#123; key, val &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    res[key] = <span class="function"><span class="keyword">function</span> <span class="title">mappedState</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">typeof</span> val === <span class="string">'function'</span></span><br><span class="line">        ? val.call(<span class="keyword">this</span>, <span class="keyword">this</span>.$store.state, <span class="keyword">this</span>.$store.getters)</span><br><span class="line">        : <span class="keyword">this</span>.$store.state[val]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">normalizeMap</span> (<span class="params">map</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.isArray(map)</span><br><span class="line">    ? map.map(<span class="function"><span class="params">key</span> =&gt;</span> (&#123; key, <span class="attr">val</span>: key &#125;))</span><br><span class="line">    : <span class="built_in">Object</span>.keys(map).map(<span class="function"><span class="params">key</span> =&gt;</span> (&#123; key, <span class="attr">val</span>: map[key] &#125;))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Vue-的响应式原理中-Object-defineProperty-有什么缺陷？"><a href="#Vue-的响应式原理中-Object-defineProperty-有什么缺陷？" class="headerlink" title="Vue 的响应式原理中 Object.defineProperty 有什么缺陷？"></a>Vue 的响应式原理中 Object.defineProperty 有什么缺陷？</h1><p>为什么在 Vue3.0 采用了 Proxy，抛弃了 Object.defineProperty？</p>
 <ul>
-<li>执行一个宏任务(先执行同步代码)–&gt;执行所有微任务–&gt;UI render</li>
-<li>宏任务：主代码块 &gt; setTimeout / setInterval &gt; IO回调 &gt; requestAnimationFrame &gt; UIrender(重绘)</li>
-<li>微任务：Promise回调</li>
+<li>Object.defineProperty无法监控到数组下标的变化，导致通过数组下标添加元素，不能实时响应；(尤雨溪：defineProperty可以检测数组下标，但是收益与性能不成正比)</li>
+<li>Object.defineProperty只能劫持对象的属性，从而需要对每个对象，每个属性进行遍历，如果，属性值是对象，还需要深度遍历。Proxy可以劫持整个对象，并返回一个新的对象。</li>
+<li>Proxy不仅可以代理对象，还可以代理数组。还可以代理动态增加的属性。</li>
+</ul>
+<h1 id="Vue-的双向数据绑定，Model-如何改变-View，View-又是如何改变-Model-的？"><a href="#Vue-的双向数据绑定，Model-如何改变-View，View-又是如何改变-Model-的？" class="headerlink" title="Vue 的双向数据绑定，Model 如何改变 View，View 又是如何改变 Model 的？"></a>Vue 的双向数据绑定，Model 如何改变 View，View 又是如何改变 Model 的？</h1><p>双向数据绑定无非就是在单向绑定的基础上给可输入元素（input、textare等）添加了change(input)事件，来动态修改model和 view</p>
+<p>vue.js 采用<strong>数据劫持</strong>结合<strong>发布者-订阅者模式</strong>的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。</p>
+<p>要实现mvvm的双向绑定，就必须要实现以下几点： </p>
+<ol>
+<li>实现一个数据监听器Observer，能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知订阅者 </li>
+<li>实现一个指令解析器Compile(render+patch)，对每个元素节点的指令进行扫描和解析，根据指令模板替换数据，以及绑定相应的更新函数 </li>
+<li>实现一个Watcher，作为连接Observer和Compile的桥梁，能够订阅并收到每个属性变动的通知，执行指令绑定的相应回调函数，从而更新视图<br><img src="https://raw.githubusercontent.com/DMQ/mvvm/master/img/2.png" alt="MVVM"></li>
+</ol>
+<p>利用Obeject.defineProperty()来监听属性变动 那么将需要observe的数据对象进行递归遍历，包括子属性对象的属性，都加上 setter和getter 这样的话，给这个对象的某个值赋值，就会触发setter，那么就能监听到了数据变化。</p>
+<p>监听到变化之后就是怎么通知订阅者了，所以接下来我们需要实现一个消息订阅器，很简单，维护一个数组，用来收集订阅者，数据变动触发notify，再调用订阅者的update方法</p>
+<p>订阅者应该是Watcher, 而且var dep = new Dep();是在 defineReactive方法内部定义的，所以想通过dep添加订阅者，就必须要在闭包内操作</p>
+<p>Watcher订阅者作为Observer和Compile之间通信的桥梁，主要做的事情是: </p>
+<ol>
+<li>在自身实例化时往属性订阅器(dep)里面添加自己 </li>
+<li>自身必须有一个update()方法 </li>
+<li>待属性变动dep.notice()通知时，能调用自身的update()方法，并触发Compile中绑定的回调</li>
+</ol>
+<p>实例化Watcher的时候，调用get()方法，通过Dep.target = watcherInstance标记订阅者是当前watcher实例，强行触发属性定义的getter方法，getter方法执行的时候，就会在属性的订阅器dep添加当前watcher实例，从而在属性值有变化的时候，watcher实例就能收到更新通知。</p>
+<p>Component类中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>._ob = observe(options.data)</span><br></pre></td></tr></table></figure>
+<h2 id="model-gt-view"><a href="#model-gt-view" class="headerlink" title="model -&gt; view"></a>model -&gt; view</h2><p>数据驱动视图<br>在 vue 2.x 中 通过 </p>
+<ul>
+<li><p>observe添加数据响应</p>
+<ul>
+<li>给数据添加一个Observer对象实例附加在obj.<strong>ob</strong>上</li>
+<li>defineProperty 实现的数据劫持</li>
+<li>闭包形式给数据添加Dep实例</li>
 </ul>
 </li>
-<li><p>循环进行，所以称作Loop</p>
-</li>
-</ul>
-<h2 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h2><ul>
-<li>全局执行上下文:解析JS时创建。<ul>
-<li>this（全局对象window）</li>
-<li>变量对象（全局变量）</li>
-<li>作用域链。</li>
+<li><p><strong>getter 收集依赖</strong></p>
+<ul>
+<li><strong>const dep = new Dep() // 实例化一个Dep实例</strong></li>
+<li><strong>在get函数中通过dep.depend做依赖收集</strong></li>
 </ul>
 </li>
-<li>函数执行上下文：调用函数时创建<ul>
-<li>this,</li>
-<li>变量对象（局部变量、<strong>多了arguments和参数</strong>),</li>
-<li>作用域链（AO+父作用域[词法环境下]）</li>
+<li><p>什么时候触发getter收集依赖？</p>
+<ul>
+<li>实例化一个渲染watcher=&gt; watcher的构造函数=&gt;this.get()，<ul>
+<li>get函数把Dep.target赋值为当前渲染watcher并压栈（为了恢复)</li>
 </ul>
 </li>
-<li>词法环境：Js 中的函数运行在它们被<strong>定义</strong>的作用域，而不是它们被执行的作用域</li>
-<li>this:<strong>执行</strong>的时候确定</li>
+<li>vm._render()生成渲染VNode,并且在这个过程对vm上的数据访问触发getter</li>
+<li>(在此期间执行Dep.target.addDep(this)方法，将watcher订阅到这个数据持有的dep的subs中，为后续数据变化时通知到哪些subs做准备)</li>
+<li>每次数据变化都会vm._render()方法会再次执行，并再次触发数据</li>
 </ul>
-<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><ul>
-<li>闭包是函数和声明该函数的词法环境的组合</li>
-<li>优：避免全局污染</li>
-<li>缺：内存泄漏（浏览器强制刷新、node显示null清理）</li>
+</li>
+<li><p><strong>setter 调用更新回调</strong></p>
+<ul>
+<li><strong>childOb = !shallow &amp;&amp; observe(newVal) // 如果shallow为false的情况，会对新设置的值变成一个响应式对象</strong></li>
+<li><strong>dep.notify() // 通知所有订阅者</strong></li>
+</ul>
+</li>
+<li><p>派发过程：当我们组件中对响应的数据做了修改，就会触发setter的逻辑，最后调用dep.notify()方法，遍历依赖收集中建立的subs，也就是Watcher的实例数组【subs数组在依赖收集getter中被添加，期间通过一些逻辑处理判断保证同一数据不会被添加多次】，然后调用每一个watcher的update方法。</p>
+</li>
+<li><p>update函数中有个 <strong>queueWatcher(this)</strong> 方法引入了队列的概念，是vue在做派发更新时优化的一个点，它并不会每次数据改变都会触发watcher回调，而是把这些watcher先添加到一个队列中，然后在nextTick后执行watcher的run函数</p>
+</li>
+</ul>
+<p>队列排序保证：</p>
+<ul>
+<li>组件的更新由父到子。父组件创建早于子组件，watcher的创建也是</li>
+<li>用户自定义watcher要早于渲染watcher执行，因为用户自定义watcher是在渲染watcher前创建的</li>
+<li>如果一个组件在父组件watcher执行期间被销毁，那么它对应的watcher执行都可以被跳过，所以父组件的watcher应该先执行。</li>
+</ul>
+<p>队列遍历：排序完成后，对队列进行遍历，拿到对应的watcher,执行watcher.run()。 </p>
+<ol>
+<li>通过this.get()得到它当前的值,判断新旧值不同执行watcher回调</li>
+<li>渲染watcher而言，在执行this.get()方法求值的时候，会执行getter方法，重新patch</li>
+</ol>
+<h3 id="Dep"><a href="#Dep" class="headerlink" title="Dep"></a>Dep</h3><ul>
+<li>Dep.target 全局唯一Watcher</li>
+<li>this.deps = []; this.depIds = new Set()</li>
+<li>this.newDeps = [];this.newDepIds = new Set()    </li>
+</ul>
+<h2 id="数据绑定原理"><a href="#数据绑定原理" class="headerlink" title="数据绑定原理"></a>数据绑定原理</h2><p><img src="https://i.loli.net/2019/07/15/5d2c20df68a3346321.jpg" alt="数据绑定"></p>
+<h2 id="view-gt-model"><a href="#view-gt-model" class="headerlink" title="view -&gt; model"></a>view -&gt; model</h2><p>通过 v-model 的方式,如果一个组件有多个 v-model ，你要自己写 v-on 和 data 的修改。</p>
+<p>编译时：<br>v-model的相关信息保存在AST树的atrrsList数组和指令directive属性上，生成render函数时，这些属性上的信息通过</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">addProp(el, <span class="string">'value'</span>, <span class="string">`(<span class="subst">$&#123;value&#125;</span>)`</span>)</span><br><span class="line">addHandler(el, event, code, <span class="literal">null</span>, <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+
+<p>方法添加到render的data中，v-model生成的代码作为语法糖，即通过修改 AST 元素，给 el 添加一个 prop，相当于我们在 input 上动态绑定了 value，又给 el 添加了事件处理，相当于在 input 上绑定了 input 事件，</p>
+<figure class="highlight plain"><figcaption><span>v-model</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&gt;</span><br><span class="line">&#96;&#96;&#96;&lt;input v-bind:value&#x3D;&quot;message&quot; @input&#x3D;&quot;message&#x3D;$event.target.value&quot;&gt;&#96;&#96;&#96; v-model 的实现，子组件的 value prop 以及派发的 input 事件名是可配的</span><br><span class="line">&#96;&#96;&#96;js</span><br><span class="line">model:&#123;</span><br><span class="line">    prop:&#39;msg&#39;,</span><br><span class="line">    event:&#39;change&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="v-model-表单vs组件"><a href="#v-model-表单vs组件" class="headerlink" title="v-model 表单vs组件"></a>v-model 表单vs组件</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>表单</th>
+<th>组件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>编译prase阶段的AST树</td>
+<td>生成directives属性</td>
+<td>生成 model属性</td>
+</tr>
+<tr>
+<td>编译codegen阶段的data</td>
+<td>props和event</td>
+<td>model = {callback: “function ($$v) {message=$$v}”, expression: “message”, value: “(message)”}</td>
+</tr>
+<tr>
+<td>运行阶段</td>
+<td>updateDOMListeners-&gt; addEventListener</td>
+<td>initEvent -&gt; 将回调函数挂载在vm实例上，并配合$emit实现</td>
+</tr>
+</tbody></table>
+<h1 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h1><p>vdom 的真正意义是为了实现跨平台，服务端渲染，以及提供一个性能还算不错 Dom 更新策略。</p>
+<h1 id="在-Vue-中，子组件为何不可以修改父组件传递的-Prop？"><a href="#在-Vue-中，子组件为何不可以修改父组件传递的-Prop？" class="headerlink" title="在 Vue 中，子组件为何不可以修改父组件传递的 Prop？"></a>在 Vue 中，子组件为何不可以修改父组件传递的 Prop？</h1><p>原因很简单，一个父组件下不只有你一个子组件。 同样，使用这份 prop 数据的也不只有你一个子组件。 如果每个子组件都能修改 prop 的话，将会导致修改数据的源头不止一处。</p>
+<p>所以我们需要将修改数据的源头统一为父组件，子组件像要改 prop 只能委托父组件帮它。从而保证数据修改源唯一</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">initProps()&#123;……</span><br><span class="line">defineReactive(props, key, value, () =&gt; &#123;</span><br><span class="line">    <span class="comment">//如果不是root根组件，并且不是更新子组件，那么说明更新的是props</span></span><br><span class="line">    <span class="keyword">if</span> (!isRoot &amp;&amp; !isUpdatingChildComponent) &#123;</span><br><span class="line">      warn(……）</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;……&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="生命周期顺序？"><a href="#生命周期顺序？" class="headerlink" title="生命周期顺序？"></a>生命周期顺序？</h1><p>加载渲染过程</p>
+<ul>
+<li>父beforeCreate-&gt;父created-&gt;父beforeMount-&gt;子beforeCreate-&gt;子created-&gt;子beforeMount-&gt;子mounted-&gt;父mounted</li>
+</ul>
+<p>子组件全局状态更新过程</p>
+<ul>
+<li>父beforeUpdate-&gt;子beforeUpdate-&gt;子updated-&gt;父updated</li>
+</ul>
+<p>销毁过程</p>
+<ul>
+<li>父beforeDestroy-&gt;子beforeDestroy-&gt;子destroyed-&gt;父destroyed</li>
+</ul>
+<h2 id="生命周期的意义"><a href="#生命周期的意义" class="headerlink" title="生命周期的意义"></a>生命周期的意义</h2><p>创建-挂载-更新-销毁</p>
+<ul>
+<li>beforeCreate前，也就是new Vue的时候会初始化事件和生命周期；</li>
+<li>beforeCreate和created之间会挂载Data，绑定事件；接下来会根据el挂载页面元素，如果没有设置el则生命周期结束，直到手动挂载；el挂载结束后，根据templete/outerHTML(el)渲染页面；</li>
+<li>在beforeMount前虚拟DOM已经创建完成；</li>
+<li>之后在mounted前，将vm.$el替换掉页面元素el;mounted将虚拟dom挂载到真实页面（此时页面已经全部渲染完成）；</li>
+<li>之后发生数据变化时触发beforeUpdate和updated进行一些操作；</li>
+<li>最后主动调用销毁函数或者组件自动销毁时beforeDestroy，手动撤销监听事件，计时器等；</li>
+<li>destroyed时仅存在Dom节点，其他所有东西已自动销毁。</li>
+</ul>
+<h1 id="Vue-router中-lt-router-link-gt-和-lt-a-href-”…”-gt-的区别？"><a href="#Vue-router中-lt-router-link-gt-和-lt-a-href-”…”-gt-的区别？" class="headerlink" title="Vue-router中&lt;router-link&gt; 和&lt;a href=”…” &gt;的区别？"></a>Vue-router中&lt;router-link&gt; 和&lt;a href=”…” &gt;的区别？</h1><p>router-link 组件支持用户在具有路由功能的应用中 (点击) 导航。 通过 to 属性指定目标地址，默认渲染成带有正确链接的 a 标签，可以通过配置 tag 属性生成别的标签.。另外，当目标路由成功激活时，链接元素自动设置一个表示激活的 CSS 类名。</p>
+<p>&lt;router-link&gt; 比起写死的&lt;a href=”…” &gt; 会好一些，理由如下：</p>
+<p>无论是 HTML5 history 模式还是 hash 模式，它的表现行为一致，所以，当你要切换路由模式，或者在 IE9 降级使用 hash 模式，无须作任何变动。<br>在 HTML5 history 模式下，router-link 会守卫点击事件，让浏览器不再重新加载页面。<br>当你在 HTML5 history 模式下使用 base 选项之后，所有的 to 属性都不需要写 (基路径) 了。</p>
+<h1 id="v-for有必要添加事件代理吗？"><a href="#v-for有必要添加事件代理吗？" class="headerlink" title="v-for有必要添加事件代理吗？"></a>v-for有必要添加事件代理吗？</h1><p>没必要  </p>
+<p>首先我们需要知道事件代理主要有什么作用？    </p>
+<ul>
+<li><p>事件代理能够避免我们逐个的去给元素新增和删除事件</p>
+</li>
+<li><p>事件代理比每一个元素都绑定一个事件性能要更好<br>从vue的角度上来看上面两点   </p>
+</li>
+<li><p>在v-for中，我们直接用一个for循环就能在模板中将每个元素都绑定上事件，并且当组件销毁时，vue也会自动给我们将所有的事件处理器都移除掉。所以事件代理能做到的第一点vue已经给我们做到了</p>
+</li>
+<li><p>在v-for中，给元素绑定的都是相同的事件，所以除非上千行的元素需要加上事件，其实和使用事件代理的性能差别不大，所以也没必要用事件代理</p>
+</li>
+</ul>
+<h1 id="vue首屏白屏？"><a href="#vue首屏白屏？" class="headerlink" title="vue首屏白屏？"></a>vue首屏白屏？</h1><p>首页白屏的原因： 单页面应用的 html 是靠 js 生成，因为首屏需要加载很大的js文件(app.js vendor.js)，所以当网速差的时候会产生一定程度的白屏</p>
+<p>解决办法：</p>
+<ul>
+<li>优化 webpack 减少模块打包体积，code-split 按需加载</li>
+<li>服务端渲染，在服务端事先拼装好首页所需的 html</li>
+<li>首页加骨架屏</li>
+<li>使用CDN减小代码体积加快请求速度</li>
+<li>vue-router 路由懒加载</li>
+<li>nginx楷gzip压缩</li>
+</ul>
+<h1 id="vue-是如何对数组方法进行变异的？"><a href="#vue-是如何对数组方法进行变异的？" class="headerlink" title="vue 是如何对数组方法进行变异的？"></a>vue 是如何对数组方法进行变异的？</h1><p>重写了数组中的那些方法，首先获取到这个数组的<strong>ob</strong>,也就是它的Observer对象，如果有新的值，就调用observeArray继续对新的值观察变化，然后手动调用notify，通知渲染watcher，执行update</p>
+<p>Vue中默认的做法就是在数组实例与它的原型之间，插入了一个新的原型对象，这个原型方法实现了这些变异方法，也就拦截了真正数组原型上的方法（因为原型链的机制，找到了就不会继续往上找了）。 变异方法中增加了自定义逻辑，也调用了真正数组原型上的方法，即实现了目的，也不会对正常使用造成影响。</p>
+<h1 id="观察者模式和发布-订阅模式有什么区别？"><a href="#观察者模式和发布-订阅模式有什么区别？" class="headerlink" title="观察者模式和发布-订阅模式有什么区别？"></a>观察者模式和发布-订阅模式有什么区别？</h1><p>观察者模式没中间商赚差价<br>发布订阅模式 有中间商赚差价</p>
+<h1 id="github上的问题"><a href="#github上的问题" class="headerlink" title="github上的问题"></a>github上的问题</h1><h2 id="vue组件之间的通信都有哪些？"><a href="#vue组件之间的通信都有哪些？" class="headerlink" title="vue组件之间的通信都有哪些？"></a>vue组件之间的通信都有哪些？</h2><p>父子Coms: </p>
+<ul>
+<li>props</li>
+<li>$emit/$on</li>
+<li>( $parents/$children ) / $refs</li>
+</ul>
+<p>兄弟Coms:</p>
+<ul>
+<li>Vuex</li>
+<li>Bus</li>
+</ul>
+<p>跨级Coms: </p>
+<ul>
+<li>( provide/inject )</li>
+<li>( $attrs/$listeners )</li>
 </ul>
 
                                     
@@ -222,7 +345,7 @@
     <footer class="article-footer">
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
 
 
     </footer>

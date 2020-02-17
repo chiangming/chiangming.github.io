@@ -66,6 +66,177 @@
     
     
     
+    <article id="post-interview/javascript知识点" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/"
+    >javascript知识点</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-date">
+  <time datetime="2020-02-16T16:15:39.000Z" itemprop="datePublished">2020-02-17</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="JS知识点"><a href="#JS知识点" class="headerlink" title="JS知识点"></a>JS知识点</h1><h2 id="this绑定"><a href="#this绑定" class="headerlink" title="this绑定"></a>this绑定</h2><ul>
+<li>直接调用，立即执行 -&gt; window|gloable</li>
+<li>obj.foo() -&gt; obj</li>
+<li>new Foo() -&gt; foo</li>
+<li>箭头函数 -&gt; 没有this、arguments、prototype</li>
+<li>bind({a:100}) -&gt; {a:100} 第一个bind</li>
+<li>new &gt; bind &gt; 对象调用 &gt; 直接调用</li>
+</ul>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><ul>
+<li>原始类型不包含 Object 和 Function</li>
+<li>新增Symbol和BigInt</li>
+<li>typeof null和typeof [1, 2, 3]均返回”object”</li>
+<li>instanceof 用于实例和构造函数对应</li>
+<li>判断是否是数组：[1, 2, 3] instanceof Array</li>
+<li>Array.isArray({})返回false</li>
+</ul>
+<h2 id="数据类型转换-“-”"><a href="#数据类型转换-“-”" class="headerlink" title="数据类型转换 “+”"></a>数据类型转换 “+”</h2><ul>
+<li>调用实例方法优先级：[Symbol.toPrimitive] &gt; valueOf &gt; toString</li>
+</ul>
+<h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
+<li>地址引用的函数和对象都是浅拷贝</li>
+<li>Object.assign()和 …</li>
+</ul>
+<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><ul>
+<li>JSON.parse(JSON.stringify(src))：属性值是函数或者一个类的实例的时候，无法正确拷贝</li>
+</ul>
+<h2 id="事件流"><a href="#事件流" class="headerlink" title="事件流"></a>事件流</h2><ul>
+<li><p>事件捕获 -&gt; 事件冒泡</p>
+</li>
+<li><p>捕获：从根节点开始执行，一直向子节点传递，直到目标节点。</p>
+</li>
+<li><p>冒泡：可以通过stopPropagation方法终止冒泡。</p>
+</li>
+<li><p>DOM2：element.addEventListener(event, function, useCapture)  默认false冒泡</p>
+</li>
+<li><p>DOM0：html/js绑定on不推荐</p>
+</li>
+</ul>
+<h2 id="ES5继承"><a href="#ES5继承" class="headerlink" title="ES5继承"></a>ES5继承</h2><ul>
+<li>绑定构造函数 -&gt; 不能继承父类原型方法/属性 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 执行父类的构造方法, 上下文为实例对象</span></span><br><span class="line">    Animal.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>原型链继承 -&gt; 父构造函数传参<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cat.prototype = <span class="keyword">new</span> Animal();</span><br><span class="line">Cat.prototype.constructor = Cat;</span><br></pre></td></tr></table></figure></li>
+<li>组合继承 -&gt;绑定+原型 调用了2次父类的构造函数</li>
+<li>寄生组合继承 -&gt; 最理想<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cat.prototype = <span class="built_in">Object</span>.create(Animal.prototype);</span><br><span class="line">Cat.prototype.constructor = Cat;</span><br></pre></td></tr></table></figure>
+<h2 id="原型和原型链"><a href="#原型和原型链" class="headerlink" title="原型和原型链"></a>原型和原型链</h2></li>
+<li>所有的引用类型（数组、对象、函数），<strong>proto</strong>属性值指向它的构造函数的 prototype 属性值</li>
+<li>当试图得到一个对象的某个属性时，如果这个对象本身没有这个属性，那么会去它的<strong>proto</strong>（即它的构造函数的prototype）中寻找</li>
+<li>Foo.prototype.<strong>proto</strong> = Object.prototype</li>
+<li>Object.prototype.<strong>proto</strong> = null</li>
+</ul>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><ul>
+<li>ES5 有”全局作用域“和”函数作用域“。<ul>
+<li>IIFE 块级闭包：var a =(function b(){})()<ul>
+<li>函数名b为 <strong>只读</strong> 状态，无法修改,</li>
+<li>变量名a在函数内部无法访问（块作用域）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ES6 的let和const 有”块级作用域“。<ul>
+<li>变量生命周期：<ul>
+<li><strong>声明</strong>（作用域注册一个变量）</li>
+<li><strong>初始化</strong>（分配栈内存，初始化为undefined）</li>
+<li><strong>赋值</strong></li>
+</ul>
+</li>
+<li>let/const 声明提升 -&gt; 暂时性死区、var 初始化提升、function赋值提升 <ul>
+<li>函数声明 &gt; 函数表达式 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>作用域链:当前作用域没有找到定义，继续向父级作用域寻找，直至全局作用域。</li>
+</ul>
+<h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><ul>
+<li><p>JS 是单线程的，先跑<strong>执行栈里</strong>的<strong>同步任务</strong>，然后再跑<strong>任务队列</strong>的<strong>异步任务</strong>。</p>
+</li>
+<li><p>当执行栈的栈空，js会读取任务队列，</p>
+<ul>
+<li>执行一个宏任务(先执行同步代码)–&gt;执行所有微任务–&gt;UI render</li>
+<li>宏任务：主代码块 &gt; setTimeout / setInterval &gt; IO回调 &gt; requestAnimationFrame &gt; UIrender(重绘)</li>
+<li>微任务：Promise回调</li>
+</ul>
+</li>
+<li><p>循环进行，所以称作Loop</p>
+</li>
+</ul>
+<h2 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h2><ul>
+<li>全局执行上下文:解析JS时创建。<ul>
+<li>this（全局对象window）</li>
+<li>变量对象（全局变量）</li>
+<li>作用域链。</li>
+</ul>
+</li>
+<li>函数执行上下文：调用函数时创建<ul>
+<li>this,</li>
+<li>变量对象（局部变量、<strong>多了arguments和参数</strong>),</li>
+<li>作用域链（AO+父作用域[词法环境下]）</li>
+</ul>
+</li>
+<li>词法环境：Js 中的函数运行在它们被<strong>定义</strong>的作用域，而不是它们被执行的作用域</li>
+<li>this:<strong>执行</strong>的时候确定</li>
+</ul>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><ul>
+<li>闭包是函数和声明该函数的词法环境的组合</li>
+<li>优：避免全局污染</li>
+<li>缺：内存泄漏（浏览器强制刷新、node显示null清理）</li>
+</ul>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-es6相关" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -740,76 +911,6 @@
                           <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h4 id="生成-ast树"><a href="#生成-ast树" class="headerlink" title="生成 ast树"></a>生成 ast树</h4><p> 根据 assts的属性来提取出其中的 事件属性<br>
                             
                               <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/7.编译" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/"
-    >7.编译</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/" class="article-date">
-  <time datetime="2019-12-21T16:15:32.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <p>参考：<a href="https://segmentfault.com/a/1190000015848917" target="_blank" rel="noopener">Vue源码解读之AST语法树（一）</a></p>
-<h2 id="不同平台下的-文件的布局-和-柯里化"><a href="#不同平台下的-文件的布局-和-柯里化" class="headerlink" title="不同平台下的 文件的布局 和 柯里化"></a>不同平台下的 文件的布局 和 柯里化</h2><p>对于 web平台 ，运行的是 web平台下的 <code>entry-runtime-with-compiler</code>，所以该平台下的 编译生成 render 函数 的方法和 weex平台下时不同的，那么如何做到区分，就需要函数柯里化</p>
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/">
                                 阅读更多...
                               </a>
                               
