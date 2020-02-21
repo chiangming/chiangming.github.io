@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://chiangming.github.io/"/>
-  <updated>2020-02-17T14:57:44.185Z</updated>
+  <updated>2020-02-21T04:18:20.694Z</updated>
   <id>https://chiangming.github.io/</id>
   
   <author>
@@ -17,11 +17,63 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>interview/vue-blog</title>
+    <link href="https://chiangming.github.io/2020/02/20/interview/vue-blog/"/>
+    <id>https://chiangming.github.io/2020/02/20/interview/vue-blog/</id>
+    <published>2020-02-20T02:11:00.675Z</published>
+    <updated>2020-02-21T04:18:20.694Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;响应式系统&quot;&gt;&lt;a href=&quot;#响应式系统&quot; class=&quot;headerlink&quot; title=&quot;响应式系统&quot;&gt;&lt;/a&gt;响应式系统&lt;/h1&gt;&lt;p&gt;1、Vue
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>interview/a</title>
+    <link href="https://chiangming.github.io/2020/02/19/interview/a/"/>
+    <id>https://chiangming.github.io/2020/02/19/interview/a/</id>
+    <published>2020-02-19T13:32:33.080Z</published>
+    <updated>2020-02-19T15:09:01.627Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;!DOCTYPE html&gt;
+
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>javascript知识点</title>
     <link href="https://chiangming.github.io/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
     <id>https://chiangming.github.io/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/</id>
     <published>2020-02-16T16:15:39.000Z</published>
-    <updated>2020-02-17T14:57:44.185Z</updated>
+    <updated>2020-02-18T06:59:00.536Z</updated>
     
     <summary type="html">
     
@@ -30,7 +82,8 @@
 &lt;li&gt;obj.foo() -&amp;gt; obj&lt;/li&gt;
 &lt;li&gt;new Foo() -&amp;gt; foo&lt;/li&gt;
 &lt;li&gt;箭头函数 -&amp;gt; 没有this、arguments、prototype&lt;/li&gt;
-&lt;li&gt;bind({a:100}) -&amp;gt; {a:100} 第一个bind&lt;/li&gt;
+&lt;li&gt;bind({a:100}) -&amp;gt; {a:100} 第一个bind &lt;/li&gt;
+&lt;li&gt;bind() -&amp;gt; window|gloable&lt;/li&gt;
 &lt;li&gt;new &amp;gt; bind &amp;gt; 对象调用 &amp;gt; 直接调用
     
     </summary>
@@ -50,7 +103,7 @@
     <link href="https://chiangming.github.io/2020/02/17/interview/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/"/>
     <id>https://chiangming.github.io/2020/02/17/interview/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/</id>
     <published>2020-02-16T16:15:39.000Z</published>
-    <updated>2020-02-17T14:59:02.099Z</updated>
+    <updated>2020-02-19T15:22:40.278Z</updated>
     
     <summary type="html">
     
@@ -80,7 +133,7 @@
     <link href="https://chiangming.github.io/2020/02/17/%E9%98%AE%E4%B8%80%E5%B3%B0/1/"/>
     <id>https://chiangming.github.io/2020/02/17/%E9%98%AE%E4%B8%80%E5%B3%B0/1/</id>
     <published>2020-02-16T16:15:39.000Z</published>
-    <updated>2020-02-17T15:30:23.558Z</updated>
+    <updated>2020-02-19T14:45:42.505Z</updated>
     
     <summary type="html">
     
@@ -103,13 +156,52 @@
   </entry>
   
   <entry>
+    <title>排序</title>
+    <link href="https://chiangming.github.io/2020/02/17/%E6%8E%92%E5%BA%8F/"/>
+    <id>https://chiangming.github.io/2020/02/17/%E6%8E%92%E5%BA%8F/</id>
+    <published>2020-02-16T16:15:39.000Z</published>
+    <updated>2020-02-18T04:02:27.706Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;参考 &lt;a href=&quot;https://www.cnblogs.com/onepixel/articles/7674659.html&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="算法" scheme="https://chiangming.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="javascript" scheme="https://chiangming.github.io/tags/javascript/"/>
+    
+      <category term="算法" scheme="https://chiangming.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ES6</title>
     <link href="https://chiangming.github.io/2020/02/16/es6%E7%9B%B8%E5%85%B3/"/>
     <id>https://chiangming.github.io/2020/02/16/es6%E7%9B%B8%E5%85%B3/</id>
     <published>2020-02-15T16:15:25.000Z</published>
-    <updated>2020-02-17T08:28:39.777Z</updated>
+    <updated>2020-02-19T11:59:11.479Z</updated>
     
     <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;let-和const&quot;&gt;&lt;a href=&quot;#let-和const&quot; class=&quot;headerlink&quot; title=&quot;let 和const&quot;&gt;&lt;/a&gt;let 和const&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;不允许重复声明&lt;/li&gt;
+&lt;li&gt;不存在变量提升
+        
+      
     
     </summary>
     
@@ -396,11 +488,11 @@
   </entry>
   
   <entry>
-    <title>5.computed和watcher</title>
+    <title>5.computed和watch</title>
     <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/5.%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7&amp;%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7/"/>
     <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/5.%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7&amp;%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7/</id>
     <published>2019-12-21T16:15:31.000Z</published>
-    <updated>2020-02-10T08:32:48.370Z</updated>
+    <updated>2020-02-21T02:48:38.382Z</updated>
     
     <summary type="html">
     
@@ -487,102 +579,6 @@
       <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
     
       <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2.生命周期</title>
-    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/2.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"/>
-    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/2.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</id>
-    <published>2019-12-21T16:15:29.000Z</published>
-    <updated>2020-02-10T08:32:46.098Z</updated>
-    
-    <summary type="html">
-    
-      &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;_init&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;beforeCreate (initLifeCycle,initEvents,initRender)&lt;/li&gt;
-&lt;li&gt;created 可以获得data,props (initInjections,initState,initProvide)，在这里已经完成了 数据data computed的响应式处理以及 watch event的事件回调
-    
-    </summary>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
-    
-      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>1.数据驱动</title>
-    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/"/>
-    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/</id>
-    <published>2019-12-21T16:15:28.000Z</published>
-    <updated>2020-02-10T08:32:13.170Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;流程&quot;&gt;&lt;a href=&quot;#流程&quot; class=&quot;headerlink&quot; title=&quot;流程&quot;&gt;&lt;/a&gt;流程&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;初始化，在Vue原型上部署各种方法，&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;new Vue&lt;/code&gt;时执行&lt;code&gt;Vue.prototype._init()&lt;/code&gt;&lt;ul&gt;
-&lt;li&gt;initState() =&amp;gt; initData()&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;执行 &lt;code&gt;Vue.prototype.$mount&lt;/code&gt;&lt;ul&gt;
-&lt;li&gt;编译生成 render 函数&lt;/li&gt;
-&lt;li&gt;mountComponent &lt;ul&gt;
-&lt;li&gt;new Watcher =&amp;gt; this.get =&amp;gt; this.getter() =&amp;gt; vm._update(vm._render(), hydrating)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Vue.prototype._render()&lt;ul&gt;
-&lt;li&gt;render.call(vm._renderProxy, vm.$createElement)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Vue.prototype._update()&lt;ul&gt;
-&lt;li&gt;patch()
-    
-    </summary>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
-    
-      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>css题目</title>
-    <link href="https://chiangming.github.io/2019/11/23/interview/css/"/>
-    <id>https://chiangming.github.io/2019/11/23/interview/css/</id>
-    <published>2019-11-22T16:15:39.000Z</published>
-    <updated>2020-02-10T07:11:35.996Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;第1天-圣杯布局和双飞翼布局的理解和区别，并用代码实现&quot;&gt;&lt;a href=&quot;#第1天-圣杯布局和双飞翼布局的理解和区别，并用代码实现&quot; class=&quot;headerlink&quot; title=&quot;第1天 圣杯布局和双飞翼布局的理解和区别，并用代码实现&quot;&gt;&lt;/a&gt;第1天
-        
-      
-    
-    </summary>
-    
-    
-      <category term="面试" scheme="https://chiangming.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
-    
-    
-      <category term="css" scheme="https://chiangming.github.io/tags/css/"/>
-    
-      <category term="面试题" scheme="https://chiangming.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
     
   </entry>
   

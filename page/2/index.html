@@ -66,6 +66,224 @@
     
     
     
+    <article id="post-vue源码/12.transition" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/12.transition/"
+    >12.transition</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/12.transition/" class="article-date">
+  <time datetime="2019-12-21T16:15:37.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="render函数-vnode"><a href="#render函数-vnode" class="headerlink" title="render函数 vnode"></a>render函数 vnode</h2><ol>
+<li>transition组件使用同插槽一样，调用 transition 组件的render方法，通过 <code>this.$slots.default</code> 取得内部的vnode</li>
+<li>在 vnode的data上 生成 transition对象，保存transition标签上的 props （例如 name），listeners等属性 <code>vnode.data.transition</code></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data: <span class="built_in">Object</span> = (child.data || (child.data = &#123;&#125;)).transition = extractTransitionData(<span class="keyword">this</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取出 transition组件 过渡动画所需的属性</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span>   (<span class="params">comp: Component</span>): <span class="title">Object</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> data = &#123;&#125;</span><br><span class="line">  <span class="keyword">const</span> options: ComponentOptions = comp.$options</span><br><span class="line">  <span class="comment">// props</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> options.propsData) &#123;</span><br><span class="line">    data[key] = comp[key]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// events.</span></span><br><span class="line">  <span class="comment">// extract listeners and pass them directly to the transition methods</span></span><br><span class="line">  <span class="keyword">const</span> listeners: ?<span class="built_in">Object</span> = options._parentListeners</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> listeners) &#123;</span><br><span class="line">    data[camelize(key)] = listeners[key]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过该方法在子组件上添加动画css名，这样 child.data.transition 中就包含了过渡所需的一些数据</p>
+<blockquote>
+<p>如果组件里面写了html语言（不是正常插槽的写法），那么会作为 _c的 children vnode 传入，最终vnode保存在 componentOptions.children，在 _init过程中 </p>
+</blockquote>
+<ul>
+<li>合并component配置的过程中，<code>opts._renderChildren = vnodeComponentOptions.children;</code>，</li>
+<li>initRender 将 opts._renderChildren 挂载到 vm.$slots.default 上
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/12.transition/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/11.keep-alive" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/"
+    >11.keep-alive</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/" class="article-date">
+  <time datetime="2019-12-21T16:15:36.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>keep-alive组件是一个抽象组件，它的实现通过自定义render函数并且利用了插槽，并且知道了 keep-alive 缓存 vnode，了解组件包裹的子元素——也就是插槽是如何做更新的。且在 patch 过程中对于已缓存的组件不会执行 mounted，所以不会有一般的组件的生命周期函数但是又提供了activated 和 deactivated 钩子函数。另外我们还知道了keep-alive的 props 除了 include 和 exclude 还有文档中没有提到的 max，它能控制我们缓存的个数。</p>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/10.插槽" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/"
+    >10.插槽</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/" class="article-date">
+  <time datetime="2019-12-21T16:15:35.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p><a href="./demo/slot.html">demo</a></p>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-vue源码/9.双向绑定v-model" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -372,7 +590,7 @@
          
 <h2 itemprop="name">
   <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/5.%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7&%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7/"
-    >5.computed和watcher</a
+    >5.computed和watch</a
   >
 </h2>
   
@@ -583,234 +801,6 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/2.生命周期" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/2.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"
-    >2.生命周期</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/2.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="article-date">
-  <time datetime="2019-12-21T16:15:29.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <ul>
-<li><p>_init</p>
-<ul>
-<li>beforeCreate (initLifeCycle,initEvents,initRender)</li>
-<li>created 可以获得data,props (initInjections,initState,initProvide)，在这里已经完成了 数据data computed的响应式处理以及 watch event的事件回调
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/2.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/1.数据驱动" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/"
-    >1.数据驱动</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/" class="article-date">
-  <time datetime="2019-12-21T16:15:28.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ol>
-<li>初始化，在Vue原型上部署各种方法，</li>
-<li><code>new Vue</code>时执行<code>Vue.prototype._init()</code><ul>
-<li>initState() =&gt; initData()</li>
-</ul>
-</li>
-<li>执行 <code>Vue.prototype.$mount</code><ul>
-<li>编译生成 render 函数</li>
-<li>mountComponent <ul>
-<li>new Watcher =&gt; this.get =&gt; this.getter() =&gt; vm._update(vm._render(), hydrating)</li>
-</ul>
-</li>
-<li>Vue.prototype._render()<ul>
-<li>render.call(vm._renderProxy, vm.$createElement)</li>
-</ul>
-</li>
-<li>Vue.prototype._update()<ul>
-<li>patch()
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-interview/css" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/11/23/interview/css/"
-    >css题目</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/11/23/interview/css/" class="article-date">
-  <time datetime="2019-11-22T16:15:39.000Z" itemprop="datePublished">2019-11-23</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <h1 id="第1天-圣杯布局和双飞翼布局的理解和区别，并用代码实现"><a href="#第1天-圣杯布局和双飞翼布局的理解和区别，并用代码实现" class="headerlink" title="第1天 圣杯布局和双飞翼布局的理解和区别，并用代码实现"></a>第1天 圣杯布局和双飞翼布局的理解和区别，并用代码实现</h1><p><a href="https://www.jianshu.com/p/81ef7e7094e8" target="_blank" rel="noopener">答案</a></p>
-<h1 id="第2天-CSS3有哪些新增的特性？"><a href="#第2天-CSS3有哪些新增的特性？" class="headerlink" title="第2天 CSS3有哪些新增的特性？"></a>第2天 CSS3有哪些新增的特性？</h1><p>边框圆角<br>border-radius<br>盒子阴影<br>box-shadow<br>文字阴影<br>text-shadow<br>2d、3d变换<br>transform<br>rotate()<br>scale()<br>skew()<br>translate()<br>过度动画<br>transition<br>自定义动画<br>animation</p>
-<h1 id="第3天-在页面上隐藏元素的方法有哪些？"><a href="#第3天-在页面上隐藏元素的方法有哪些？" class="headerlink" title="第3天 在页面上隐藏元素的方法有哪些？"></a>第3天 在页面上隐藏元素的方法有哪些？</h1><p>disaplay: none; 页面不会渲染<br>visibility: hidden; 页面会渲染只是不限显示<br>opacity: 0; 看不见，但是会占据空间,可以点击</p>
-<h1 id="CSS选择器有哪些？哪些属性可以继承？优先级算法如何计算？内联和important哪个优先？"><a href="#CSS选择器有哪些？哪些属性可以继承？优先级算法如何计算？内联和important哪个优先？" class="headerlink" title="CSS选择器有哪些？哪些属性可以继承？优先级算法如何计算？内联和important哪个优先？"></a>CSS选择器有哪些？哪些属性可以继承？优先级算法如何计算？内联和important哪个优先？</h1><p><a href="https://blog.csdn.net/sjinsa/article/details/70768483" target="_blank" rel="noopener">答案</a></p>
-<p>!important &gt; 内联样式 &gt; id &gt; class(属性选择器[]、伪类 :) &gt; 标签(伪元素) &gt; 通用选择器 &gt; 继承 &gt; 默认</p>
-
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
 
 
     </footer>

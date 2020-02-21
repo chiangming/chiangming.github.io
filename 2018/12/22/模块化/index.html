@@ -63,7 +63,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">626字</span>
+            <span class="post-count">707字</span>
         </span>
     </span>
 
@@ -72,7 +72,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">2分钟</span>
+            <span class="post-count">3分钟</span>
         </span>
     </span>
 </div>
@@ -98,24 +98,39 @@
                       
 
                         
-                                  <h1 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h1><ul>
-<li>ES6 ：export import 值是动态绑定的 <ul>
+                                  <h1 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h1><h2 id="AMD-“Asynchronous-Module-Definition”"><a href="#AMD-“Asynchronous-Module-Definition”" class="headerlink" title="AMD(“Asynchronous Module Definition”)"></a>AMD(“Asynchronous Module Definition”)</h2><ul>
+<li>采用异步方式加载模块 require([module], callback);</li>
+</ul>
+<h2 id="CMD-“common-module-definition”"><a href="#CMD-“common-module-definition”" class="headerlink" title="CMD(“common module definition”)"></a>CMD(“common module definition”)</h2><h3 id="CommonJS-node"><a href="#CommonJS-node" class="headerlink" title="CommonJS(node)"></a>CommonJS(node)</h3><ul>
+<li>不适用于浏览器环境 <strong>同步</strong>加载</li>
+<li>require方式引入模块  <strong>值拷贝</strong>，<strong>导出值变化不会影响导入值</strong></li>
+<li>module.exports导出接口 </li>
+</ul>
+<h1 id="ES6模块化"><a href="#ES6模块化" class="headerlink" title="ES6模块化"></a>ES6模块化</h1><ul>
+<li>ES6 ：export import 值 <strong>异步</strong> 加载<ul>
 <li>静态化 先于模块内其他语句执行，命令具有提升效果</li>
 <li>export输出文件内部变量、函数、类 export {a,b as B,c}; import {a,B,c} from ‘ ‘</li>
-<li>export default  为模块指定默认输出， 一个模块只能有一个默认输。本质上，export default就是输出一个叫做default的变量或方法 <ul>
+<li>export default  为模块指定默认输出， 一个模块只能有一个默认。本质上，export default就是输出一个叫做default的变量或方法 <ul>
 <li>export default a; import a from ‘ ‘</li>
 </ul>
 </li>
-<li>import  命令具有提升效果<ul>
+<li>import  命令具有提升效果 指向 <strong>内存地址</strong>，<strong>导入值会随导出值而变化</strong><ul>
 <li>import * from “” 模块的整体加载，加载文件中全部的export </li>
 </ul>
 </li>
 <li>import() 函数 动态加载 返回一个 Promise 对象<ul>
-<li>加载模块成功以后，这个模块会作为一个对象，当作then方法的参数<br>例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;输出单个变量</span><br><span class="line">var name &#x3D; nirean;</span><br><span class="line">export &#123;name&#125;</span><br><span class="line">&#x2F;&#x2F;输出一组变量</span><br><span class="line">var name &#x3D; nirean;</span><br><span class="line">bar age &#x3D; 22;</span><br><span class="line">function getHabby()&#123;</span><br><span class="line">&#125;;</span><br><span class="line">export &#123;name , age, geyHabby&#125;;</span><br><span class="line">&#x2F;&#x2F;as 重命名</span><br><span class="line">export &#123;name as myname&#125;;</span><br><span class="line">&#x2F;&#x2F; circle.js输出两个函数 import * 整体加载</span><br><span class="line"> </span><br><span class="line">export function area(radius) &#123;</span><br><span class="line">  return Math.PI * radius * radius;</span><br><span class="line">&#125;</span><br><span class="line">export function circumference(radius) &#123;</span><br><span class="line">  return 2 * Math.PI * radius;</span><br><span class="line">&#125;</span><br><span class="line">import * as circle from &#39;.&#x2F;circle&#39;;</span><br><span class="line">console.log(&#39;圆面积：&#39; + circle.area(4));</span><br><span class="line">console.log(&#39;圆周长：&#39; + circle.circumference(14));</span><br><span class="line">&#x2F;&#x2F; export default 不需要&#123; &#125;</span><br><span class="line">export default getName;</span><br><span class="line">import getName from &#39;...&#39;;</span><br><span class="line">&#x2F;&#x2F; export default 为模块指定默认输出</span><br><span class="line">export default function()&#123;&#125;;</span><br><span class="line">import getName from &#39;...&#39;;</span><br></pre></td></tr></table></figure></li>
+<li>加载模块成功以后，这个模块会作为一个对象，当作then方法的参数<h3 id="require与import的区别"><a href="#require与import的区别" class="headerlink" title="require与import的区别"></a>require与import的区别</h3></li>
 </ul>
 </li>
 </ul>
 </li>
+<li>require支持 动态导入（地址中包含变量），import 不支持，正在提案 (babel 下可支持) -&gt;import()</li>
+<li>require是 <strong>同步</strong> 导入，import属于 <strong>异步</strong> 导入</li>
+<li>require是 <strong>值拷贝</strong>，导出值变化不会影响导入值；import指向 <strong>内存地址</strong>，导入值会随导出值而变化       </li>
+</ul>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;输出单个变量</span><br><span class="line">var name &#x3D; nirean;</span><br><span class="line">export &#123;name&#125;</span><br><span class="line">&#x2F;&#x2F;输出一组变量</span><br><span class="line">var name &#x3D; nirean;</span><br><span class="line">bar age &#x3D; 22;</span><br><span class="line">function getHabby()&#123;</span><br><span class="line">&#125;;</span><br><span class="line">export &#123;name , age, geyHabby&#125;;</span><br><span class="line">&#x2F;&#x2F;as 重命名</span><br><span class="line">export &#123;name as myname&#125;;</span><br><span class="line">&#x2F;&#x2F; circle.js输出两个函数 import * 整体加载</span><br><span class="line"> </span><br><span class="line">export function area(radius) &#123;</span><br><span class="line">  return Math.PI * radius * radius;</span><br><span class="line">&#125;</span><br><span class="line">export function circumference(radius) &#123;</span><br><span class="line">  return 2 * Math.PI * radius;</span><br><span class="line">&#125;</span><br><span class="line">import * as circle from &#39;.&#x2F;circle&#39;;</span><br><span class="line">console.log(&#39;圆面积：&#39; + circle.area(4));</span><br><span class="line">console.log(&#39;圆周长：&#39; + circle.circumference(14));</span><br><span class="line">&#x2F;&#x2F; export default 不需要&#123; &#125;</span><br><span class="line">export default getName;</span><br><span class="line">import getName from &#39;...&#39;;</span><br><span class="line">&#x2F;&#x2F; export default 为模块指定默认输出</span><br><span class="line">export default function()&#123;&#125;;</span><br><span class="line">import getName from &#39;...&#39;;</span><br></pre></td></tr></table></figure>
+<ul>
 <li>NodeJS中的commonJS ：<strong>require exports module.exports</strong><ul>
 <li>CommonJS规范加载模块是同步的，也就是说，只有加载完成，才能执行后面的操作 不适合浏览器</li>
 <li>require()用来引入外部模块； <ul>
@@ -129,10 +144,8 @@
 </ul>
 </li>
 <li>AMD define<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports.x &#x3D; x;  var y &#x3D; require(&quot;&quot;); y.x</span><br><span class="line">module.exports &#x3D; x; var y &#x3D; require(&quot;&quot;); y</span><br><span class="line">module.exports &#x3D; &#123;x:x&#125;; var y &#x3D; require(&quot;&quot;); y.x</span><br></pre></td></tr></table></figure>
-<h3 id="require与import的区别"><a href="#require与import的区别" class="headerlink" title="require与import的区别"></a>require与import的区别</h3></li>
-<li>require支持 动态导入（地址中包含变量），import 不支持，正在提案 (babel 下可支持) -&gt;import()</li>
-<li>require是 同步 导入，import属于 异步 导入</li>
-<li>require是 值拷贝，导出值变化不会影响导入值；import指向 内存地址，导入值会随导出值而变化</li>
+
+</li>
 </ul>
 
                                     

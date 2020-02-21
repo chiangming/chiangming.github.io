@@ -63,7 +63,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">896字</span>
+            <span class="post-count">1k字</span>
         </span>
     </span>
 
@@ -103,7 +103,8 @@
 <li>obj.foo() -&gt; obj</li>
 <li>new Foo() -&gt; foo</li>
 <li>箭头函数 -&gt; 没有this、arguments、prototype</li>
-<li>bind({a:100}) -&gt; {a:100} 第一个bind</li>
+<li>bind({a:100}) -&gt; {a:100} 第一个bind </li>
+<li>bind() -&gt; window|gloable</li>
 <li>new &gt; bind &gt; 对象调用 &gt; 直接调用<a id="more"></a>
 
 </li>
@@ -150,6 +151,8 @@
 <li>Object.prototype.<strong>proto</strong> = null</li>
 </ul>
 <h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><ul>
+<li>作用域：变量在<strong>声明</strong>它们的函数体以及这个函数体嵌套的任意函数体内都是有定义的。</li>
+<li>作用域链:当前作用域没有找到定义，继续向父级作用域寻找，直至全局作用域。</li>
 <li>ES5 有”全局作用域“和”函数作用域“。<ul>
 <li>IIFE 块级闭包：var a =(function b(){})()<ul>
 <li>函数名b为 <strong>只读</strong> 状态，无法修改,</li>
@@ -171,7 +174,6 @@
 </li>
 </ul>
 </li>
-<li>作用域链:当前作用域没有找到定义，继续向父级作用域寻找，直至全局作用域。</li>
 </ul>
 <h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><ul>
 <li><p>JS 是单线程的，先跑<strong>执行栈里</strong>的<strong>同步任务</strong>，然后再跑<strong>任务队列</strong>的<strong>异步任务</strong>。</p>
@@ -204,8 +206,20 @@
 </ul>
 <h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><ul>
 <li>闭包是函数和声明该函数的词法环境的组合</li>
+<li>保证变量不被GC回收</li>
 <li>优：避免全局污染</li>
 <li>缺：内存泄漏（浏览器强制刷新、node显示null清理）</li>
+</ul>
+<h2 id="ES6模块化"><a href="#ES6模块化" class="headerlink" title="ES6模块化"></a>ES6模块化</h2><ul>
+<li>(es6)import属于 <strong>异步</strong> 导入<ul>
+<li>(node commonjs)require是 <strong>同步</strong> 导入</li>
+</ul>
+</li>
+<li>(es6)import指向 <strong>内存地址</strong>，导入值会随导出值而变化<ul>
+<li>(node commonjs)require是 <strong>值拷贝</strong>，导出值变化不会影响导入值；</li>
+</ul>
+</li>
+<li>import()函数 与require支持动态加载</li>
 </ul>
 
                                     
@@ -274,6 +288,15 @@
   
   
   <nav class="article-nav">
+    
+      <a href="/2020/02/19/interview/a/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            interview/a
+          
+        </div>
+      </a>
     
     
       <a href="/2020/02/17/interview/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/" class="article-nav-link">

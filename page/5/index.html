@@ -66,6 +66,257 @@
     
     
     
+    <article id="post-ES6&amp;ES7&amp;ES8" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/ES6&ES7&ES8/"
+    >ES6 ES7 ES8</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/ES6&ES7&ES8/" class="article-date">
+  <time datetime="2018-11-20T16:15:25.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><p>Symbol用于属性私有化</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> _gender = <span class="built_in">Symbol</span>(<span class="string">'gender'</span>)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">P</span>(<span class="params">name,age,gen</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line">    <span class="keyword">this</span>[_gender] = gen</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  P.prototype.getGen=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>[_gender]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> P;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<h3 id="私有属性"><a href="#私有属性" class="headerlink" title="私有属性"></a>私有属性</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name,age</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span> age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> p1 = <span class="keyword">new</span> Person(<span class="string">'Matt'</span>,<span class="number">25</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p1.name)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> _gender = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">P</span>(<span class="params">name,age,gen</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line">    _gender = gen</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  P.prototype.getGen=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> _gender</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> P;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<h2 id="变量的解构赋值"><a href="#变量的解构赋值" class="headerlink" title="变量的解构赋值"></a>变量的解构赋值</h2><p><a href="../解构赋值">解构赋值</a></p>
+<h2 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h2><h3 id="for-in"><a href="#for-in" class="headerlink" title="for in"></a>for in</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组</span></span><br><span class="line"><span class="keyword">let</span> arr=[<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> index <span class="keyword">in</span> arr)&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(arr[index])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> arr)&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(item)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj=&#123;</span><br><span class="line">    a:<span class="number">1</span>,</span><br><span class="line">    b:<span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> obj)&#123; <span class="comment">// Uncaught TypeError: obj is not iterable</span></span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">in</span> obj)&#123; <span class="comment">// a b</span></span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要添加迭代器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype[<span class="built_in">Symbol</span>.iterator] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> keys=<span class="built_in">Object</span>.keys(<span class="keyword">this</span>);</span><br><span class="line">  <span class="keyword">let</span> values=<span class="built_in">Object</span>.values(<span class="keyword">this</span>);</span><br><span class="line">  <span class="keyword">let</span> length = keys.length;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> i=<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    next:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        done: i&gt;=length,</span><br><span class="line">        value:values[i++]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Object-assign"><a href="#Object-assign" class="headerlink" title="Object.assign"></a>Object.assign</h2><p>将所有可枚举属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。<br>浅拷贝</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> returnedTarget = <span class="built_in">Object</span>.assign(target, source);</span><br></pre></td></tr></table></figure>
+<h2 id="Object-create"><a href="#Object-create" class="headerlink" title="Object.create"></a>Object.create</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个原型为null的空对象</span></span><br><span class="line">o = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">o = &#123;&#125;;</span><br><span class="line"><span class="comment">// 以字面量方式创建的空对象就相当于:</span></span><br><span class="line">o = <span class="built_in">Object</span>.create(<span class="built_in">Object</span>.prototype);</span><br><span class="line"></span><br><span class="line">o = <span class="built_in">Object</span>.create(<span class="built_in">Object</span>.prototype, &#123;</span><br><span class="line">  <span class="comment">// foo会成为所创建对象的数据属性</span></span><br><span class="line">  foo: &#123; </span><br><span class="line">    writable:<span class="literal">true</span>,</span><br><span class="line">    configurable:<span class="literal">true</span>,</span><br><span class="line">    value: <span class="string">"hello"</span> </span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// bar会成为所创建对象的访问器属性</span></span><br><span class="line">  bar: &#123;</span><br><span class="line">    configurable: <span class="literal">false</span>,</span><br><span class="line">    <span class="keyword">get</span>: function() &#123; <span class="keyword">return</span> <span class="number">10</span> &#125;,</span><br><span class="line">    <span class="keyword">set</span>: function(value) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Setting `o.bar` to"</span>, value);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="Object-freeze"><a href="#Object-freeze" class="headerlink" title="Object.freeze()"></a>Object.freeze()</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 深冻结函数.</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepFreeze</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 取回定义在obj上的属性名</span></span><br><span class="line">  <span class="keyword">var</span> propNames = <span class="built_in">Object</span>.getOwnPropertyNames(obj);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在冻结自身之前冻结属性</span></span><br><span class="line">  propNames.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> prop = obj[name];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果prop是个对象，冻结它</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> prop == <span class="string">'object'</span> &amp;&amp; prop !== <span class="literal">null</span>)</span><br><span class="line">      deepFreeze(prop);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 冻结自身(no-op if already frozen)</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Object</span>.freeze(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="ES7"><a href="#ES7" class="headerlink" title="ES7"></a>ES7</h1><h2 id="Array-prototype-includes"><a href="#Array-prototype-includes" class="headerlink" title="Array.prototype.includes()"></a>Array.prototype.includes()</h2><p>1.基本用法：</p>
+<p>[‘a’, ‘b’, ‘c’].includes(‘a’)     // true<br>[‘a’, ‘b’, ‘c’].includes(‘d’)     // false<br>2.接收俩个参数：要搜索的值和搜索的开始索引</p>
+<p>[‘a’, ‘b’, ‘c’, ‘d’].includes(‘b’)         // true<br>[‘a’, ‘b’, ‘c’, ‘d’].includes(‘b’, 1)      // true<br>[‘a’, ‘b’, ‘c’, ‘d’].includes(‘b’, 2)      // false<br>3.与ES6中的indexOf()比较</p>
+<p>有些时候是等效的</p>
+<p>[‘a’, ‘b’, ‘c’].includes(‘a’)          //true<br>[‘a’, ‘b’, ‘c’].indexOf(‘a’) &gt; -1      //true</p>
+<h2 id="求幂"><a href="#求幂" class="headerlink" title="求幂"></a>求幂</h2><p>3 ** 2  //9<br>效果同<br>Math.pow(3, 2) //9</p>
+<p>var b = 3;<br>b **= 2;</p>
+<h1 id="ES8"><a href="#ES8" class="headerlink" title="ES8"></a>ES8</h1><h2 id="Object-entries"><a href="#Object-entries" class="headerlink" title="Object.entries()"></a>Object.entries()</h2><p>var obj = { foo: ‘bar’, baz: 42 };<br>    console.log(Object.keys(obj)) //[“foo”, “baz”]<br>    console.log(Object.values(obj)) //[“bar”, 42]<br>    console.log(Object.entries(obj)) //[[“foo”, “bar”], [“baz”, 42]]</p>
+<h2 id="字符串填充"><a href="#字符串填充" class="headerlink" title="字符串填充"></a>字符串填充</h2><p>‘Vue’.padStart(10)           //‘       Vue’<br>‘React’.padStart(10)         //‘     React’<br>‘JavaScript’.padStart(10)    //‘JavaScript’<br>‘Vue’.padEnd(10, ‘<em>*’)           //‘Vue</em><em>_</em><em>*</em>‘<br>‘React’.padEnd(10, ‘Hello’)      //‘ReactHello’<br>‘JavaScript’.padEnd(10, ‘Hi’)    //‘JavaScript’<br>‘JavaScript’.padEnd(8, ‘Hi’)     //‘JavaScript’</p>
+<h2 id="Object-getOwnPropertyDescriptors"><a href="#Object-getOwnPropertyDescriptors" class="headerlink" title="Object.getOwnPropertyDescriptors()"></a>Object.getOwnPropertyDescriptors()</h2><p>返回目标对象中所有属性的属性描述符，该属性必须是对象自己定义的，不能是从原型链继承来的。<br>ES6 的getOwnPropertyDescriptor()返回目标对象可枚举属性的方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    id: <span class="number">1</span>,</span><br><span class="line">    name: <span class="string">'霖呆呆'</span>,</span><br><span class="line">    <span class="keyword">get</span> gender() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'gender'</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="keyword">set</span> grad(d) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(d)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, <span class="string">'id'</span>))</span><br><span class="line">        </span><br><span class="line"><span class="comment">//输出结果</span></span><br><span class="line"> &#123;</span><br><span class="line">  id: &#123;</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">    enumerable: <span class="literal">true</span>,</span><br><span class="line">    value: <span class="number">1</span>,</span><br><span class="line">    writable: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数参数支持尾部逗号"><a href="#函数参数支持尾部逗号" class="headerlink" title="函数参数支持尾部逗号"></a>函数参数支持尾部逗号</h2><h2 id="修饰器Decorator"><a href="#修饰器Decorator" class="headerlink" title="修饰器Decorator"></a>修饰器Decorator</h2><p>es6中实现一个装饰器代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSometing</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Hello'</span> + name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myDecorator</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'start'</span>)</span><br><span class="line">    <span class="keyword">const</span> res = fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'end'</span>)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> wrapped = myDecorator(doSometing)</span><br><span class="line">doSometing(<span class="string">'lindaidai'</span>)</span><br><span class="line">  <span class="comment">//Hellowlindaidai</span></span><br><span class="line"></span><br><span class="line">wrapped(<span class="string">'lindaidai'</span>)</span><br><span class="line">  <span class="comment">//start </span></span><br><span class="line">  <span class="comment">//Hellowlindaidai</span></span><br><span class="line">  <span class="comment">//end</span></span><br></pre></td></tr></table></figure>
+
+<p>es8装饰器<br>修饰器不能用于函数<br>修饰器只能用于类和类的方法，不能用于函数，因为存在函数提升。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@addSkill</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addSkill</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    target.say = <span class="string">"hello world"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@decorator</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;&#125;</span><br><span class="line">A = decorator(A) || A;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@looks</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123; &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">looks</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'I am handsome'</span>)</span><br><span class="line">    target.looks = <span class="string">'handsome'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(Person[<span class="string">'looks'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">//I am handsome</span></span><br><span class="line"><span class="comment">//handsome</span></span><br></pre></td></tr></table></figure>
+<p>在修饰器@looks中添加一个console.log()语句，却发现它是最早执行的，其次才打印出handsome。</p>
+<p>这是因为装饰器对类的行为的改变，是代码编译时发生的，而不是在运行时。这意味着，装饰器能在编译阶段运行代码。也就是说，装饰器本质就是编译时执行的函数<br><a href="https://www.jianshu.com/p/13c5d002478b" target="_blank" rel="noopener">参考</a></p>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-对象属性" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7/"
+    >对象属性</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7/" class="article-date">
+  <time datetime="2018-11-20T16:15:25.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <p>对象属性的相关介绍</p>
+                            
+                              <a class="article-more-link" href="/2018/11/21/%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-解构赋值" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/"
+    >解构赋值</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/" class="article-date">
+  <time datetime="2018-11-20T16:15:25.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h3 id="变量的解构赋值"><a href="#变量的解构赋值" class="headerlink" title="变量的解构赋值"></a>变量的解构赋值</h3><h4 id="数组的解构赋值"><a href="#数组的解构赋值" class="headerlink" title="数组的解构赋值"></a>数组的解构赋值</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [a,b] = [<span class="number">1</span>,<span class="number">2</span>];</span><br><span class="line"><span class="comment">//默认值 只有在值为undefined时生效</span></span><br><span class="line"><span class="keyword">let</span> [a=<span class="number">2</span>,b=<span class="number">1</span>] = [<span class="number">1</span>,<span class="literal">undefined</span>]</span><br></pre></td></tr></table></figure>
+
+<h4 id="对象的解构赋值"><a href="#对象的解构赋值" class="headerlink" title="对象的解构赋值"></a>对象的解构赋值</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//变量名必须和属性名对应才能取到值</span></span><br><span class="line"><span class="keyword">var</span> &#123;foo,boo&#125; = &#123;<span class="attr">foo</span>:<span class="number">1</span>,<span class="attr">boo</span>:<span class="string">"hello"</span>&#125;;</span><br><span class="line"><span class="comment">//如果变量名和属性名不一致</span></span><br><span class="line"><span class="keyword">var</span> &#123;<span class="attr">foo</span>:name,<span class="attr">boo</span>:str&#125; = &#123;<span class="attr">foo</span>:<span class="number">1</span>,<span class="attr">boo</span>:<span class="string">"hello"</span>&#125;;</span><br><span class="line">name <span class="comment">//1</span></span><br><span class="line">str <span class="comment">//"hello"</span></span><br><span class="line"><span class="comment">//定义默认值</span></span><br><span class="line"><span class="keyword">var</span> &#123;<span class="attr">x</span>: y = <span class="number">3</span>&#125; = &#123;<span class="attr">x</span>: <span class="number">5</span>&#125;;</span><br><span class="line"><span class="comment">//在对一个已经声明的变量进行结构时，需要用大括号包住</span></span><br><span class="line"><span class="keyword">let</span> x;</span><br><span class="line">(&#123;x&#125; = &#123;<span class="attr">x</span>: <span class="number">1</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串解构赋值"><a href="#字符串解构赋值" class="headerlink" title="字符串解构赋值"></a>字符串解构赋值</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 字符串被当作数值处理，一个下标存放一个字母</span></span><br><span class="line"><span class="keyword">let</span> [a,b,c] = <span class="string">'hello'</span>;</span><br><span class="line">a <span class="comment">// 'h'</span></span><br><span class="line">b <span class="comment">// 'e'</span></span><br><span class="line">c <span class="comment">// 'l'</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="数值和布尔值解构赋值"><a href="#数值和布尔值解构赋值" class="headerlink" title="数值和布尔值解构赋值"></a>数值和布尔值解构赋值</h4><ul>
+<li>解构赋值时，如果等号右边是数值和布尔值，则会先转为对象。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> &#123;toString&#125; = <span class="number">123</span>;</span><br><span class="line">toString === <span class="built_in">Number</span>.prototype.toString; <span class="comment">//true</span></span><br></pre></td></tr></table></figure></li>
+<li>解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> &#123;toString&#125; = <span class="literal">undefined</span>;</span><br><span class="line"><span class="comment">//Uncaught TypeError: Cannot destructure property `string` of 'undefined' or 'null'.</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="函数参数的解构赋值"><a href="#函数参数的解构赋值" class="headerlink" title="函数参数的解构赋值"></a>函数参数的解构赋值</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">[x,y]</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(x+<span class="string">" "</span>+y);</span><br><span class="line">&#125;</span><br><span class="line">print([<span class="number">1</span>,<span class="number">2</span>]);</span><br><span class="line"><span class="comment">//解构使用默认值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">[x=<span class="number">0</span>,y=<span class="number">0</span>]</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(x+<span class="string">" "</span>+y);</span><br><span class="line">&#125;</span><br><span class="line">print([<span class="literal">undefined</span>,<span class="number">2</span>]);</span><br><span class="line"><span class="comment">//参数为对象的情况 解构使用默认值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">&#123;x=<span class="number">0</span>,y=<span class="number">0</span>&#125; = &#123;&#125;</span>)</span>&#123; <span class="comment">// = &#123;&#125; 避免没有参数的情况 默认参数为&#123;&#125;</span></span><br><span class="line">    <span class="built_in">console</span>.log(x+<span class="string">" "</span>+y);</span><br><span class="line">&#125;</span><br><span class="line">print(&#123;<span class="attr">y</span>:<span class="number">1</span>&#125;);</span><br><span class="line"><span class="comment">//在没有输入参数时，参数的默认值为&#123; x: 0, y: 0 &#125;，而不是解构的默认值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">&#123;x, y&#125; = &#123; x: <span class="number">0</span>, y: <span class="number">0</span> &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1. 交换两个数据</span></span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>,b=<span class="number">2</span>;</span><br><span class="line">[b,a] = [a,b];</span><br><span class="line"><span class="comment">//2. 返回对象，数组更好取值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getData</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        name:<span class="string">'zz'</span>,</span><br><span class="line">        age:<span class="number">12</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#123;name,age&#125; = getData();</span><br><span class="line"><span class="comment">//3. 传参 更方便的将变量名 和一组参数对应</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printData</span>(<span class="params">&#123;name,age&#125;</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(name+<span class="string">" "</span>+age);</span><br><span class="line">&#125;</span><br><span class="line">printData(&#123;<span class="attr">name</span>:<span class="string">'zz'</span>,<span class="attr">age</span>:<span class="number">12</span>&#125;);</span><br><span class="line"><span class="comment">//4. 函数默认值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">&#123;x=<span class="number">0</span>,y=<span class="number">0</span>&#125; = &#123;&#125;</span>)</span>&#123; <span class="comment">// = &#123;&#125; 避免没有参数的情况 默认参数为&#123;&#125;</span></span><br><span class="line">    <span class="built_in">console</span>.log(x+<span class="string">" "</span>+y);</span><br><span class="line">&#125;</span><br><span class="line">print(&#123;<span class="attr">y</span>:<span class="number">1</span>&#125;);</span><br><span class="line"><span class="comment">//5.Map遍历</span></span><br><span class="line"><span class="keyword">var</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">map.set(<span class="number">1</span>,<span class="string">"1"</span>);</span><br><span class="line">map.set(<span class="number">2</span>,<span class="string">"2"</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> [key,value] <span class="keyword">of</span> map)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(key+<span class="string">" "</span>+value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//6. 加载模块时，往往需要指定输入哪些方法</span></span><br><span class="line"><span class="keyword">var</span> &#123;getData,printData&#125; = <span class="built_in">require</span>(<span class="string">""</span>);</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-express" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
