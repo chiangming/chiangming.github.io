@@ -473,11 +473,14 @@ vm._c = function(a, b, c, d) {    return createElement(vm, a, b, c, d, false);};
 <li>老尾新头 <strong>将old end 移动到old start的前面</strong>，old end -1 ， new start +1  </li>
 <li>都不匹配 在旧的vnode数组中查找 newStartVnode 的下标，没有key的话要比较tag<ul>
 <li>相同则 patchVnode并移动到oldStart前</li>
-<li>不相同 新建节点oldStart前   </li>
+<li>不相同 新建DOM节点oldStart前   </li>
 </ul>
 </li>
 </ul>
 <p>3、最后找不到，才会去新建删除节点，保底处理  </p>
+<ul>
+<li>旧Vnode 树 和 新Vnode树 进行比较的过程中<br>,不会对这两棵Vode树进行修改，而是以比较的结果直接对 真实DOM 进行修改</li>
+</ul>
 
                                     
 
