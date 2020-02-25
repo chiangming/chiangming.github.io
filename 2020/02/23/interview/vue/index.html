@@ -48,8 +48,8 @@
 
         
           <div class="article-meta">
-            <a href="/2019/11/23/interview/vue/" class="article-date">
-  <time datetime="2019-11-22T16:15:39.000Z" itemprop="datePublished">2019-11-23</time>
+            <a href="/2020/02/23/interview/vue/" class="article-date">
+  <time datetime="2020-02-22T16:15:39.000Z" itemprop="datePublished">2020-02-23</time>
 </a>
               
   <div class="article-category">
@@ -63,7 +63,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">9.1k字</span>
+            <span class="post-count">9.8k字</span>
         </span>
     </span>
 
@@ -72,7 +72,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">36分钟</span>
+            <span class="post-count">38分钟</span>
         </span>
     </span>
 </div>
@@ -111,9 +111,9 @@
 <li>比较 新旧节点的文本，进行更新</li>
 </ul>
 </li>
-<li>diff算法</li>
+<li>diff算法<a id="more"></a>
+参考： <a href="https://segmentfault.com/a/1190000008782928" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008782928</a></li>
 </ol>
-<p>参考： <a href="https://segmentfault.com/a/1190000008782928" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008782928</a></p>
 <p>在diff算法中vue只对同级的vnode节点进行比较，oldCh和newCh各有两个头尾的变量StartIdx和EndIdx，它们的2个变量相互比较，一共有4种比较方式。如果4种比较都没匹配，如果设置了key，就会用key进行比较，在比较的过程中，变量会往中间靠，一旦StartIdx&gt;EndIdx表明oldCh和newCh至少有一个已经遍历完了，就会结束比较。<br>不设key，newCh和oldCh只会进行头尾两端的相互比较，设key后，除了头尾两端的比较外，还会从用key生成的对象oldKeyToIdx中查找newStartVnode.key匹配的节点(没有设置key的话需要执行findIdxInOld方法去比较newStartVnode和所有的oldCh），所以为节点设置key可以更高效的利用dom。</p>
 <p>对于带状态的组件渲染，唯一的key值在每次渲染列表时都会完全替换所有组件，使其拥有正确状态（而不是就地更新）。</p>
 <h1 id="Vue-的-diff-时间复杂度从-O-n-3-优化到-O-n"><a href="#Vue-的-diff-时间复杂度从-O-n-3-优化到-O-n" class="headerlink" title="Vue 的 diff 时间复杂度从 O(n^3) 优化到 O(n) ?"></a>Vue 的 diff 时间复杂度从 O(n^3) 优化到 O(n) ?</h1><ul>
@@ -706,6 +706,31 @@ vm._c = function(a, b, c, d) {    return createElement(vm, a, b, c, d, false);};
 <ul>
 <li>旧Vnode 树 和 新Vnode树 进行比较的过程中<br>,不会对这两棵Vode树进行修改，而是以比较的结果直接对 真实DOM 进行修改</li>
 </ul>
+<h1 id="vue-router动态路由"><a href="#vue-router动态路由" class="headerlink" title="vue-router动态路由"></a>vue-router动态路由</h1><p>router.beforeEach((to, from, next) =&gt; {<br>  …axios获取路由节点信息<br>  router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表<br>  next({…to,replace: true})<br>}</p>
+<h1 id="vue-动态组件"><a href="#vue-动态组件" class="headerlink" title="vue-动态组件"></a>vue-动态组件</h1><p><component :is="currentView"></component></p>
+<h1 id="服务端渲染SSR"><a href="#服务端渲染SSR" class="headerlink" title="服务端渲染SSR"></a>服务端渲染SSR</h1><ul>
+<li>将组件或页面通过服务器生成html字符串，再发送到浏览器，最后将静态标记”混合”为客户端上完全交互的应用程序</li>
+<li>优点：1.利于SEO 2.利于首屏加载</li>
+<li>缺点：服务端压力较大，开发条件受限</li>
+</ul>
+<h1 id="路由的History"><a href="#路由的History" class="headerlink" title="路由的History"></a>路由的History</h1><ol>
+<li>hash(默认) —— 即地址栏 URL 中的 # 符号比如这个 URL：<a href="http://www.abc.com/#/hello，hash" target="_blank" rel="noopener">http://www.abc.com/#/hello，hash</a> 的值为 #/hello。<br>特点在于：hash 虽然出现在 URL &gt;中，但不会被包括在 HTTP 请求中，对后端完全没有影响，因此改变 hash 不会重新加载页面。</li>
+<li>history —— 利用了 HTML5 History Interface 中新增的 pushState() 和 replaceState() 方法。在当前已有的 back、forward、go 的基础之上，它们提供了对历史记录进行修改的功能。只是当它们执行修改时，虽然改变了当前的 URL，但浏览器不会立即向后端发送请求。<ol>
+<li>pushState() 设置的新 URL 可以是与当前 URL 同源的任意 URL；而 hash 只可修改 # 后面的部分，因此只能设置与当前 URL 同文档的 URL；</li>
+<li>pushState() 设置的新 URL 可以与当前 URL 一模一样，这样也会把记录添加到栈中；而 hash 设置的新值必须与原来不一样才会触发动作将记录添加到栈中；</li>
+<li>pushState() 通过 stateObject 参数可以添加任意类型的数据到记录中；而 hash 只可添加短字符串；</li>
+<li>pushState() 可额外设置 title 属性供后续使用。</li>
+</ol>
+</li>
+</ol>
+<p>hash 模式下，仅 hash 符号之前的内容会被包含在请求中，即使没有做到对路由的全覆盖，也不会返回 404 错误。<br>history 模式下，如果后端缺少对 /book/id 的路由处理，将返回 404 错误。刷新，f5</p>
+<h1 id="Vuex数据流"><a href="#Vuex数据流" class="headerlink" title="Vuex数据流"></a>Vuex数据流</h1><p><img src="https://img-blog.csdnimg.cn/20190514091610755.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjkzNTU0Ng==,size_16,color_FFFFFF,t_70" alt=""><br>将数据存放到全局的store，再将store挂载到每个vue实例组件中，利用Vue.js的细粒度数据响应机制来进行高效的状态更新。</p>
+<ul>
+<li><p>vuex的store是如何挂载注入到组件中呢？<br>利用vue的mixin混入机制，在beforeCreate钩子前混入vuexInit方法，vuexInit方法实现了store注入vue组件实例，并注册了vuex store的引用属性$store。<br><img src="https://pic4.zhimg.com/80/v2-a8b969f8771a1fc13b7cedfdfe86f0e7_720w.jpg" alt=""></p>
+</li>
+<li><p>vuex的state和getters是如何映射到各个组件实例中响应式更新状态呢？<br>Vuex的state状态是响应式，是借助vue的data是响应式，将state存入vue实例组件的data中；Vuex的getters则是借助vue的计算属性computed实现数据实时监听。</p>
+</li>
+</ul>
 
                                     
 
@@ -756,7 +781,7 @@ vm._c = function(a, b, c, d) {    return createElement(vm, a, b, c, d, false);};
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2019/11/23/interview/vue/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2020/02/23/interview/vue/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -774,19 +799,19 @@ vm._c = function(a, b, c, d) {    return createElement(vm, a, b, c, d, false);};
   
   <nav class="article-nav">
     
-      <a href="/2019/11/23/interview/js/" class="article-nav-link">
+      <a href="/2020/02/24/interview/%E9%9D%A2%E8%AF%95/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            javascript题目
+            interview/面试
           
         </div>
       </a>
     
     
-      <a href="/2018/12/22/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="article-nav-link">
+      <a href="/2020/02/20/interview/vue-blog/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">前端性能优化</div>
+        <div class="article-nav-title">interview/vue-blog</div>
       </a>
     
   </nav>

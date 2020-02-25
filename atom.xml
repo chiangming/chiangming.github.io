@@ -63,6 +63,42 @@
   </entry>
   
   <entry>
+    <title>Vue题目</title>
+    <link href="https://chiangming.github.io/2020/02/23/interview/vue/"/>
+    <id>https://chiangming.github.io/2020/02/23/interview/vue/</id>
+    <published>2020-02-22T16:15:39.000Z</published>
+    <updated>2020-02-25T02:55:23.631Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;写-Vue-项目时为什么要在列表组件中写-key，其作用是什么？&quot;&gt;&lt;a href=&quot;#写-Vue-项目时为什么要在列表组件中写-key，其作用是什么？&quot; class=&quot;headerlink&quot; title=&quot;写 Vue 项目时为什么要在列表组件中写 key，其作用是什么？&quot;&gt;&lt;/a&gt;写 Vue 项目时为什么要在列表组件中写 key，其作用是什么？&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;考虑到DOM节点更改的性能问题，Vue使用vnode做虚拟dom节点进行更新&lt;/li&gt;
+&lt;li&gt;组件的更新，是通过每一个vue实例的watcher派发更新的，每一步更新都是更新一个vue实例对应的dom。因为update事件被推送到任务队列时，是按watcher的id从小到大进行排序，所以会先更新用户watcher，再更新父watcher，再更新子watcher&lt;/li&gt;
+&lt;li&gt;响应式数据的变化触发渲染watcher的updateComponment方法，执行vm._patch(vm._render,false)过程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;_render() 生成当前vm实例 新的vnode&lt;/li&gt;
+&lt;li&gt;_update() 执行 patch方法，由于此时存在旧vnode，如果新旧vnode不同（key tag），会调用 patchVnode，如果是不同的vnode，createELm 创建新的dom，并删去旧的dom&lt;/li&gt;
+&lt;li&gt;patchVnode 主要是进行更新dom操作 &lt;ul&gt;
+&lt;li&gt;新旧节点的孩子节点存在 且不同，调用diff算法&lt;/li&gt;
+&lt;li&gt;比较 新旧节点的文本，进行更新&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;diff算法
+    
+    </summary>
+    
+    
+      <category term="面试" scheme="https://chiangming.github.io/categories/%E9%9D%A2%E8%AF%95/"/>
+    
+    
+      <category term="面试题" scheme="https://chiangming.github.io/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    
+      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
     <title>interview/vue-blog</title>
     <link href="https://chiangming.github.io/2020/02/20/interview/vue-blog/"/>
     <id>https://chiangming.github.io/2020/02/20/interview/vue-blog/</id>
@@ -520,34 +556,6 @@
 &lt;li&gt;Watcher：扮演观察者的角色，进行观察者函数的包装处理。如render()函数，会被进行包装成一个Watcher实例&lt;/li&gt;
 &lt;li&gt;Observer：辅助的可观测类，数组/对象通过它的转化，可成为可观测数据&lt;br&gt;参考：&lt;a href=&quot;https://ruphi.cn/archives/336/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Vue依赖收集原理&lt;/a&gt;  &lt;/li&gt;
 &lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
-    
-      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>5.computed和watch</title>
-    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/5.%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7&amp;%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7/"/>
-    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/5.%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7&amp;%E7%9B%91%E5%90%AC%E5%B1%9E%E6%80%A7/</id>
-    <published>2019-12-21T16:15:31.000Z</published>
-    <updated>2020-02-21T02:48:38.382Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;computed&quot;&gt;&lt;a href=&quot;#computed&quot; class=&quot;headerlink&quot; title=&quot;computed&quot;&gt;&lt;/a&gt;computed&lt;/h2&gt;&lt;h3 id=&quot;初始化&quot;&gt;&lt;a href=&quot;#初始化&quot; class=&quot;headerlink&quot; title=&quot;初始化&quot;&gt;&lt;/a&gt;初始化&lt;/h3&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;computed: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  fullName: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// getter&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;get&lt;/span&gt;: function () &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.firstName + &lt;span class=&quot;string&quot;&gt;&#39; &#39;&lt;/span&gt; + &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.lastName&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// setter&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;set&lt;/span&gt;: function (newValue) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; names = newValue.split(&lt;span class=&quot;string&quot;&gt;&#39; &#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.firstName = names[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.lastName = names[names.length - &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;initState 的 过程中也会 对 computed属性进行初始化（initComputed）&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;会为每一个computed里的数据生成一个 watcher实例，（其中getter属性为computed中的数据由用户定义的函数或对象的get方法）与数据响应的watcher区别在与设置了lazy属性为true，这个属性主要的作用就是在数据发生改变时不会触发notify&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;将 computed中的属性 部署到 vm上，可以直接通过vm来获取，并设置其getter方法，&lt;/p&gt;
     
     </summary>
     

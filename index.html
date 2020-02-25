@@ -223,6 +223,88 @@
 
 </article>
     
+    <article id="post-interview/vue" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/23/interview/vue/"
+    >Vue题目</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/02/23/interview/vue/" class="article-date">
+  <time datetime="2020-02-22T16:15:39.000Z" itemprop="datePublished">2020-02-23</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="写-Vue-项目时为什么要在列表组件中写-key，其作用是什么？"><a href="#写-Vue-项目时为什么要在列表组件中写-key，其作用是什么？" class="headerlink" title="写 Vue 项目时为什么要在列表组件中写 key，其作用是什么？"></a>写 Vue 项目时为什么要在列表组件中写 key，其作用是什么？</h2><ul>
+<li>考虑到DOM节点更改的性能问题，Vue使用vnode做虚拟dom节点进行更新</li>
+<li>组件的更新，是通过每一个vue实例的watcher派发更新的，每一步更新都是更新一个vue实例对应的dom。因为update事件被推送到任务队列时，是按watcher的id从小到大进行排序，所以会先更新用户watcher，再更新父watcher，再更新子watcher</li>
+<li>响应式数据的变化触发渲染watcher的updateComponment方法，执行vm._patch(vm._render,false)过程</li>
+</ul>
+<ol>
+<li>_render() 生成当前vm实例 新的vnode</li>
+<li>_update() 执行 patch方法，由于此时存在旧vnode，如果新旧vnode不同（key tag），会调用 patchVnode，如果是不同的vnode，createELm 创建新的dom，并删去旧的dom</li>
+<li>patchVnode 主要是进行更新dom操作 <ul>
+<li>新旧节点的孩子节点存在 且不同，调用diff算法</li>
+<li>比较 新旧节点的文本，进行更新</li>
+</ul>
+</li>
+<li>diff算法
+                            
+                              <a class="article-more-link" href="/2020/02/23/interview/vue/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-interview/vue-blog" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -1473,120 +1555,6 @@ return this.then(onFulfilled, onRejected);</code></pre><p>  }<br>}();</p>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
 
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-防抖" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/02/10/%E9%98%B2%E6%8A%96/"
-    >防抖</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2020/02/10/%E9%98%B2%E6%8A%96/" class="article-date">
-  <time datetime="2020-02-10T06:06:27.952Z" itemprop="datePublished">2020-02-10</time>
-</a>
-              
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset='utf-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <title>Page Title</title>
-  <meta name="generator" content="hexo-theme-yilia-plus">
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-  <script src='main.js'></script>
-<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
-</head>
-
-<body>
-  <h2>防抖demo</h2>
-  <p>打开控制台观看效果</p>
-  <input id="inp"></input>
-</body>
-<script>
-  function debounce(func, wait, immediate) {
-
-    var timeout;
-
-    return function() {
-      var context = this;
-      var args = arguments;
-
-      if (timeout) clearTimeout(timeout);
-      // 立即执行的情况
-      if (immediate) {
-        // 如果已经执行过，不再执行
-        var callNow = !timeout;
-        console.log('callNow:', callNow)
-        console.log('timeout:', timeout)
-        timeout = setTimeout(function() {
-          timeout = null;
-        }, wait)
-        if (callNow) func.apply(context, args)
-      } else {
-        timeout = setTimeout(function() {
-          func.apply(context, args)
-        }, wait);
-      }
-    }
-  }
-
-  function sayHi(a) {
-    console.log('防抖成功');
-    console.log(a);
-  }
-
-  var inp = document.getElementById('inp');
-  inp.addEventListener('input', debounce(sayHi, 5000, true).bind(this, 'a')); // 防抖
-</script>
-
-</html>
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
 
     </footer>
 
