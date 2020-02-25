@@ -66,6 +66,300 @@
     
     
     
+    <article id="post-call和apply" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/call%E5%92%8Capply/"
+    >call和apply</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/call%E5%92%8Capply/" class="article-date">
+  <time datetime="2018-11-20T16:15:27.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="call-和-apply"><a href="#call-和-apply" class="headerlink" title="call() 和 apply()"></a>call() 和 apply()</h1><p>扩充作用域apply和call  </p>
+<ol>
+<li>方法（非继承):apply() 和 call()  </li>
+</ol>
+<ul>
+<li>在特定的作用域中调用函数,实际上等于设置函数体内 this 对象的值</li>
+<li>call()  arg[0]:运行函数的作用域 arg[1<del>n]:参数1</del>n</li>
+<li>apply() arg[0]:运行函数的作用域 arg[1]:参数数组</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span>(<span class="params">arg1, arg2</span>) </span>&#123;</span><br><span class="line">     ...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">func.call(<span class="keyword">this</span>, arg1, arg2); <span class="comment">// 使用 call，参数列表</span></span><br><span class="line">func.apply(<span class="keyword">this</span>, [arg1, arg2]) <span class="comment">// 使用 apply，参数数组</span></span><br></pre></td></tr></table></figure>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><h2 id="合并数组"><a href="#合并数组" class="headerlink" title="合并数组"></a>合并数组</h2><p>Array.prototype.push.apply(arr1, arr2); 等价于<br>arr1.push(…arr2)</p>
+<h2 id="数组最大值"><a href="#数组最大值" class="headerlink" title="数组最大值"></a>数组最大值</h2><p>Math.max.apply(Math, numbers);   等价于<br>Math.max(…numbers)</p>
+<h2 id="使用原型上的方法"><a href="#使用原型上的方法" class="headerlink" title="使用原型上的方法"></a>使用原型上的方法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isArray</span>(<span class="params">obj</span>)</span>&#123; </span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(obj) === <span class="string">'[object Array]'</span>;</span><br><span class="line">&#125;</span><br><span class="line">isArray([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);           <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 直接使用 toString()</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].toString(); 	<span class="comment">// "1,2,3"</span></span><br><span class="line"><span class="string">"123"</span>.toString(); 		<span class="comment">// "123"</span></span><br><span class="line"><span class="number">123.</span>toString(); 		<span class="comment">// SyntaxError: Invalid or unexpected token</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="number">123</span>).toString(); <span class="comment">// "123"</span></span><br><span class="line"><span class="built_in">Object</span>(<span class="number">123</span>).toString(); <span class="comment">// "123"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="类数组对象（Array-like-Object）使用数组方法"><a href="#类数组对象（Array-like-Object）使用数组方法" class="headerlink" title="类数组对象（Array-like Object）使用数组方法"></a>类数组对象（Array-like Object）使用数组方法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> domNodes = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"*"</span>);</span><br><span class="line">domNodes.unshift(<span class="string">"h1"</span>);</span><br><span class="line"><span class="comment">// TypeError: domNodes.unshift is not a function</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> domNodeArrays = <span class="built_in">Array</span>.prototype.slice.call(domNodes);</span><br><span class="line">domNodeArrays.unshift(<span class="string">"h1"</span>); <span class="comment">// 505 不同环境下数据不同</span></span><br><span class="line"><span class="comment">// (505) ["h1", html.gr__hujiang_com, head, meta, ...]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="调用父构造函数实现继承"><a href="#调用父构造函数实现继承" class="headerlink" title="调用父构造函数实现继承"></a>调用父构造函数实现继承</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>  <span class="title">SuperType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.color=[<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>  <span class="title">SubType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 核心代码，继承自SuperType</span></span><br><span class="line">    SuperType.call(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="call的模拟实现"><a href="#call的模拟实现" class="headerlink" title="call的模拟实现"></a>call的模拟实现</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> value = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> args =[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">var</span> foo = &#123;</span><br><span class="line">    value: <span class="number">1</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar.call(foo); </span><br><span class="line">bar.apply(foo,args)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.call = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">  context = context ? <span class="built_in">Object</span>(context) : <span class="built_in">window</span>; </span><br><span class="line">  context.fn = <span class="keyword">this</span>;                              <span class="comment">// 1. foo.fn = bar</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> args = [...arguments].slice(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">let</span> result = context.fn(...args);               <span class="comment">// 2. foo.fn()</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">delete</span> context.fn                               <span class="comment">// 3. delete foo.fn()</span></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="apply-模拟实现"><a href="#apply-模拟实现" class="headerlink" title="apply 模拟实现"></a>apply 模拟实现</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply2 = <span class="function"><span class="keyword">function</span> (<span class="params">context,args</span>) </span>&#123;</span><br><span class="line">  context = context ? <span class="built_in">Object</span>(context) : <span class="built_in">window</span>; </span><br><span class="line">  context.fn = <span class="keyword">this</span>;                              <span class="comment">// 1. foo.fn = bar</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!arr) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'CreateListFromArrayLike called on non-object'</span>)</span><br><span class="line">  &#125; </span><br><span class="line">  <span class="keyword">let</span> result = context.fn(...args);               <span class="comment">// 2. foo.fn(...args)</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">delete</span> context.fn                               <span class="comment">// 3. delete foo.fn()</span></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-css" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/css/"
+    >CSS知识点</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/css/" class="article-date">
+  <time datetime="2018-11-20T16:15:26.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/css/">css</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h3 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h3><p>通过box-sizing设置</p>
+<ul>
+<li>content-box 标准模型<ul>
+<li>宽高不包括边框</li>
+</ul>
+</li>
+<li>border-box  IE模型<ul>
+<li>宽高包括边框border和padding</li>
+</ul>
+</li>
+</ul>
+<h3 id="JS获取宽高"><a href="#JS获取宽高" class="headerlink" title="JS获取宽高"></a>JS获取宽高</h3><ul>
+<li>dom.offsetHeight 最佳</li>
+<li>dom.style.height 只能获取内联样式</li>
+<li>dom.getBoundingClientRect().width/height 根据元素在视窗中的绝对位置来获取宽高的</li>
+<li>window.getComputedStyle(dom).width/height</li>
+<li>dom.currentStyle.width/height  页面渲染完成后的结果，就是说不管是哪种方式设置的样式，都能获取到。但这种方式只有IE浏览器支持</li>
+</ul>
+<h3 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h3><p>块级格式化上下文，是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。<br><a href="https://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html" target="_blank" rel="noopener"></a><br><a href="https://zhuanlan.zhihu.com/p/25321647" target="_blank" rel="noopener"></a></p>
+<h3 id="层叠上下文"><a href="#层叠上下文" class="headerlink" title="层叠上下文"></a>层叠上下文</h3><p><a href="https://juejin.im/post/5b876f86518825431079ddd6" target="_blank" rel="noopener"></a><br><a href="https://juejin.im/post/5b876f86518825431079ddd6#heading-8" target="_blank" rel="noopener"></a></p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div &gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>层叠上下文的background/border &lt; z-index小于0 &lt; block &lt; float &lt; inline &lt; z-index=0,auto &lt; z-index大于0</p>
+<p>如果产生了层叠上下文 那么比较其背景与子元素<br>没有的话就是普通元素 block</p>
+<h3 id="居中布局"><a href="#居中布局" class="headerlink" title="居中布局"></a>居中布局</h3><p><a href="https://www.zhangxinxu.com/wordpress/2018/10/display-flex-css3-css/" target="_blank" rel="noopener">flex</a></p>
+<p>.parent {<br>    display: flex;<br>    justify-content: center;<br>}</p>
+<p>.parent {<br>    display: flex;<br>    align-items: center;<br>}</p>
+<ul>
+<li><p>水平居中</p>
+<ul>
+<li>行内元素: text-align: center</li>
+<li>块级元素: margin: 0 auto</li>
+<li>absolute + transform</li>
+<li>flex + justify-content: center</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>垂直居中</p>
+<ul>
+<li>line-height: height</li>
+<li>absolute + transform</li>
+<li>flex + align-items: center</li>
+<li>table <table> <tr> <td>12 </td> </tr> </table></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>水平垂直居中</p>
+<ul>
+<li>absolute + transform</li>
+<li>flex + justify-content + align-items</li>
+<li>fixed margin:auto left:0 right:0 right:0 bottom：0</li>
+</ul>
+</li>
+</ul>
+<h3 id="选择器优先级"><a href="#选择器优先级" class="headerlink" title="选择器优先级"></a>选择器优先级</h3><p>!important &gt; 内联样式 &gt; id &gt; class(属性选择器[]、伪类 :) &gt; 标签(伪元素) &gt; 通用选择器 &gt; 继承 &gt; 默认</p>
+<p>后定义的优先级较高</p>
+<p><a href="./选择器.md">css选择器参考</a></p>
+<h3 id="display：none-visibility-0的区别"><a href="#display：none-visibility-0的区别" class="headerlink" title="display：none visibility=0的区别"></a>display：none visibility=0的区别</h3><ul>
+<li>display:none 是真的在页面上消失，不占用空间</li>
+<li>visibility=0 是不见了，但还是占了空间</li>
+</ul>
+<h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><ul>
+<li><p>static </p>
+</li>
+<li><p>absolute  元素相对于最近的非 static 定位祖先元素的偏移，来确定元素位置。如果没有就是相对于body</p>
+</li>
+<li><p>relative 相对自己原来的位置</p>
+</li>
+<li><p>fixed 相对窗口的绝对定位定位</p>
+<ul>
+<li>top bottom left right 是相对于最外边距的距离。（content + padding + border + margin）<h3 id="浮动清除-（去除浮动影响，防止父级高度塌陷）"><a href="#浮动清除-（去除浮动影响，防止父级高度塌陷）" class="headerlink" title="浮动清除 （去除浮动影响，防止父级高度塌陷）"></a>浮动清除 （去除浮动影响，防止父级高度塌陷）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;outer&quot;&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;1&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;2&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;3&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>通过增加尾元素清除浮动 :after / <br> : clear: both</p>
+<ul>
+<li>clear:both 左右两侧均不能出现浮动元素</li>
+</ul>
+</li>
+</ul>
+<p>(::after 是css3提出的 和 :after相同 ，都是伪元素，作为已选中元素的最后一个子元素。为了兼容性 建议使用:after)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#clear&#123;</span><br><span class="line">  clear: both;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;div class&#x3D;&quot;outer&quot;&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;1&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;2&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;inner&quot;&gt;3&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;div id&#x3D;&quot;clear&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建父级 BFC </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.outer&#123;</span><br><span class="line">    overflow:hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>父级设置高度</li>
+</ul>
+<h3 id="与-import-的区别"><a href="#与-import-的区别" class="headerlink" title=" 与 @import 的区别"></a><link> 与 @import 的区别</h3><ul>
+<li>link功能较多，可以定义 RSS，定义 Rel 等作用，而@import只能用于加载 css<link rel="stylesheet" href="****.css" type="text/css">
+<style type="text/css">
+@import "***.css"
+</style></li>
+<li>当解析到link时，页面会同步加载所引的 css，而@import所引用的 css 会等到页面加载完才被加载</li>
+<li>@import需要 IE5 以上才能使用</li>
+<li>link可以使用 js 动态引入，@import不行</li>
+</ul>
+<h3 id="CSS预处理器-Sass-Less-Postcss"><a href="#CSS预处理器-Sass-Less-Postcss" class="headerlink" title="CSS预处理器(Sass/Less/Postcss)"></a>CSS预处理器(Sass/Less/Postcss)</h3><ul>
+<li>Less</li>
+<li>Sass/Scss</li>
+<li>postCSS</li>
+<li><a href="https://www.jianshu.com/p/a99764ff3c41" target="_blank" rel="noopener">scss</a></li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="img/css.jpg" alt="css"></p>
+<h3 id="FFC"><a href="#FFC" class="headerlink" title="FFC"></a>FFC</h3><p>flex: flex-grow, (flex-shark,flex-basis)的简写  </p>
+<ul>
+<li>默认: =&gt;0 1 auto （等比缩小）</li>
+<li>auto:=&gt; 1 1 auto（等比放大缩小）</li>
+<li>none:=&gt; 0 0 auto （原来大小）</li>
+<li>flex:1 =&gt; 1 1 auto（等比放大缩小）  </li>
+</ul>
+<p>flex：0.125 flex：0.5 flex 0.25<br>  即flex-grow总和小于1时，占用剩余空间的12.5% 50% 25% ，剩余空间占比1：4：2 剩下12.5%不被占用<br><img src="img/css-flex.png" alt="flex"></p>
+<h3 id="BFC-块级格式化上下文"><a href="#BFC-块级格式化上下文" class="headerlink" title="BFC:块级格式化上下文"></a>BFC:块级格式化上下文</h3><p>规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。从上至下排列、上下margin合并、除float元素外的box的margin-box与BFC的左边相接、BFC不会被float元素覆盖、BFC内元素布局不会影响外部布局</p>
+<h3 id="IFC："><a href="#IFC：" class="headerlink" title="IFC："></a>IFC：</h3><p> content box/area的高由font-size/line-height决定的；<br>content box/area的宽等于其子行级盒子的外宽度(margin+border+padding+content width)之和。<br>当inline-level box宽度大于父容器宽度时会被拆分成多个inline-level box<br>IFC则是表示盒子从左到右的水平排列方式<br><a href="https://juejin.im/entry/587c41f91b69e6006bf1b8ec" target="_blank" rel="noopener">IFC</a></p>
+<h3 id="BEM"><a href="#BEM" class="headerlink" title="BEM"></a>BEM</h3><p>.block {}<br>.block__element {}<br>.block__element–modifier {}</p>
+<h3 id="block-inline"><a href="#block-inline" class="headerlink" title="block inline"></a>block inline</h3><p>block 块元素    inline 内联元素</p>
+<p>常见的块元素有：div, p, h1~h6, table, form, ol, ul等</p>
+<p>常见的内联元素有：span, a, strong, em, label, input, select, textarea, img, br等</p>
+<p>block:</p>
+<ol>
+<li>独占一行</li>
+<li>设置width,height、margin和padding属性。</li>
+</ol>
+<p>inline:</p>
+<ol>
+<li>共占一行至换行</li>
+<li>width,height无效、水平方向margin和padding产生边距效果，竖直方向无效</li>
+</ol>
+<p>inline-block：<br>多个元素可以同排一行，且元素具有block的属性，可设置宽高，是block和inline元素的综合体。</p>
+<h3 id="可替换元素"><a href="#可替换元素" class="headerlink" title="可替换元素"></a>可替换元素</h3><p>可替换元素（replaced element）的展现效果不是由 CSS 来控制的，CSS 可以影响可替换元素的位置，但不会影响到可替换元素自身的内容。<br>典型的可替换元素有：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">video</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">embed</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>object-fit：指定可替换元素的内容对象在元素盒区域中的填充方式。<br>object-position<br>指定可替换元素的内容对象在元素盒区域中的位置。</p>
+<h3 id="文本截断"><a href="#文本截断" class="headerlink" title="文本截断"></a>文本截断</h3><p>单行文本截断： text-overflow:ellipsis<br>多行文本截断：<br>display: -webkit-box;<br>  overflow: hidden;<br>  -webkit-line-clamp: 2;<br>  -webkit-box-orient: vertical;</p>
+<p>CSS方法：<br>::after {<br>    content:”…”;<br>    font-weight:bold;<br>    position:absolute;<br>    bottom:0;<br>    right:0;<br>    padding:0 20px 1px 45px;<br>    background: linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);<br>}</p>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>scale(-1,-1) 等价于旋转180度</p>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-ES6&amp;ES7&amp;ES8" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -746,167 +1040,13 @@
 
 </article>
     
-    <article id="post-深拷贝" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/21/%E6%B7%B1%E6%8B%B7%E8%B4%9D/"
-    >深拷贝</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/11/21/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" class="article-date">
-  <time datetime="2018-11-20T16:15:21.000Z" itemprop="datePublished">2018-11-21</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/javascript/">javascript</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// typeof null //"object"</span></span><br><span class="line"><span class="comment">// typeof &#123;&#125; //"object"</span></span><br><span class="line"><span class="comment">// typeof [] //"object"</span></span><br><span class="line"><span class="comment">// typeof function foo()&#123;&#125; //"function" (特殊情况)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObject</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">'object'</span> &amp;&amp; obj != <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cloneDeep3</span>(<span class="params">source, hash = new WeakMap(</span>)) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!isObject(source)) <span class="keyword">return</span> source;</span><br><span class="line">  <span class="keyword">if</span> (hash.has(source)) <span class="keyword">return</span> hash.get(source); <span class="comment">// 新增代码，查哈希表</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> target = <span class="built_in">Array</span>.isArray(source) ? [] : &#123;&#125;;</span><br><span class="line">  hash.set(source, target); <span class="comment">// 新增代码，哈希表设值</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> source) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.hasOwnProperty.call(source, key)) &#123;</span><br><span class="line">      <span class="keyword">if</span> (isObject(source[key])) &#123;</span><br><span class="line">        target[key] = cloneDeep3(source[key], hash); <span class="comment">// 新增代码，传入哈希表</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        target[key] = source[key];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-WebSocket" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/21/WebSocket/"
-    >WebSocket</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/11/21/WebSocket/" class="article-date">
-  <time datetime="2018-11-20T16:15:20.000Z" itemprop="datePublished">2018-11-21</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/javascript/">javascript</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <h2 id="WebSocket-Socket-IO"><a href="#WebSocket-Socket-IO" class="headerlink" title="WebSocket Socket.IO"></a>WebSocket Socket.IO</h2><p><img src="http://103.14.34.148:9000/imgs/blog/img/websocket.jpg" alt=""><br><a href="https://blog.csdn.net/feng98ren/article/details/86240287" target="_blank" rel="noopener">参考</a></p>
-<h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><p>即时通讯，推送的实现发展</p>
-<ul>
-<li>短轮询，client 每隔一段时间都会向 server 发送 http 请求，服务器收到请求后，将最新的数据发回给 client。</li>
-<li>长轮询，client 向 server 发出请求，server 接收到请求后，server 并不一定立即发送回应给 client，而是看数据是否更新，如果数据已经更新了的话，那就立即将数据返回给 client；但如果数据没有更新，那就把这个请求保持住，等待有新的数据到来时，才将数据返回给 client。</li>
-<li>流技术，一直保持连接，不需要 client 请求，当数据发生改变时，server 自动的将数据发送给 client，这种方式有一个明显的不足之处，网页会一直显示未加载完成的状态。</li>
-</ul>
-<h4 id="WebSocket-1"><a href="#WebSocket-1" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>W3C 在 HTML5 中提供了一种 client 与 server 间进行<strong>全双工通讯</strong>的网络技术 WebSocket。WebSocket 是一个全新的、独立的<strong>协议</strong>，基于 TCP 协议，与 HTTP 协议兼容却不会融入 HTTP 协议，仅仅作为 HTML5 的一部分。</p>
-<p>WebSocket 是一种双向通信协议，在建立连接之后，WebSocket 的 <strong>server 与 client 都能主动向对方发送或接收数据</strong>。同时，WebSocket 在建立连接时需要借助 HTTP 协议，连接建立好了之后 client 与 server 之间的双向通信就与 HTTP 无关了。</p>
-<h3 id="node-js-Socket-WebSocket"><a href="#node-js-Socket-WebSocket" class="headerlink" title="node.js Socket WebSocket"></a>node.js Socket WebSocket</h3><p>Socket本身并不是协议，是对TCP/IP协议的封装，是一个调用接口。</p>
-<p>Node.js中提供了net模块，该模块提供了对TCP、Socket的封装与支持，它包含了创建TCP服务器/客户端的方法。</p>
-<p>在Node.js中可以使用http模块轻松创建HTTP服务器或HTTP客户端，https模块是其安全版本。http模块在net模块之上构建，所以net模块中的大部分功能都可以在http模块中使用。</p>
-<p>WebSocekt 是 HTML5 规范中的一部分，其借鉴了 socket 的思想，为 client 和 server 之间提供了类似的双向通信机制。同时，WebSocket 又是一种新的应用层协议，包含一套标准的 API；而 socket 并不是一个协议，而是一组接口，其主要方便大家直接使用更底层的协议（比如 TCP 或 UDP）</p>
-<h3 id="Socket-IO"><a href="#Socket-IO" class="headerlink" title="Socket.IO"></a>Socket.IO</h3><p>Socket.IO 是一个封装了 Websocket、基于 Node 的 JavaScript 框架，包含 client 的 JavaScript 和 server 的 Node。其屏蔽了所有底层细节，让顶层调用非常简单。</p>
-<h4 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = <span class="built_in">require</span>(<span class="string">'express'</span>)();</span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>).Server(app);</span><br><span class="line"><span class="keyword">var</span> io = <span class="built_in">require</span>(<span class="string">'socket.io'</span>)(http);</span><br><span class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</span><br><span class="line">  res.sendFile(__dirname + <span class="string">'/index.html'</span>);</span><br><span class="line">&#125;);</span><br><span class="line">io.on(<span class="string">'connection'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">socket</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'a user connected'</span>);</span><br><span class="line">&#125;);</span><br><span class="line">http.listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'listening on *:3000'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>io.on</li>
-<li>io.emit</li>
-<li>socket.emit</li>
-<li>socket.on</li>
-<li>socket.broadcast.emit …<br><a href="https://socket.io/docs/server-api/" target="_blank" rel="noopener">server-api</a></li>
-</ul>
-<h4 id="client"><a href="#client" class="headerlink" title="client"></a>client</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> socket = io();</span><br><span class="line">socket.emit(<span class="string">'chat message'</span>, $(<span class="string">'#m'</span>).val());</span><br><span class="line">socket.on(<span class="string">'msg'</span>,data=&gt;&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p><a href="https://socket.io/docs/client-api/" target="_blank" rel="noopener">client-api</a></p>
-
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/4/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">下一页</a>
   </nav>
   
 </section>

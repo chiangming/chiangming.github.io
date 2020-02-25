@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    interview/js加载图片 |  Matt&#39;s Blog
+    interview/面试 |  Matt&#39;s Blog
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -32,14 +32,14 @@
     <div id="app">
       <main class="content">
         <section class="outer">
-  <article id="post-interview/js加载图片" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  <article id="post-interview/面试" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
     
       <header class="article-header">
          
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  interview/js加载图片
+  interview/面试
 </h1>
   
 
@@ -48,8 +48,8 @@
 
         
           <div class="article-meta">
-            <a href="/2020/02/19/interview/js%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87/" class="article-date">
-  <time datetime="2020-02-19T13:32:33.080Z" itemprop="datePublished">2020-02-19</time>
+            <a href="/2020/02/24/interview/%E9%9D%A2%E8%AF%95/" class="article-date">
+  <time datetime="2020-02-24T00:04:11.241Z" itemprop="datePublished">2020-02-24</time>
 </a>
               
                 
@@ -59,7 +59,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">71字</span>
+            <span class="post-count">806字</span>
         </span>
     </span>
 
@@ -68,7 +68,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">3分钟</span>
         </span>
     </span>
 </div>
@@ -79,6 +79,8 @@
 
             
               
+    <div class="tocbot"></div>
+
 
 
 
@@ -92,40 +94,47 @@
                       
 
                         
-                                  <!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <meta name="generator" content="hexo-theme-yilia-plus">
-<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
-</head>
-
-<body>
-  <div id="mypic" style="background-color: yellow;">
-    <div id="middle" style="background-color: red; width: 50%;">
-      <a href="#" id="inner" style="background-color: green;">里面的东西</a>
-    </div>
-  </div>
-</body>
-<script>
-  var obj = new Image();
-  obj.src = "https://dss0.bdstatic.com/6Ox1bjeh1BF3odCf/it/u=3533778697,2586993014&fm=74&app=80&f=PNG&size=f121,121?sec=1880279984&t=1dbed90be2871a78074bf731b6872ed0";
-  obj.onload = function() {
-    console.log('图片的宽度为：' + obj.width + '；图片的高度为：' + obj.height);
-    console.log("<img src='" + this.src + "' />")
-    document.getElementById("mypic").innerHTML = "<img src='" + this.src + "' />";
-    // document.getElementById("mypic").innnerHTML = "<img src='" + this.src + "' />";
-    console.log(document.getElementById("mypic").innerHTML)
-  }
-</script>
-
-</html>
-
+                                  <h1 id="js的bind、apply、call有什么区别"><a href="#js的bind、apply、call有什么区别" class="headerlink" title="js的bind、apply、call有什么区别"></a>js的bind、apply、call有什么区别</h1><ul>
+<li>fn.call(obj,…args)转换成obj.fn(…args)</li>
+<li>fn.call(obj,args) 转换成obj.fn(args)</li>
+<li>return function F(){ return new fn() 或者return fn.apply(obj,args.concat(…arguments))}</li>
+</ul>
+<h1 id="js的继承"><a href="#js的继承" class="headerlink" title="js的继承"></a>js的继承</h1><ul>
+<li>借用构造函数</li>
+<li>原型链式继承</li>
+<li>组合继承</li>
+<li>组合寄生式继承</li>
+</ul>
+<h1 id="let、const、var的区别"><a href="#let、const、var的区别" class="headerlink" title="let、const、var的区别"></a>let、const、var的区别</h1><p>一，var定义的变量，作用域是整个封闭函数，是全域的；let定义的变量，作用域是在块级或者字块中；<br>二，变量提升：不论通过var声明的变量处于当前作用于的第几行，都会提升到作用域的最顶部。<br>      而let声明的变量不会在顶部初始化，凡是在let声明之前使用该变量都会报错（引用错误ReferenceError）；<br>三，只要块级作用域内存在let，它所声明的变量就会绑定在这个区域；<br>四，let不允许在相同作用域内重复声明（报错同时使用var和let，两个let）。<br>const用来专门声明一个常量，它跟let一样作用于块级作用域，没有变量提升，重复声明会报错，不同的是const声明的常量不可改变，声明时必须初始化（赋值）</p>
+<h1 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h1><p>没有this，arguments，没有prototype</p>
+<h1 id="promise的then的第二个参数和catch的区别"><a href="#promise的then的第二个参数和catch的区别" class="headerlink" title="promise的then的第二个参数和catch的区别"></a>promise的then的第二个参数和catch的区别</h1><p>catch = then(null,rejected)</p>
+<h1 id="手写一个promise怎么写"><a href="#手写一个promise怎么写" class="headerlink" title="手写一个promise怎么写"></a>手写一个promise怎么写</h1><p>value:null<br>成功stack：[]<br>失败stack：[]<br>this.then()=&gt;{两个栈push}<br>function resolve(value) =&gt; {成功栈遍历回调}<br>function reject(value) =&gt; {失败栈遍历回调}<br>fn(resovle,reject)</p>
+<h1 id="Promise-all应用场景"><a href="#Promise-all应用场景" class="headerlink" title="Promise.all应用场景"></a>Promise.all应用场景</h1><p>返回new Promise(){}<br>遍历传入的Promise数组<br>Promise.resolve(promises[i])<br>.then(function(value) {<br>        countNum++;<br>        resolvedvalue[i] = value;<br>        if (countNum === promiseNum) {<br>          return resolve(resolvedvalue)<br>        }<br>      }, function(reason) {<br>        return reject(reason)<br>      })</p>
+<h1 id="Promise-race应用场景"><a href="#Promise-race应用场景" class="headerlink" title="Promise.race应用场景"></a>Promise.race应用场景</h1><p>指定时间内没有获得结果，就将Promise的状态变为reject<br>Promise.race([<br>  fetch(‘/resource-that-may-take-a-while’),<br>  new Promise(function (resolve, reject) {<br>    setTimeout(() =&gt; reject(new Error(‘request timeout’)), 5000)<br>  })<br>]);</p>
+<h1 id="promise和async-await的区别"><a href="#promise和async-await的区别" class="headerlink" title="promise和async/await的区别"></a>promise和async/await的区别</h1><p>async/await 在generater函数的基础上实现的状态机异步调用，执行到await的函数的时候暂时让出线程至函数调用完成</p>
+<h1 id="vue的生命周期"><a href="#vue的生命周期" class="headerlink" title="vue的生命周期"></a>vue的生命周期</h1><h2 id="生命周期顺序"><a href="#生命周期顺序" class="headerlink" title="生命周期顺序"></a>生命周期顺序</h2><p>加载渲染过程</p>
+<ul>
+<li>父beforeCreate-&gt;父created-&gt;父beforeMount-&gt;子beforeCreate-&gt;子created-&gt;子beforeMount-&gt;子mounted-&gt;父mounted</li>
+</ul>
+<p>子组件全局状态更新过程</p>
+<ul>
+<li>父beforeUpdate-&gt;子beforeUpdate-&gt;子updated-&gt;父updated</li>
+</ul>
+<p>销毁过程</p>
+<ul>
+<li>父beforeDestroy-&gt;子beforeDestroy-&gt;子destroyed-&gt;父destroyed</li>
+</ul>
+<h2 id="生命周期的意义"><a href="#生命周期的意义" class="headerlink" title="生命周期的意义"></a>生命周期的意义</h2><p>创建-挂载-更新-销毁</p>
+<ul>
+<li>beforeCreate前，也就是new Vue的时候会初始化事件和生命周期；</li>
+<li>beforeCreate和created之间会挂载Data，绑定事件；接下来会根据el挂载页面元素，如果没有设置el则生命周期结束，直到手动挂载；el挂载结束后，根据templete/outerHTML(el)渲染页面；</li>
+<li>在beforeMount前虚拟DOM已经创建完成；</li>
+<li>之后在mounted前，将vm.$el替换掉页面元素el;mounted将虚拟dom挂载到真实页面（此时页面已经全部渲染完成）；</li>
+<li>之后发生数据变化时触发beforeUpdate和updated进行一些操作；</li>
+<li>最后主动调用销毁函数或者组件自动销毁时beforeDestroy，手动撤销监听事件，计时器等；</li>
+<li>destroyed时仅存在Dom节点，其他所有东西已自动销毁。</li>
+</ul>
+<h1 id="状态码304"><a href="#状态码304" class="headerlink" title="状态码304"></a>状态码304</h1>
                                     
 
                                       <!-- copyright -->
@@ -175,7 +184,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2020/02/19/interview/js%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2020/02/24/interview/%E9%9D%A2%E8%AF%95/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -191,19 +200,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/02/20/interview/vue-blog/" class="article-nav-link">
+      <a href="/2020/02/25/%E9%98%AE%E4%B8%80%E5%B3%B0/400/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            interview/vue-blog
+            阮一峰/400
           
         </div>
       </a>
     
     
-      <a href="/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-nav-link">
+      <a href="/2020/02/20/interview/vue-blog/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">javascript知识点</div>
+        <div class="article-nav-title">interview/vue-blog</div>
       </a>
     
   </nav>

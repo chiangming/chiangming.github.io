@@ -66,6 +66,149 @@
     
     
     
+    <article id="post-vue源码/vue" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/"
+    >vue整理</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/" class="article-date">
+  <time datetime="2019-12-21T16:15:39.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h1 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h1><p><a href="https://zhuanlan.zhihu.com/p/23921964" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/23921964</a></p>
+<h1 id="响应式原理"><a href="#响应式原理" class="headerlink" title="响应式原理"></a>响应式原理</h1><p><img src="http://103.14.34.148:9000/imgs/blog/img/reactive.png" alt="reactive"></p>
+<ol>
+<li>Vue的初始化阶段，对vue的属性进行处理对于data和props,Vue会通过ovserve/defineReactive等系列操作，把整个data和props定义的对象每一个属性编成响应式的，同时内部持有一个dep的实例。</li>
+<li>当我们访问到响应式数据的时候，就会触发数据内部dep的depend方法来收集依赖</li>
+<li>收集依赖收集的是当前正在计算的watcher，也就是说当前的Dep.target就会作为订阅者来订阅这些数据的变化
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-vue源码/vue-router" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/"
+    >vue-router</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/" class="article-date">
+  <time datetime="2019-12-21T16:15:38.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">install</span> (<span class="params">Vue</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">     <span class="comment">// 混入 beforeCreate 钩子</span></span><br><span class="line">     Vue.mixin(&#123;</span><br><span class="line">       beforeCreate () &#123;</span><br><span class="line">         <span class="comment">// 在option上面存在router则代表是根组件 </span></span><br><span class="line">         <span class="keyword">if</span> (isDef(<span class="keyword">this</span>.$options.router)) &#123;</span><br><span class="line">           <span class="keyword">this</span>._routerRoot = <span class="keyword">this</span>  <span class="comment">// 定义router的根vm</span></span><br><span class="line">           <span class="keyword">this</span>._router = <span class="keyword">this</span>.$options.router</span><br><span class="line">           <span class="comment">// 执行_router实例的 init 方法</span></span><br><span class="line">           <span class="keyword">this</span>._router.init(<span class="keyword">this</span>)</span><br><span class="line">           <span class="comment">// 为 vue 实例定义数据劫持</span></span><br><span class="line">           Vue.util.defineReactive(<span class="keyword">this</span>, <span class="string">'_route'</span>, <span class="keyword">this</span>._router.history.current)</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="comment">// 非根组件则直接从父组件中获取</span></span><br><span class="line">           <span class="keyword">this</span>._routerRoot = (<span class="keyword">this</span>.$parent &amp;&amp; <span class="keyword">this</span>.$parent._routerRoot) || <span class="keyword">this</span></span><br><span class="line">         &#125;</span><br><span class="line">         registerInstance(<span class="keyword">this</span>, <span class="keyword">this</span>)</span><br><span class="line">       &#125;,</span><br><span class="line">       destroyed () &#123;</span><br><span class="line">         registerInstance(<span class="keyword">this</span>)</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;)</span><br><span class="line">    </span><br><span class="line">     <span class="comment">// 设置代理，当访问 this.$router 的时候，代理到 this._routerRoot._router</span></span><br><span class="line">     <span class="built_in">Object</span>.defineProperty(Vue.prototype, <span class="string">'$router'</span>, &#123;<span class="comment">//Router</span></span><br><span class="line">       <span class="keyword">get</span> () &#123; <span class="keyword">return</span> <span class="keyword">this</span>._routerRoot._router &#125;</span><br><span class="line">     &#125;)</span><br><span class="line">     <span class="comment">// 设置代理，当访问 this.$route 的时候，代理到 this._routerRoot._route</span></span><br><span class="line">     <span class="built_in">Object</span>.defineProperty(Vue.prototype, <span class="string">'$route'</span>, &#123;</span><br><span class="line">       <span class="keyword">get</span> () &#123; <span class="keyword">return</span> <span class="keyword">this</span>._routerRoot._route &#125;</span><br><span class="line">     &#125;)</span><br><span class="line">    </span><br><span class="line">     <span class="comment">// 注册 router-view 和 router-link 组件</span></span><br><span class="line">     Vue.component(<span class="string">'RouterView'</span>, View)</span><br><span class="line">     Vue.component(<span class="string">'RouterLink'</span>, Link)</span><br><span class="line">   </span><br><span class="line">     <span class="comment">// Vue钩子合并策略</span></span><br><span class="line">     <span class="keyword">const</span> strats = Vue.config.optionMergeStrategies</span><br><span class="line">     <span class="comment">// use the same hook merging strategy for route hooks</span></span><br><span class="line">     strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created</span><br><span class="line">     <span class="comment">// ...</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-vue源码/12.transition" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -656,172 +799,13 @@
 
 </article>
     
-    <article id="post-vue源码/6.组件更新" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/6.%E7%BB%84%E4%BB%B6%E6%9B%B4%E6%96%B0/"
-    >6.组件更新</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/6.%E7%BB%84%E4%BB%B6%E6%9B%B4%E6%96%B0/" class="article-date">
-  <time datetime="2019-12-21T16:15:31.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h2 id="patch"><a href="#patch" class="headerlink" title="patch"></a>patch</h2><ul>
-<li>在响应式数据发送改变时， 会触发 订阅的 watcher 的 更新 </li>
-<li>再次调用 vm._update(vm._render(),…)</li>
-<li>其中会 执行 patch ，这是因为有旧的 渲染vnode，所以 会传入 <code>vm.$el = vm.__patch__(prevVnode, vnode)</code></li>
-<li>在patch的过程中，会和首次渲染不同，这次会比较新旧vnode是否相同，<code>sameVnode(oldVnode, vnode)</code>，主要通过 key ，tag …判断
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/6.%E7%BB%84%E4%BB%B6%E6%9B%B4%E6%96%B0/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/3.组件化" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/3.%E7%BB%84%E4%BB%B6%E5%8C%96/"
-    >3.组件化</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/3.%E7%BB%84%E4%BB%B6%E5%8C%96/" class="article-date">
-  <time datetime="2019-12-21T16:15:30.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>首先一个 生成 Vue 实例，在执行其render的过程中，createComponent 会  生成 其组件vue构造函数，安装组件钩子函数,在new Vnode 传入构造函数生成 组件的 占位符 vnode</li>
-<li>在 update -&gt; patch -&gt; createElm 中，通过调用 createComponent 来为 component组件占位符vnode节点 生成 vm 实例，以此触发 其 init 函数</li>
-<li>在 init 函数中 会调用 vm实例的 mount 方法 -&gt; createElm ,这时的 vm实例中的 vnode不再是一个 组件，而是渲染vnode（渲染vnode就是组件最外层的标签），所以会 生成该vnode的真实dom，在对 子vnode进行渲染，执行 createChildren -&gt; createElm。<ul>
-<li>如果不是 组件（组件 vnode 是有 复制的Vue对象，会有 init方法，vnode.data.hook.init） ，则 生成 真实 dom ，在 createElm 中 完成插入 父dom 中</li>
-<li>如果是 组件 ，则重复上述 </li>
-</ul>
-</li>
-<li>组件渲染完成后 ，占位符节点 在 createComponent 中 完成 插入到 dom 操作（渲染组件 vnode 由于没有parentElm （因为vuecomponent.$el 不存在），所以不会进行插入操作，渲染组件vnode.elm 会被赋值给 占位符vnode生成的vue实例 vm.$el, vm会被赋值给 占位符 vnode.componentInstance,在 占位符vnode进行插入dom时，调用 initComponent 会将占位符 vnode.componentInstance.$el 传给 占位符 vnode.elm ）</li>
-</ul>
-<p><img src="http://103.14.34.148:9000/imgs/blog/img/%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8.png" alt=""></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initComponent</span> (<span class="params">vnode, insertedVnodeQueue</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (isDef(vnode.data.pendingInsert)) &#123;</span><br><span class="line">        insertedVnodeQueue.push.apply(insertedVnodeQueue, vnode.data.pendingInsert);</span><br><span class="line">        vnode.data.pendingInsert = <span class="literal">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// !! --&gt; 将vue实例的dom实例 挂载到占位符vnode上</span></span><br><span class="line">      vnode.elm = vnode.componentInstance.$el; </span><br><span class="line">      <span class="comment">// &lt;-- !!</span></span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span> (isPatchable(vnode)) &#123;</span><br><span class="line">        invokeCreateHooks(vnode, insertedVnodeQueue);</span><br><span class="line">        setScope(vnode);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// empty component root.</span></span><br><span class="line">        <span class="comment">// skip all element-related modules except for ref (#3455)</span></span><br><span class="line">        registerRef(vnode);</span><br><span class="line">        <span class="comment">// make sure to invoke the insert hook</span></span><br><span class="line">        insertedVnodeQueue.push(vnode);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="creayeElement-gt-createComponent-生成Vnode"><a href="#creayeElement-gt-createComponent-生成Vnode" class="headerlink" title="_creayeElement -&gt; createComponent 生成Vnode"></a>_creayeElement -&gt; createComponent 生成Vnode</h2><blockquote>
-<p>$mount(挂载的dom实例)</p>
-</blockquote>
-<ol>
-<li><p>根据tag类型，如果能在当前vm实例中<code>context.$options.components</code>中找到 tag ，那么这就是一个组件 ，则调用<code>createComponent()</code></p>
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/3.%E7%BB%84%E4%BB%B6%E5%8C%96/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
   </nav>
   
 </section>

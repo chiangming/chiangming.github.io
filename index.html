@@ -66,6 +66,163 @@
     
     
     
+    <article id="post-阮一峰/400" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/25/%E9%98%AE%E4%B8%80%E5%B3%B0/400/"
+    >阮一峰/400</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/02/25/%E9%98%AE%E4%B8%80%E5%B3%B0/400/" class="article-date">
+  <time datetime="2020-02-25T01:55:54.561Z" itemprop="datePublished">2020-02-25</time>
+</a>
+              
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h2 id="node如何和MySQL进行通信"><a href="#node如何和MySQL进行通信" class="headerlink" title="node如何和MySQL进行通信"></a>node如何和MySQL进行通信</h2><p>var mysql  = require(‘mysql’);<br>//创建一个connection<br>var connection = mysql.createConnection({<br>  host     : ‘192.168.0.200’,       //主机<br>  user     : ‘root’,               //MySQL认证用户名<br>  password : ‘abcd’,        //MySQL认证用户密码<br>  port: ‘3306’,                   //端口号<br>});<br>connection.connect(()=&gt;{})<br>connection.query(‘sql’,()=&gt;{})<br>connection.end(()=&gt;{})</p>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-interview/面试" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/24/interview/%E9%9D%A2%E8%AF%95/"
+    >interview/面试</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/02/24/interview/%E9%9D%A2%E8%AF%95/" class="article-date">
+  <time datetime="2020-02-24T00:04:11.241Z" itemprop="datePublished">2020-02-24</time>
+</a>
+              
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="js的bind、apply、call有什么区别"><a href="#js的bind、apply、call有什么区别" class="headerlink" title="js的bind、apply、call有什么区别"></a>js的bind、apply、call有什么区别</h1><ul>
+<li>fn.call(obj,…args)转换成obj.fn(…args)</li>
+<li>fn.call(obj,args) 转换成obj.fn(args)</li>
+<li>return function F(){ return new fn() 或者return fn.apply(obj,args.concat(…arguments))}</li>
+</ul>
+<h1 id="js的继承"><a href="#js的继承" class="headerlink" title="js的继承"></a>js的继承</h1><ul>
+<li>借用构造函数</li>
+<li>原型链式继承</li>
+<li>组合继承</li>
+<li>组合寄生式继承</li>
+</ul>
+<h1 id="let、const、var的区别"><a href="#let、const、var的区别" class="headerlink" title="let、const、var的区别"></a>let、const、var的区别</h1><p>一，var定义的变量，作用域是整个封闭函数，是全域的；let定义的变量，作用域是在块级或者字块中；<br>二，变量提升：不论通过var声明的变量处于当前作用于的第几行，都会提升到作用域的最顶部。<br>      而let声明的变量不会在顶部初始化，凡是在let声明之前使用该变量都会报错（引用错误ReferenceError）；<br>三，只要块级作用域内存在let，它所声明的变量就会绑定在这个区域；<br>四，let不允许在相同作用域内重复声明（报错同时使用var和let，两个let）。<br>const用来专门声明一个常量，它跟let一样作用于块级作用域，没有变量提升，重复声明会报错，不同的是const声明的常量不可改变，声明时必须初始化（赋值）</p>
+<h1 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h1><p>没有this，arguments，没有prototype</p>
+<h1 id="promise的then的第二个参数和catch的区别"><a href="#promise的then的第二个参数和catch的区别" class="headerlink" title="promise的then的第二个参数和catch的区别"></a>promise的then的第二个参数和catch的区别</h1><p>catch = then(null,rejected)</p>
+<h1 id="手写一个promise怎么写"><a href="#手写一个promise怎么写" class="headerlink" title="手写一个promise怎么写"></a>手写一个promise怎么写</h1><p>value:null<br>成功stack：[]<br>失败stack：[]<br>this.then()=&gt;{两个栈push}<br>function resolve(value) =&gt; {成功栈遍历回调}<br>function reject(value) =&gt; {失败栈遍历回调}<br>fn(resovle,reject)</p>
+<h1 id="Promise-all应用场景"><a href="#Promise-all应用场景" class="headerlink" title="Promise.all应用场景"></a>Promise.all应用场景</h1><p>返回new Promise(){}<br>遍历传入的Promise数组<br>Promise.resolve(promises[i])<br>.then(function(value) {<br>        countNum++;<br>        resolvedvalue[i] = value;<br>        if (countNum === promiseNum) {<br>          return resolve(resolvedvalue)<br>        }<br>      }, function(reason) {<br>        return reject(reason)<br>      })</p>
+<h1 id="Promise-race应用场景"><a href="#Promise-race应用场景" class="headerlink" title="Promise.race应用场景"></a>Promise.race应用场景</h1><p>指定时间内没有获得结果，就将Promise的状态变为reject<br>Promise.race([<br>  fetch(‘/resource-that-may-take-a-while’),<br>  new Promise(function (resolve, reject) {<br>    setTimeout(() =&gt; reject(new Error(‘request timeout’)), 5000)<br>  })<br>]);</p>
+<h1 id="promise和async-await的区别"><a href="#promise和async-await的区别" class="headerlink" title="promise和async/await的区别"></a>promise和async/await的区别</h1><p>async/await 在generater函数的基础上实现的状态机异步调用，执行到await的函数的时候暂时让出线程至函数调用完成</p>
+<h1 id="vue的生命周期"><a href="#vue的生命周期" class="headerlink" title="vue的生命周期"></a>vue的生命周期</h1><h2 id="生命周期顺序"><a href="#生命周期顺序" class="headerlink" title="生命周期顺序"></a>生命周期顺序</h2><p>加载渲染过程</p>
+<ul>
+<li>父beforeCreate-&gt;父created-&gt;父beforeMount-&gt;子beforeCreate-&gt;子created-&gt;子beforeMount-&gt;子mounted-&gt;父mounted</li>
+</ul>
+<p>子组件全局状态更新过程</p>
+<ul>
+<li>父beforeUpdate-&gt;子beforeUpdate-&gt;子updated-&gt;父updated</li>
+</ul>
+<p>销毁过程</p>
+<ul>
+<li>父beforeDestroy-&gt;子beforeDestroy-&gt;子destroyed-&gt;父destroyed</li>
+</ul>
+<h2 id="生命周期的意义"><a href="#生命周期的意义" class="headerlink" title="生命周期的意义"></a>生命周期的意义</h2><p>创建-挂载-更新-销毁</p>
+<ul>
+<li>beforeCreate前，也就是new Vue的时候会初始化事件和生命周期；</li>
+<li>beforeCreate和created之间会挂载Data，绑定事件；接下来会根据el挂载页面元素，如果没有设置el则生命周期结束，直到手动挂载；el挂载结束后，根据templete/outerHTML(el)渲染页面；</li>
+<li>在beforeMount前虚拟DOM已经创建完成；</li>
+<li>之后在mounted前，将vm.$el替换掉页面元素el;mounted将虚拟dom挂载到真实页面（此时页面已经全部渲染完成）；</li>
+<li>之后发生数据变化时触发beforeUpdate和updated进行一些操作；</li>
+<li>最后主动调用销毁函数或者组件自动销毁时beforeDestroy，手动撤销监听事件，计时器等；</li>
+<li>destroyed时仅存在Dom节点，其他所有东西已自动销毁。</li>
+</ul>
+<h1 id="状态码304"><a href="#状态码304" class="headerlink" title="状态码304"></a>状态码304</h1>
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-interview/vue-blog" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -561,7 +718,7 @@ vm._c = function(a, b, c, d) {    return createElement(vm, a, b, c, d, false);};
 </body>
 <script>
   var obj = new Image();
-  obj.src = "http://www.phpernote.com/uploadfiles/editor/201107240502201179.jpg";
+  obj.src = "https://dss0.bdstatic.com/6Ox1bjeh1BF3odCf/it/u=3533778697,2586993014&fm=74&app=80&f=PNG&size=f121,121?sec=1880279984&t=1dbed90be2871a78074bf731b6872ed0";
   obj.onload = function() {
     console.log('图片的宽度为：' + obj.width + '；图片的高度为：' + obj.height);
     console.log("<img src='" + this.src + "' />")
@@ -572,6 +729,7 @@ vm._c = function(a, b, c, d) {    return createElement(vm, a, b, c, d, false);};
 </script>
 
 </html>
+
                                     
 
                                       <!-- copyright -->
@@ -1442,156 +1600,13 @@ return this.then(onFulfilled, onRejected);</code></pre><p>  }<br>}();</p>
 
 </article>
     
-    <article id="post-vue源码/vue" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/"
-    >vue整理</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/" class="article-date">
-  <time datetime="2019-12-21T16:15:39.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h1 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h1><p><a href="https://zhuanlan.zhihu.com/p/23921964" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/23921964</a></p>
-<h1 id="响应式原理"><a href="#响应式原理" class="headerlink" title="响应式原理"></a>响应式原理</h1><p><img src="http://103.14.34.148:9000/imgs/blog/img/reactive.png" alt="reactive"></p>
-<ol>
-<li>Vue的初始化阶段，对vue的属性进行处理对于data和props,Vue会通过ovserve/defineReactive等系列操作，把整个data和props定义的对象每一个属性编成响应式的，同时内部持有一个dep的实例。</li>
-<li>当我们访问到响应式数据的时候，就会触发数据内部dep的depend方法来收集依赖</li>
-<li>收集依赖收集的是当前正在计算的watcher，也就是说当前的Dep.target就会作为订阅者来订阅这些数据的变化
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/vue-router" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/"
-    >vue-router</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/" class="article-date">
-  <time datetime="2019-12-21T16:15:38.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">install</span> (<span class="params">Vue</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">     <span class="comment">// 混入 beforeCreate 钩子</span></span><br><span class="line">     Vue.mixin(&#123;</span><br><span class="line">       beforeCreate () &#123;</span><br><span class="line">         <span class="comment">// 在option上面存在router则代表是根组件 </span></span><br><span class="line">         <span class="keyword">if</span> (isDef(<span class="keyword">this</span>.$options.router)) &#123;</span><br><span class="line">           <span class="keyword">this</span>._routerRoot = <span class="keyword">this</span>  <span class="comment">// 定义router的根vm</span></span><br><span class="line">           <span class="keyword">this</span>._router = <span class="keyword">this</span>.$options.router</span><br><span class="line">           <span class="comment">// 执行_router实例的 init 方法</span></span><br><span class="line">           <span class="keyword">this</span>._router.init(<span class="keyword">this</span>)</span><br><span class="line">           <span class="comment">// 为 vue 实例定义数据劫持</span></span><br><span class="line">           Vue.util.defineReactive(<span class="keyword">this</span>, <span class="string">'_route'</span>, <span class="keyword">this</span>._router.history.current)</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="comment">// 非根组件则直接从父组件中获取</span></span><br><span class="line">           <span class="keyword">this</span>._routerRoot = (<span class="keyword">this</span>.$parent &amp;&amp; <span class="keyword">this</span>.$parent._routerRoot) || <span class="keyword">this</span></span><br><span class="line">         &#125;</span><br><span class="line">         registerInstance(<span class="keyword">this</span>, <span class="keyword">this</span>)</span><br><span class="line">       &#125;,</span><br><span class="line">       destroyed () &#123;</span><br><span class="line">         registerInstance(<span class="keyword">this</span>)</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;)</span><br><span class="line">    </span><br><span class="line">     <span class="comment">// 设置代理，当访问 this.$router 的时候，代理到 this._routerRoot._router</span></span><br><span class="line">     <span class="built_in">Object</span>.defineProperty(Vue.prototype, <span class="string">'$router'</span>, &#123;<span class="comment">//Router</span></span><br><span class="line">       <span class="keyword">get</span> () &#123; <span class="keyword">return</span> <span class="keyword">this</span>._routerRoot._router &#125;</span><br><span class="line">     &#125;)</span><br><span class="line">     <span class="comment">// 设置代理，当访问 this.$route 的时候，代理到 this._routerRoot._route</span></span><br><span class="line">     <span class="built_in">Object</span>.defineProperty(Vue.prototype, <span class="string">'$route'</span>, &#123;</span><br><span class="line">       <span class="keyword">get</span> () &#123; <span class="keyword">return</span> <span class="keyword">this</span>._routerRoot._route &#125;</span><br><span class="line">     &#125;)</span><br><span class="line">    </span><br><span class="line">     <span class="comment">// 注册 router-view 和 router-link 组件</span></span><br><span class="line">     Vue.component(<span class="string">'RouterView'</span>, View)</span><br><span class="line">     Vue.component(<span class="string">'RouterLink'</span>, Link)</span><br><span class="line">   </span><br><span class="line">     <span class="comment">// Vue钩子合并策略</span></span><br><span class="line">     <span class="keyword">const</span> strats = Vue.config.optionMergeStrategies</span><br><span class="line">     <span class="comment">// use the same hook merging strategy for route hooks</span></span><br><span class="line">     strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created</span><br><span class="line">     <span class="comment">// ...</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/vue-router/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
   </nav>
   
 </section>
