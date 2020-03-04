@@ -66,6 +66,180 @@
     
     
     
+    <article id="post-移动端适配" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/"
+    >移动端适配</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/" class="article-date">
+  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h3 id="手机端不同设备的适配"><a href="#手机端不同设备的适配" class="headerlink" title="手机端不同设备的适配"></a>手机端不同设备的适配</h3><h4 id="media"><a href="#media" class="headerlink" title="@media"></a>@media</h4><p>通过@media来获取设备的各种属性，根据设备属性的条件来应用不同的CSS</p>
+<p>例：1px边框的适配</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span>  (<span class="attribute">-webkit-min-device-pixel-ratio:</span> <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="selector-class">.c</span>&#123;</span><br><span class="line">            <span class="attribute">transform</span>: <span class="built_in">scaleY</span>(<span class="number">0.5</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="lt-meta-gt-rem"><a href="#lt-meta-gt-rem" class="headerlink" title="&lt;meta&gt; + rem"></a>&lt;meta&gt; + rem</h4><ul>
+<li><code>name = &#39;viewport&#39;</code>, 它提供有关视口初始大小的提示，仅供移动设备使用</li>
+<li>content<ul>
+<li>width    一个正整数或者字符串 device-width    以pixels（像素）为单位， 定义viewport（视口）的宽度。</li>
+<li>height    一个正整数或者字符串 device-height    以pixels（像素）为单位， 定义viewport（视口）的高度。</li>
+<li>initial-scale    一个0.0 到10.0之间的正数    定义设备宽度（纵向模式下的设备宽度或横向模式下的设备高度）与视口大小之间的缩放比率。</li>
+<li>maximum-scale    一个0.0 到10.0之间的正数    定义缩放的最大值；它必须大于或等于minimum-scale的值，不然会导致不确定的行为发生。</li>
+<li>minimum-scale    一个0.0 到10.0之间的正数    定义缩放的最小值；它必须小于或等于maximum-scale的值，不然会导致不确定的行为发生。</li>
+<li>user-scalable    一个布尔值（yes 或者no）    如果设置为 no，用户将不能放大或缩小网页。默认值为 yes。</li>
+</ul>
+</li>
+</ul>
+<h4 id="rem"><a href="#rem" class="headerlink" title="rem"></a>rem</h4><p>根据根元素（即html）的<code>font-size</code>来设置大小，比如html的字体大小设置为<code>16px</code>，那么<code>2rem = 32px</code>。</p>
+<p>这里区分一下<strong>em</strong>，em是根据父元素的字体大小来设置的</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><ol>
+<li>通过meta来进行缩放</li>
+<li>设置html的字体大小，后面的大小单位全都使用rem</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"initial-scale = 1,maxinum-scale = 1,minimum-scale=1,user-scalable=no"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>  </span><br><span class="line">            </span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> viewport = <span class="built_in">document</span>.querySelector(<span class="string">"meta[name=viewport]"</span>);  </span></span><br><span class="line"><span class="actionscript">              <span class="comment">//下面是根据设备像素设置viewport  </span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span> (<span class="built_in">window</span>.devicePixelRatio == <span class="number">1</span>) &#123;  </span></span><br><span class="line"><span class="actionscript">        viewport.setAttribute(<span class="string">'content'</span>, <span class="string">'width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'</span>);  </span></span><br><span class="line">    &#125;  </span><br><span class="line"><span class="javascript">     <span class="keyword">if</span> (<span class="built_in">window</span>.devicePixelRatio == <span class="number">2</span>) &#123;  </span></span><br><span class="line"><span class="actionscript">       viewport.setAttribute(<span class="string">'content'</span>, <span class="string">'width=device-width,initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no'</span>);  </span></span><br><span class="line">     &#125;          </span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> docEl = <span class="built_in">document</span>.documentElement;  </span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> fontsize = <span class="number">10</span> * (docEl.clientWidth / <span class="number">320</span>) + <span class="string">'px'</span>;  </span></span><br><span class="line">    docEl.style.fontSize = fontsize;   </span><br><span class="line">                </span><br><span class="line"> <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-选择器" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/%E9%80%89%E6%8B%A9%E5%99%A8/"
+    >选择器</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
+  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/css/">css</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <ul>
+<li>类型选择器    </li>
+<li>后代选择器    两个选择器之间的空格</li>
+</ul>
+<p>id &gt; class &gt; 标签</p>
+<h3 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h3><p>a:visted \ :link<br>a:hover \ :active \ :focus<br>a:last-child …</p>
+<p>连接伪类</p>
+<p>a:visited:hover</p>
+<h3 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h3><p> a::first-line<br> a::first-letter<br> a::before<br> a::after</p>
+<h3 id="通用选择器-匹配所有可用元素"><a href="#通用选择器-匹配所有可用元素" class="headerlink" title="通用选择器 * 匹配所有可用元素"></a>通用选择器 * 匹配所有可用元素</h3><h3 id="高级选择器"><a href="#高级选择器" class="headerlink" title="高级选择器"></a>高级选择器</h3><ul>
+<li>子选择器 &gt;  只选择元素的直接后代 不同于后代选择器（h1 em { }）</li>
+<li>相邻同胞选择器 + 选择同一个父元素下某个元素之后的元素 （h2 + p 选择h2之后相邻的p）</li>
+<li>属性选择器 [] 选择某个属性是否存在 或 某个属性的值 来寻找元素<ul>
+<li>E[att]</li>
+<li>E[att=”val”]</li>
+<li>E[att~=”val”] 匹配所有att属性具有多个空格分隔的值、其中一个值等于”val”的E元素 (rel=”friend met colleage co-worker”)</li>
+<li>E[att|=”val”] 匹配所有att属性具有多个连字号分隔（hyphen-separated）的值 其中一个值以”val”开头的E元素 (lang=”zh-CN”)</li>
+<li>[attr^=value] 表示带有以 attr 命名的属性，且属性值是以”value”开头的元素。</li>
+<li>[attr$=value] 表示带有以 attr 命名的属性，且属性值是以”value”结尾的元素。</li>
+<li>[attr*=value] 表示带有以 attr 命名的属性，且属性值包含有”value”的元素。</li>
+</ul>
+</li>
+</ul>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-call和apply" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -875,146 +1049,6 @@
 <li>函数内部初始化变量时没有使用 var 声明，该变量会自动被添加到全局环境。在严格模式下，初始化未经声明的变量会导致错误。
                             
                               <a class="article-more-link" href="/2018/11/21/javascript/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-IIFE和函数表达式" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/21/IIFE%E5%92%8C%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
-    >IIFE和函数表达式</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/11/21/IIFE%E5%92%8C%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="article-date">
-  <time datetime="2018-11-20T16:15:21.000Z" itemprop="datePublished">2018-11-21</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/javascript/">javascript</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***</span></span><br><span class="line"><span class="comment"> * 带函数名的函数表达式（var）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"变量名:"</span>, a) <span class="comment">// 函数名: [Function: b]</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"函数名:"</span>, b) <span class="comment">// 函数名: [Function: b]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a()</span><br><span class="line"></span><br><span class="line"><span class="comment">/***</span></span><br><span class="line"><span class="comment"> * 带函数名的函数表达式（let）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// ReferenceError: Cannot access 'a' before initialization</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = <span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"变量名:"</span>, a) <span class="comment">//  变量名: [Function: b]</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"函数名:"</span>, b) <span class="comment">//  函数名: [Function: b]</span></span><br><span class="line">  a = <span class="number">10</span></span><br><span class="line">  b = <span class="number">100</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"变量名:"</span>, a) <span class="comment">//  10</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"函数名:"</span>, b) <span class="comment">//  函数名: [Function: b]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a()</span><br><span class="line"></span><br><span class="line"><span class="comment">/***</span></span><br><span class="line"><span class="comment"> * 带函数名的IIFE</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = (<span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// console.log("变量名:", a) //  ReferenceError: Cannot access 'a' before initialization</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"函数名:"</span>, b) <span class="comment">//  函数名: [Function: b]</span></span><br><span class="line">    <span class="comment">// a = 10                  // ReferenceError: Cannot access 'a' before initialization</span></span><br><span class="line">  b = <span class="number">100</span></span><br><span class="line">    <span class="comment">// console.log("变量名:", a) //  ReferenceError: Cannot access 'a' before initialization</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"函数名:"</span>, b) <span class="comment">//  函数名: [Function: b]</span></span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
-
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-js基础" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/21/js%E5%9F%BA%E7%A1%80/"
-    >javascript知识点整理</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/11/21/js%E5%9F%BA%E7%A1%80/" class="article-date">
-  <time datetime="2018-11-20T16:15:21.000Z" itemprop="datePublished">2018-11-21</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/javascript/">javascript</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h1 id="map传参"><a href="#map传参" class="headerlink" title="map传参"></a>map传参</h1><p>[‘1’, ‘2’, ‘3’].map(parseInt)</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arr.map(<span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">currentValue[, index[, array]]</span>)</span>&#123;   </span><br><span class="line">    <span class="comment">// Return element for new_array   </span></span><br><span class="line"> &#125;[, thisArg])</span><br></pre></td></tr></table></figure>
-<ul>
-<li>callback一共可以接收三个参数，其中第一个参数代表当前被处理的元素，而第二个参数代表该元素的索引。</li>
-<li>parseInt(string, radix) 接收两个参数，第一个表示被处理的值（字符串），第二个表示为解析时的基数。<br>返回[1, NaN, NaN]</li>
-</ul>
-<h1 id="防抖-节流"><a href="#防抖-节流" class="headerlink" title="防抖 节流"></a>防抖 节流</h1><p>防抖和节流的作用都是防止函数多次调用。区别在于，假设一个用户一直触发这个函数，且每次触发函数的间隔小于wait，防抖的情况下只会调用一次，而节流的情况会每隔一定时间（参数wait）调用函数。</p>
-                            
-                              <a class="article-more-link" href="/2018/11/21/js%E5%9F%BA%E7%A1%80/">
                                 阅读更多...
                               </a>
                               

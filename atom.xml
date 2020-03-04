@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://chiangming.github.io/"/>
-  <updated>2020-02-25T01:57:43.656Z</updated>
+  <updated>2020-03-03T09:11:01.574Z</updated>
   <id>https://chiangming.github.io/</id>
   
   <author>
@@ -15,6 +15,69 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>掘金/promise</title>
+    <link href="https://chiangming.github.io/2020/03/03/%E6%8E%98%E9%87%91/promise/"/>
+    <id>https://chiangming.github.io/2020/03/03/%E6%8E%98%E9%87%91/promise/</id>
+    <published>2020-03-03T09:00:37.788Z</published>
+    <updated>2020-03-03T09:11:01.574Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>掘金/整理1</title>
+    <link href="https://chiangming.github.io/2020/03/03/%E6%8E%98%E9%87%91/%E6%95%B4%E7%90%861/"/>
+    <id>https://chiangming.github.io/2020/03/03/%E6%8E%98%E9%87%91/%E6%95%B4%E7%90%861/</id>
+    <published>2020-03-03T01:32:50.155Z</published>
+    <updated>2020-03-04T15:29:27.071Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;JS-基础知识点&quot;&gt;&lt;a href=&quot;#JS-基础知识点&quot; class=&quot;headerlink&quot; title=&quot;JS 基础知识点&quot;&gt;&lt;/a&gt;JS 基础知识点&lt;/h1&gt;&lt;h2 id=&quot;原始类型&quot;&gt;&lt;a href=&quot;#原始类型&quot; class=&quot;headerlink&quot; title=&quot;原始类型&quot;&gt;&lt;/a&gt;原始类型&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;原始类型有哪几种？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;boolean null  undefined number  string  symbol bigint&lt;/li&gt;
+&lt;li&gt;undefined.toString() -&amp;gt; TypeError&lt;ul&gt;
+&lt;li&gt;原始类型存储的都是值，是没有函数可以调用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;‘1’.toString() -&amp;gt; ‘1’&lt;ul&gt;
+&lt;li&gt;强制类型转换&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;number是浮点类型的&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0.1 + 0.2 !== 0.3&lt;/li&gt;
+&lt;li&gt;使用 Math.abs(a-b) &amp;lt; Number.EPSILON&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;null 是对象嘛？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不是 typeof null -&amp;gt; object&lt;/li&gt;
+&lt;li&gt;js 32位系统000 开头代表是对象，然而 null 表示为全零
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>阮一峰/400</title>
@@ -504,58 +567,6 @@
     <summary type="html">
     
       &lt;h2 id=&quot;编译&quot;&gt;&lt;a href=&quot;#编译&quot; class=&quot;headerlink&quot; title=&quot;编译&quot;&gt;&lt;/a&gt;编译&lt;/h2&gt;&lt;h4 id=&quot;生成-ast树&quot;&gt;&lt;a href=&quot;#生成-ast树&quot; class=&quot;headerlink&quot; title=&quot;生成 ast树&quot;&gt;&lt;/a&gt;生成 ast树&lt;/h4&gt;&lt;p&gt; 根据 assts的属性来提取出其中的 事件属性&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
-    
-      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>7.编译</title>
-    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/"/>
-    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/7.%E7%BC%96%E8%AF%91/</id>
-    <published>2019-12-21T16:15:32.000Z</published>
-    <updated>2020-02-10T08:32:48.950Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;参考：&lt;a href=&quot;https://segmentfault.com/a/1190000015848917&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Vue源码解读之AST语法树（一）&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;不同平台下的-文件的布局-和-柯里化&quot;&gt;&lt;a href=&quot;#不同平台下的-文件的布局-和-柯里化&quot; class=&quot;headerlink&quot; title=&quot;不同平台下的 文件的布局 和 柯里化&quot;&gt;&lt;/a&gt;不同平台下的 文件的布局 和 柯里化&lt;/h2&gt;&lt;p&gt;对于 web平台 ，运行的是 web平台下的 &lt;code&gt;entry-runtime-with-compiler&lt;/code&gt;，所以该平台下的 编译生成 render 函数 的方法和 weex平台下时不同的，那么如何做到区分，就需要函数柯里化&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
-    
-      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>4.数据响应</title>
-    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/4.%E6%95%B0%E6%8D%AE%E5%93%8D%E5%BA%94/"/>
-    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/4.%E6%95%B0%E6%8D%AE%E5%93%8D%E5%BA%94/</id>
-    <published>2019-12-21T16:15:31.000Z</published>
-    <updated>2020-02-10T08:32:47.738Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Vue源码中实现依赖收集，实现了三个类：&lt;br&gt;&lt;img src=&quot;http://103.14.34.148:9000/imgs/blog/img/a.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Dep：扮演观察目标的角色，每一个数据都会有Dep类实例，它内部有个subs队列，subs就是subscribers的意思，保存着依赖本数据的观察者，当本数据变更时，调用dep.notify()通知观察者&lt;/li&gt;
-&lt;li&gt;Watcher：扮演观察者的角色，进行观察者函数的包装处理。如render()函数，会被进行包装成一个Watcher实例&lt;/li&gt;
-&lt;li&gt;Observer：辅助的可观测类，数组/对象通过它的转化，可成为可观测数据&lt;br&gt;参考：&lt;a href=&quot;https://ruphi.cn/archives/336/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Vue依赖收集原理&lt;/a&gt;  &lt;/li&gt;
-&lt;/ul&gt;
     
     </summary>
     
