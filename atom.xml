@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://chiangming.github.io/"/>
-  <updated>2020-03-09T03:50:02.272Z</updated>
+  <updated>2020-03-10T05:21:47.082Z</updated>
   <id>https://chiangming.github.io/</id>
   
   <author>
@@ -17,26 +17,43 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>掘金/leetcode</title>
-    <link href="https://chiangming.github.io/2020/03/08/%E6%8E%98%E9%87%91/leetcode/"/>
-    <id>https://chiangming.github.io/2020/03/08/%E6%8E%98%E9%87%91/leetcode/</id>
-    <published>2020-03-08T01:57:26.849Z</published>
-    <updated>2020-03-09T03:50:02.272Z</updated>
+    <title>leetcode</title>
+    <link href="https://chiangming.github.io/2020/03/09/%E6%8E%98%E9%87%91/leetcode/"/>
+    <id>https://chiangming.github.io/2020/03/09/%E6%8E%98%E9%87%91/leetcode/</id>
+    <published>2020-03-08T16:15:28.000Z</published>
+    <updated>2020-03-10T05:21:47.082Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;数组方法&quot;&gt;&lt;a href=&quot;#数组方法&quot; class=&quot;headerlink&quot; title=&quot;数组方法&quot;&gt;&lt;/a&gt;数组方法&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;splice(2,4)
-        
-      
+      &lt;h2 id=&quot;数组方法&quot;&gt;&lt;a href=&quot;#数组方法&quot; class=&quot;headerlink&quot; title=&quot;数组方法&quot;&gt;&lt;/a&gt;数组方法&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;splice(2,4) 从索引2开始，删除4个元素，把删除的部分以新数组返回&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;splice(n,0,x) 从索引n开始，不删除，把x添加到索引n的前面&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;push 向末尾追加&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;unshift 向开头追加&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;reverse 数组反序&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;concat 数组拼接&lt;/li&gt;
+&lt;li&gt;sort 数组排序 （默认字典序）&lt;ul&gt;
+&lt;li&gt;sort((a,b)=&amp;gt;{return a-b})&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;V8 引擎 sort 函数数量小于10的数组使用 InsertionSort，比10大的数组则使用 QuickSort。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;bubble排序算法&quot;&gt;&lt;a href=&quot;#bubble排序算法&quot; class=&quot;headerlink&quot; title=&quot;bubble排序算法&quot;&gt;&lt;/a&gt;bubble排序算法&lt;/h2&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;bubbleSort&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;arr&lt;/span&gt;)&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; i=arr.length&lt;span class=&quot;number&quot;&gt;-1&lt;/span&gt; ;i&amp;gt;&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;i--)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; j=&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;;j&amp;lt;arr.length;j++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;(arr[j]&amp;lt;arr[j&lt;span class=&quot;number&quot;&gt;-1&lt;/span&gt;])&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        [arr[j],arr[j&lt;span class=&quot;number&quot;&gt;-1&lt;/span&gt;]] = [arr[j&lt;span class=&quot;number&quot;&gt;-1&lt;/span&gt;],arr[j]]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
     
+      <category term="算法" scheme="https://chiangming.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="算法" scheme="https://chiangming.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   

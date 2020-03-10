@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>掘金/leetcode</title>
-    <url>/2020/03/08/%E6%8E%98%E9%87%91/leetcode/</url>
+    <title>leetcode</title>
+    <url>/2020/03/09/%E6%8E%98%E9%87%91/leetcode/</url>
     <content><![CDATA[<h2 id="数组方法"><a href="#数组方法" class="headerlink" title="数组方法"></a>数组方法</h2><ul>
 <li><p>splice(2,4) 从索引2开始，删除4个元素，把删除的部分以新数组返回</p>
 </li>
@@ -24,7 +24,7 @@
 <li>V8 引擎 sort 函数数量小于10的数组使用 InsertionSort，比10大的数组则使用 QuickSort。</li>
 </ul>
 <h2 id="bubble排序算法"><a href="#bubble排序算法" class="headerlink" title="bubble排序算法"></a>bubble排序算法</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i=arr.length<span class="number">-1</span> ;i&gt;<span class="number">0</span>;i--)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> j=<span class="number">1</span>;j&lt;arr.length;j++)&#123;</span><br><span class="line">      <span class="keyword">if</span>(arr[j]&lt;arr[j<span class="number">-1</span>])&#123;</span><br><span class="line">        [arr[j],arr[j<span class="number">-1</span>]] = [arr[j<span class="number">-1</span>],arr[j]]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<a id="more"></a>
 <h2 id="insert排序算法"><a href="#insert排序算法" class="headerlink" title="insert排序算法"></a>insert排序算法</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> j=i;j&gt;=<span class="number">0</span>;j--)&#123;</span><br><span class="line">      <span class="keyword">if</span>(arr[j]&lt;arr[j<span class="number">-1</span>])&#123;</span><br><span class="line">        [arr[j],arr[j<span class="number">-1</span>]] = [arr[j<span class="number">-1</span>],arr[j]]</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="quick排序算法"><a href="#quick排序算法" class="headerlink" title="quick排序算法"></a>quick排序算法</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arr= arr.length &lt;=<span class="number">1</span>?arr:</span><br><span class="line">  quickSort(arr.filter(<span class="function"><span class="params">item</span> =&gt;</span> item &lt; arr[<span class="number">0</span>])).concat(</span><br><span class="line">    arr.filter(<span class="function"><span class="params">item</span> =&gt;</span> item == arr[<span class="number">0</span>]),</span><br><span class="line">    quickSort(arr.filter(<span class="function"><span class="params">item</span> =&gt;</span> item &gt; arr[<span class="number">0</span>]))</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -99,6 +99,12 @@
 
 <h2 id="leetcode-152-乘积最大子序列"><a href="#leetcode-152-乘积最大子序列" class="headerlink" title="leetcode 152 乘积最大子序列"></a>leetcode 152 乘积最大子序列</h2><p>maxProductMemo[i] 到第i位 最大的乘积 = Math.max(nums[i],nums[i]<em>maxProductMemo[i-1],nums[i]</em>minProductMemo[i-1])<br>minProductMemo[i] 到第i位 最小的乘积 = Math.min(nums[i],nums[i]<em>maxProductMemo[i-1],nums[i]</em>minProductMemo[i-1])</p>
 ]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
   </entry>
   <entry>
     <title>interview/二叉树</title>
