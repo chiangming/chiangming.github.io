@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    interview/面试 |  Matt&#39;s Blog
+    编程 |  Matt&#39;s Blog
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -32,14 +32,14 @@
     <div id="app">
       <main class="content">
         <section class="outer">
-  <article id="post-interview/面试" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  <article id="post-interview/js编程" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
     
       <header class="article-header">
          
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  interview/面试
+  编程
 </h1>
   
 
@@ -48,10 +48,14 @@
 
         
           <div class="article-meta">
-            <a href="/2020/02/24/interview/%E9%9D%A2%E8%AF%95/" class="article-date">
-  <time datetime="2020-02-24T00:04:11.241Z" itemprop="datePublished">2020-02-24</time>
+            <a href="/2020/02/23/interview/js%E7%BC%96%E7%A8%8B/" class="article-date">
+  <time datetime="2020-02-22T16:15:39.000Z" itemprop="datePublished">2020-02-23</time>
 </a>
               
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+  </div>
+
                 
                   
 <div class="word_count">
@@ -59,7 +63,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.5k字</span>
+            <span class="post-count">315字</span>
         </span>
     </span>
 
@@ -68,7 +72,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">5分钟</span>
+            <span class="post-count">1分钟</span>
         </span>
     </span>
 </div>
@@ -94,82 +98,17 @@
                       
 
                         
-                                  <h1 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h1><h2 id="JS获取当年当月最后一天日期"><a href="#JS获取当年当月最后一天日期" class="headerlink" title="JS获取当年当月最后一天日期"></a>JS获取当年当月最后一天日期</h2><p>var new_date = new Date(new_year,new_month,1); //取当年次月中的第一天<br>return (new Date(new_date.getTime()-1000<em>60</em>60*24)).getDate();//获取当月最后一天日期 </p>
-<h2 id="为什么js里需要闭包"><a href="#为什么js里需要闭包" class="headerlink" title="为什么js里需要闭包"></a>为什么js里需要闭包</h2><ul>
-<li>js也采用词法作用域是在函数定义时决定的，而不是函数调用时决定的。</li>
-<li>C语言这种底层编程语言中，函数中的非静态变量是储存在CPU栈中的，当函数调用结束后堆栈中的空间也由编译器自动释放。</li>
-<li>js闭包函数中的该函数被定义时所有外层的变量对象的引用被放在其上下文Scope属性作为一个作用域链包含，</li>
-<li>所以定义了闭包的函数虽然销毁了，但是其变量对象依然被绑定在函数inner上，保留在内存中。不被GC</li>
-</ul>
-<h3 id="TIP"><a href="#TIP" class="headerlink" title="TIP:"></a>TIP:</h3><ul>
-<li>变量对象与活动对象的概念是ES3提出的老概念，从ES5开始就用词法环境和变量环境替代了</li>
-<li>变量环境也是词法环境，它具备词法环境所有属性，一样有环境记录EnvironmentRecord（VO）与outer外部环境引入（作用域链）。</li>
-<li>作用域链是处理标识符时进行变量查询的变量对象列表</li>
-<li>在执行上下文创建阶段，函数声明与var声明的变量在创建阶段已经被赋予了一个值(变量提升)，var声明被设置为了undefined，函数被设置为了自身函数，而let  const被设置为未初始化（暂时性死区）</li>
-<li>变量对象是与执行上下文相关的数据作用域</li>
-<li>在函数上下文中，我们用活动对象来表示变量对象 对应于 词法记录</li>
-</ul>
-<h2 id="js解析引擎解析"><a href="#js解析引擎解析" class="headerlink" title="js解析引擎解析"></a>js解析引擎解析</h2><ul>
-<li>js是脚本语言，浏览器解析js过程分为：语法检查阶段和运行阶段。</li>
-<li>语法检查：<ul>
-<li>字符流 - 记号流 - AST抽象语法树</li>
-</ul>
-</li>
-<li>运行阶段：<ul>
-<li>预解析： <ul>
-<li>创建执行上下文 <ul>
-<li>确定this</li>
-<li>创建词法环境（存储函数声明与let const声明的变量）</li>
-<li>创建变量环境 (存储var声明的变量)</li>
-</ul>
-</li>
-<li>对VO/AO预赋值 （函数的形参 &gt; 函数声明 &gt; 变量声明）</li>
-</ul>
-</li>
-<li>执行代码<ul>
-<li>VO/AO重新赋值</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="fetch跨与-cookie"><a href="#fetch跨与-cookie" class="headerlink" title="fetch跨与 cookie"></a>fetch跨与 cookie</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myHeaders = <span class="keyword">new</span> Headers();</span><br><span class="line">fetch(url, &#123;</span><br><span class="line">              method: <span class="string">'GET'</span>,</span><br><span class="line">              headers: myHeaders,</span><br><span class="line">              credentials: <span class="string">"include"</span></span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure>
-<p>在后台添加。允许浏览器<br><code>response.setHeader(&quot;Access-Control-Allow-Credentials&quot;,&quot;true&quot;);</code><br><code>response.setHeader(‘Access-Control-Allow-Origin’, ‘http://localhost:8080’)//不能为*</code></p>
-<h2 id="express-中间件"><a href="#express-中间件" class="headerlink" title="express 中间件"></a>express 中间件</h2><p>Express框架建立在node.js内置的http模块上。<br>Express框架的核心是对http模块的再包装。<br>Express框架等于在http模块之上，加了一个中间层。</p>
-<p>app.use（[path]，function）<br>path：是路由的url，默认参数‘/‘，意义是路由到这个路径时使用这个中间件<br>function：中间件函数<br>这个中间件函数可以理解为就是function(request,response,next)</p>
-<p>express.static(__dirname + ‘/public’) // express.static 是Express目前唯一内置的一个中间件。用来处理静态资源文件。</p>
-<h2 id="body-parser"><a href="#body-parser" class="headerlink" title="body-parser"></a>body-parser</h2><p>post请求，enctype属性一般设置为“application/x-www-form-urlencoded”，用于key1=val1&amp;key2=val2 的方式进行编码<br>如果设置成multipart/form-data，则多用于文件上传<br>如果设置成application/json,用于json序列化</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"#"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"application/x-www-form-urlencoded"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bodyParser=<span class="built_in">require</span>(<span class="string">"body-parser"</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 解析以 application/json 和 application/x-www-form-urlencoded 提交的数据</span></span><br><span class="line"><span class="keyword">var</span> jsonParser = bodyParser.json();</span><br><span class="line"><span class="keyword">var</span> urlencodedParser = bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">false</span> &#125;);</span><br></pre></td></tr></table></figure>
+                                  <h2 id="将字符串中每个单词的首字母大写化"><a href="#将字符串中每个单词的首字母大写化" class="headerlink" title="将字符串中每个单词的首字母大写化"></a>将字符串中每个单词的首字母大写化</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">titleCase</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> words = s.toLowerCase().split(<span class="regexp">/\s+/</span>)</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; words.length; i++) &#123;</span><br><span class="line">    words[i] = words[i].slice(<span class="number">0</span>, <span class="number">1</span>).toUpperCase() + words[i].slice(<span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> words.join(<span class="string">' '</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">titleCase2</span>(<span class="params">s</span>) </span>&#123;  </span><br><span class="line">  <span class="keyword">return</span> s.toLowerCase().replace(<span class="regexp">/( |^)[a-z]/g</span>, (L) =&gt; L.toUpperCase());  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="新闻ul列表，插入3个，获取index"><a href="#新闻ul列表，插入3个，获取index" class="headerlink" title="新闻ul列表，插入3个，获取index"></a>新闻ul列表，插入3个，获取index</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> ul=<span class="built_in">document</span>.getElementById(<span class="string">'ulList'</span>);</span><br><span class="line"><span class="keyword">let</span> nodeList= ul.getElementsByTagName(<span class="string">'li'</span>);</span><br><span class="line"></span><br><span class="line">ul.addEventListener(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> index = <span class="built_in">Array</span>.prototype.indexOf.call(nodeList,e.target);</span><br><span class="line">	<span class="built_in">console</span>.log(index) </span><br><span class="line">    &#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</span><br><span class="line">	<span class="keyword">let</span> li=<span class="built_in">document</span>.createElement(<span class="string">'li'</span>);</span><br><span class="line">	li.style=<span class="string">"width:100px;height:100px;background:#2ea6df;"</span></span><br><span class="line">	li.setAttribute(<span class="string">"class"</span>,<span class="string">"active"</span>)</span><br><span class="line">	li.innerHTML =<span class="string">"abc"</span></span><br><span class="line">	ul.appendChild(li)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="两个大数相加"><a href="#两个大数相加" class="headerlink" title="两个大数相加"></a>两个大数相加</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addBigNumber</span>(<span class="params">s1,s2</span>)</span>&#123;</span><br><span class="line">  s1 = s1.split(<span class="string">""</span>)</span><br><span class="line">  s2 = s2.split(<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> res=<span class="string">""</span></span><br><span class="line">  <span class="keyword">let</span> temp = <span class="number">0</span></span><br><span class="line">  <span class="keyword">while</span>(s1.length || s2.length || temp)&#123;</span><br><span class="line">    temp += ~~s1.pop() + ~~s2.pop()</span><br><span class="line">    res = (temp%<span class="number">10</span>) + res</span><br><span class="line">    temp = (temp &gt; <span class="number">9</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res.replace(<span class="regexp">/^0+/</span>, <span class="string">''</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="js的bind、apply、call有什么区别"><a href="#js的bind、apply、call有什么区别" class="headerlink" title="js的bind、apply、call有什么区别"></a>js的bind、apply、call有什么区别</h1><ul>
-<li>fn.call(obj,…args)转换成obj.fn(…args)</li>
-<li>fn.call(obj,args) 转换成obj.fn(args)</li>
-<li>return function F(){ return new fn() 或者return fn.apply(obj,args.concat(…arguments))}<a id="more"></a>
-<h1 id="js的继承"><a href="#js的继承" class="headerlink" title="js的继承"></a>js的继承</h1></li>
-<li>借用构造函数</li>
-<li>原型链式继承</li>
-<li>组合继承</li>
-<li>组合寄生式继承</li>
-</ul>
-<h1 id="let、const、var的区别"><a href="#let、const、var的区别" class="headerlink" title="let、const、var的区别"></a>let、const、var的区别</h1><p>一，var定义的变量，作用域是整个封闭函数，是全域的；let定义的变量，作用域是在块级或者字块中；<br>二，变量提升：不论通过var声明的变量处于当前作用于的第几行，都会提升到作用域的最顶部。<br>      而let声明的变量不会在顶部初始化，凡是在let声明之前使用该变量都会报错（引用错误ReferenceError）；<br>三，只要块级作用域内存在let，它所声明的变量就会绑定在这个区域；<br>四，let不允许在相同作用域内重复声明（报错同时使用var和let，两个let）。<br>const用来专门声明一个常量，它跟let一样作用于块级作用域，没有变量提升，重复声明会报错，不同的是const声明的常量不可改变，声明时必须初始化（赋值）</p>
-<h1 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h1><p>没有this，arguments，没有prototype</p>
-<h1 id="promise的then的第二个参数和catch的区别"><a href="#promise的then的第二个参数和catch的区别" class="headerlink" title="promise的then的第二个参数和catch的区别"></a>promise的then的第二个参数和catch的区别</h1><p>catch = then(null,rejected)</p>
-<h1 id="手写一个promise怎么写"><a href="#手写一个promise怎么写" class="headerlink" title="手写一个promise怎么写"></a>手写一个promise怎么写</h1><p>value:null<br>成功stack：[]<br>失败stack：[]<br>this.then()=&gt;{两个栈push}<br>function resolve(value) =&gt; {成功栈遍历回调}<br>function reject(value) =&gt; {失败栈遍历回调}<br>fn(resovle,reject)</p>
-<h1 id="Promise-all应用场景"><a href="#Promise-all应用场景" class="headerlink" title="Promise.all应用场景"></a>Promise.all应用场景</h1><p>返回new Promise(){}<br>遍历传入的Promise数组<br>Promise.resolve(promises[i])<br>.then(function(value) {<br>        countNum++;<br>        resolvedvalue[i] = value;<br>        if (countNum === promiseNum) {<br>          return resolve(resolvedvalue)<br>        }<br>      }, function(reason) {<br>        return reject(reason)<br>      })</p>
-<h1 id="Promise-race应用场景"><a href="#Promise-race应用场景" class="headerlink" title="Promise.race应用场景"></a>Promise.race应用场景</h1><p>指定时间内没有获得结果，就将Promise的状态变为reject<br>Promise.race([<br>  fetch(‘/resource-that-may-take-a-while’),<br>  new Promise(function (resolve, reject) {<br>    setTimeout(() =&gt; reject(new Error(‘request timeout’)), 5000)<br>  })<br>]);</p>
-<h1 id="promise和async-await的区别"><a href="#promise和async-await的区别" class="headerlink" title="promise和async/await的区别"></a>promise和async/await的区别</h1><p>async/await 在generater函数的基础上实现的状态机异步调用，执行到await的函数的时候暂时让出线程至函数调用完成</p>
-<ul>
-<li>把*换成了async，把yield换成了await</li>
-<li>一个函数如果加上 async ，那么该函数就会返回一个 Promise<ul>
-<li>async 就是将函数返回值使用 Promise.resolve()包裹</li>
-</ul>
-</li>
-<li>await 就是 generator 加上 Promise 的语法糖，且内部实现了自动执行 generator。</li>
-<li>没有依赖性的话，完全可以使用 Promise.all 的方式</li>
-</ul>
-<h1 id="状态码304"><a href="#状态码304" class="headerlink" title="状态码304"></a>状态码304</h1>
+<h2 id="给定两个字符串s1，s2，s2中出现的字符从s1中删除"><a href="#给定两个字符串s1，s2，s2中出现的字符从s1中删除" class="headerlink" title="给定两个字符串s1，s2，s2中出现的字符从s1中删除"></a>给定两个字符串s1，s2，s2中出现的字符从s1中删除</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">remove</span>(<span class="params">s1,s2</span>)</span>&#123;</span><br><span class="line">  s2=s2.split(<span class="string">""</span>)</span><br><span class="line">  s2.map(<span class="function"><span class="params">item</span>=&gt;</span>&#123;</span><br><span class="line">    s1=s1.replace(<span class="keyword">new</span> <span class="built_in">RegExp</span>(item),<span class="string">""</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> s1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断是否二叉树是否对称"><a href="#判断是否二叉树是否对称" class="headerlink" title="判断是否二叉树是否对称"></a>判断是否二叉树是否对称</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isSymmetric</span>(<span class="params">node</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!node)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> isSym(node.left,node.right)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isSym</span>(<span class="params">left,right</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(left == <span class="literal">null</span> &amp;&amp; right == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  <span class="keyword">if</span>(left == <span class="literal">null</span> || right == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">  <span class="keyword">if</span>(left.vale !== right.value ) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">arguments</span>.callee(left.left,right.right) &amp;&amp; <span class="built_in">arguments</span>.callee(left.right,right.left)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断一棵树是否为AVL树"><a href="#判断一棵树是否为AVL树" class="headerlink" title="判断一棵树是否为AVL树"></a>判断一棵树是否为AVL树</h2><pre><code></code></pre>
                                     
 
                                       <!-- copyright -->
@@ -219,13 +158,15 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2020/02/24/interview/%E9%9D%A2%E8%AF%95/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2020/02/23/interview/js%E7%BC%96%E7%A8%8B/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
+
 
     </footer>
 
@@ -235,19 +176,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/02/25/%E9%98%AE%E4%B8%80%E5%B3%B0/400/" class="article-nav-link">
+      <a href="/2020/02/23/interview/vue/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            阮一峰/400
+            Vue题目
           
         </div>
       </a>
     
     
-      <a href="/2020/02/23/interview/vue/" class="article-nav-link">
+      <a href="/2020/02/20/interview/vue-blog/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Vue题目</div>
+        <div class="article-nav-title">interview/vue-blog</div>
       </a>
     
   </nav>

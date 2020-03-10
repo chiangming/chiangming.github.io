@@ -59,7 +59,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3.7k字</span>
+            <span class="post-count">8.2k字</span>
         </span>
     </span>
 
@@ -68,7 +68,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">15分钟</span>
+            <span class="post-count">32分钟</span>
         </span>
     </span>
 </div>
@@ -335,8 +335,8 @@ return (typeof o === &#39;object&#39; || typeof o === &#39;function&#39;) &amp;&
 <li>SharedWorker是浏览器所有页面共享的</li>
 <li>SharedWorker由独立的进程管理，WebWorker只是属于render进程下的一个线程</li>
 </ul>
-<h3 id="从输入-url-到展示的过程"><a href="#从输入-url-到展示的过程" class="headerlink" title="从输入 url 到展示的过程"></a>从输入 url 到展示的过程</h3><ul>
-<li>DNS 解析 域名 -&gt; ip</li>
+<h3 id="url展示的过程"><a href="#url展示的过程" class="headerlink" title="url展示的过程"></a>url展示的过程</h3><ul>
+<li>DNS 解析 域名 -&gt; ip （DNS缓存 浏览器/操作系统/hosts文件 -》本地配置的首选DNS服务器 -》运营商的DNS代我们的浏览器发起迭代DNS解析请求 -》com IP -》test.com IP -&gt; <a href="http://www.test.com" target="_blank" rel="noopener">www.test.com</a> IP</li>
 <li>TCP 三次握手</li>
 <li>发送请求，分析 url，设置请求报文(头，主体)</li>
 <li>服务器返回请求的文件 (html)</li>
@@ -365,6 +365,21 @@ return (typeof o === &#39;object&#39; || typeof o === &#39;function&#39;) &amp;&
 <ul>
 <li>当 DOMContentLoaded 事件触发时，仅当DOM加载完成</li>
 <li>onload 事件触发时，页面上所有的DOM，样式表，脚本，图片都已经加载完成了</li>
+</ul>
+<h4 id="操作-DOM-性能很差"><a href="#操作-DOM-性能很差" class="headerlink" title="操作 DOM 性能很差?"></a>操作 DOM 性能很差?</h4><p>DOM 是属于渲染引擎中的东西，而 JS 又是 JS 引擎中的东西。 -&gt;线程之间的通信<br>操作 DOM 可能还会带来重绘回流</p>
+<p>分批次部分渲染 DOM -&gt; requestAnimationFrame<br>只渲染可视区域内的内容，非可见区域的那就完全不渲染了，当用户在滚动的时候就实时去替换渲染的内容</p>
+<h4 id="阻塞渲染"><a href="#阻塞渲染" class="headerlink" title="阻塞渲染?"></a>阻塞渲染?</h4><p>浏览器在解析到 script 标签时，会暂停构建 DOM -&gt; script 标签放在 body 标签底部<br>defer 属性以后，表示该 JS 文件会并行下载，但是会放到 HTML 解析完成后顺序执行<br> async一旦下载完,渲染引擎就会中断渲染,执行这个脚本以后,再继续渲染</p>
+<p><img src="http://segmentfault.com/img/bVcQV0" alt="async和defer"></p>
+<h4 id="回流-和-重绘"><a href="#回流-和-重绘" class="headerlink" title="回流 和 重绘"></a>回流 和 重绘</h4><p>回流必定会发生重绘，重绘不一定会引发回流。</p>
+<ul>
+<li>减少重绘和回流<ul>
+<li>使用 transform 替代 top</li>
+<li>visibility 替换 display: none</li>
+<li>不使用table布局</li>
+<li>动画速度越快，回流次数越多，也可以选择使用 requestAnimationFrame</li>
+<li>CSS 选择符从右往左匹配查找，避免节点层级过多</li>
+</ul>
+</li>
 </ul>
 <h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><ul>
 <li>JS 是单线程的，先跑<strong>执行栈里</strong>的<strong>同步任务</strong>，然后再跑<strong>任务队列</strong>的<strong>异步任务</strong>。</li>
@@ -462,6 +477,7 @@ return (typeof o === &#39;object&#39; || typeof o === &#39;function&#39;) &amp;&
 </tr>
 </tbody></table>
 <h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>document.cookie=”username=John Smith; expires=Thu, 18 Dec 2043 12:00:00 GMT; path=/“;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setCookie</span>(<span class="params">name,day</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">  <span class="keyword">let</span> datems = date.getTime() + day*<span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">1000</span></span><br><span class="line">  date.setTime(datems)</span><br><span class="line">  <span class="built_in">document</span>.cookie=<span class="string">"name="</span>+name+<span class="string">";expires="</span>+date.toGMTString()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setCookie(<span class="string">"matt"</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 <ul>
 <li>http-only    不能通过 JS 访问 Cookie，减少 XSS 攻击</li>
 <li>secure    只能在协议为 HTTPS 的请求中携带</li>
@@ -512,6 +528,265 @@ return (typeof o === &#39;object&#39; || typeof o === &#39;function&#39;) &amp;&
 <h4 id="ETag-响应头-和-If-None-Match-（请求头）"><a href="#ETag-响应头-和-If-None-Match-（请求头）" class="headerlink" title="ETag(响应头) 和 If-None-Match （请求头）"></a>ETag(响应头) 和 If-None-Match （请求头）</h4><p>ETag 类似于文件指纹，If-None-Match 会将当前 ETag 发送给服务器，询问该资源 ETag 是否变动，有变动的话就将新的资源发送回来。并且 ETag 优先级比 Last-Modified 高。</p>
 <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>频繁变动的资源 ：<br>Cache-Control: no-cache 使浏览器每次都请求服务器<br>ETag /Last-Modified 来验证资源是否有效，减少响应体积</p>
 <p>代码文件：<br>Cache-Control: max-age=31536000</p>
+<h1 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h1><h2 id="XSS跨站脚本漏洞"><a href="#XSS跨站脚本漏洞" class="headerlink" title="XSS跨站脚本漏洞"></a>XSS跨站脚本漏洞</h2><p>持久型：攻击的代码被服务端写入进数据库<br>非持久型：修改 URL 参数的方式加入攻击代码，诱导用户访问链接</p>
+<ul>
+<li>解决：<ul>
+<li>escape库 转义字符 js-xss </li>
+<li>CSP（Content-Security-Policy）<br>建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行。<ul>
+<li>设置 HTTP Header 中的 Content-Security-Policy</li>
+<li>设置 meta 标签的方式 <code>&lt;meta http-equiv=&quot;Content-Security-Policy&quot;&gt;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="CSRF-跨站请求伪造"><a href="#CSRF-跨站请求伪造" class="headerlink" title="CSRF 跨站请求伪造"></a>CSRF 跨站请求伪造</h2><p>攻击者构造出一个后端请求地址，诱导用户点击或者通过某些途径自动发起请求。如果用户是在登录状态下的话，后端就以为是用户在操作，从而进行相应的逻辑。</p>
+<ul>
+<li>解决：<ul>
+<li>Get 请求不对数据进行修改</li>
+<li>不让第三方网站访问到用户 Cookie <ul>
+<li>设置 SameSite 表示 Cookie 不随着跨域请求发送</li>
+</ul>
+</li>
+<li>阻止第三方网站请求接口<ul>
+<li>验证 Referer 来判断该请求是否为第三方网站发起的</li>
+</ul>
+</li>
+<li>请求时附带验证信息，比如验证码或者 Token<ul>
+<li>服务器下发一个随机 Token，每次发起请求时将 Token 携带上，服务器验证 Token 是否有效。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="点击劫持"><a href="#点击劫持" class="headerlink" title="点击劫持"></a>点击劫持</h2><p>将需要攻击的网站通过 iframe 嵌套的方式嵌入自己的网页中，并将 iframe 设置为透明，在页面中透出一个按钮诱导用户点击</p>
+<ul>
+<li>解决：<ul>
+<li>设置X-FRAME-OPTIONS响应头</li>
+<li>js： top.location = self.location</li>
+</ul>
+</li>
+</ul>
+<h2 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h2><p>HTTPS解决</p>
+<h1 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h1><ul>
+<li><p>content方面</p>
+<ul>
+<li>减少HTTP请求：合并文件、CSS精灵、inline Image</li>
+<li>减少DNS查询：DNS缓存、将资源分布到恰当数量的主机名</li>
+<li>减少DOM元素数量</li>
+</ul>
+</li>
+<li><p>Server方面</p>
+<ul>
+<li>使用CDN</li>
+<li>配置ETag</li>
+<li>对组件使用Gzip压缩</li>
+</ul>
+</li>
+<li><p>Cookie方面</p>
+<ul>
+<li>减小cookie大小</li>
+</ul>
+</li>
+<li><p>css方面</p>
+<ul>
+<li>将样式表放到页面顶部</li>
+<li>不使用CSS表达式</li>
+<li>使用<link>不使用@import</li>
+</ul>
+</li>
+<li><p>Javascript方面</p>
+<ul>
+<li>将脚本放到页面底部</li>
+<li>将javascript和css从外部引入</li>
+<li>压缩javascript和css</li>
+<li>删除不需要的脚本</li>
+<li>减少DOM访问</li>
+</ul>
+</li>
+<li><p>图片方面</p>
+<ul>
+<li>雪碧图</li>
+<li>矢量图 svg</li>
+<li>小图片转base64</li>
+</ul>
+</li>
+</ul>
+<h2 id="防抖和节流"><a href="#防抖和节流" class="headerlink" title="防抖和节流"></a>防抖和节流</h2><p>防抖是将多次执行变为最后一次执行，节流是将多次执行变为每隔一段时间执行</p>
+<h3 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h3><p>一定时间段内没有再触发事件，事件处理函数才会执行一次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn,time</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> timer = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(timer)&#123;</span><br><span class="line">      clearTimeout(timer)</span><br><span class="line">    &#125;</span><br><span class="line">    timer = setTimeout(fn,time)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h3><p>一定时间内只调用一次事件处理函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> throttle = <span class="function"><span class="keyword">function</span>(<span class="params">fn, delay</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> timer = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> context = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">var</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span> (!timer) &#123;</span><br><span class="line">            timer = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                fn.apply(context, args);</span><br><span class="line">                timer = <span class="literal">null</span>;</span><br><span class="line">            &#125;, delay);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h2><p>降低首屏的加载时间，因为可以将一些不影响首屏但重要的文件延后加载<br><code>&lt;link rel=&quot;preload&quot; href=&quot;http://example.com&quot;&gt;</code></p>
+<ol>
+<li>将加载和执行分离开，不阻塞渲染和document的onload事件</li>
+<li>提前加载指定资源，不再出现依赖的font字体隔了一段时间才刷出的情况</li>
+</ol>
+<h2 id="预渲染"><a href="#预渲染" class="headerlink" title="预渲染"></a>预渲染</h2><p>通过预渲染将下载的文件预先在后台渲染，可以使用以下代码开启预渲染<br><code>&lt;link rel=&quot;prerender&quot; href=&quot;http://example.com&quot;&gt;</code></p>
+<h2 id="懒加载"><a href="#懒加载" class="headerlink" title="懒加载"></a>懒加载</h2><p>对于图片来说，先设置图片标签的 src 属性为一张占位图，将真实的图片资源放入一个自定义属性中，当进入自定义区域时，就将自定义属性替换为 src 属性，这样图片就会去下载资源，实现了图片懒加载。</p>
+<h2 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h2><p>静态资源尽量使用 CDN 加载</p>
+<h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><h2 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h2><p>通过 ViewModel 将视图中的状态和用户的行为分离出一个抽象<br>以 Vue 框架来举例，ViewModel 就是组件的实例。View 就是模板，Model 的话在引入 Vuex 的情况下是完全可以和组件分离的。<br><img src="https://user-gold-cdn.xitu.io/2018/12/21/167ced454926a458?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
+<h2 id="Virtual-DOM"><a href="#Virtual-DOM" class="headerlink" title="Virtual DOM"></a>Virtual DOM</h2><ul>
+<li>操作 DOM 是很慢的,操作 JS 对象会快很多</li>
+<li>判断新旧两个 JS 对象的最小差异并且实现局部更新 DOM</li>
+</ul>
+<h2 id="前端路由"><a href="#前端路由" class="headerlink" title="前端路由"></a>前端路由</h2><p>监听 URL 的变化，然后匹配路由规则，显示相应的页面，并且无须刷新页面</p>
+<ul>
+<li>Hash 模式只可以更改 # 后面的内容，History 模式可以通过 API 设置任意的同源 URL</li>
+<li>History 模式可以通过 API 添加任意类型的数据到历史记录中，Hash 模式只能更改哈希值，也就是字符串</li>
+<li>Hash 模式无需后端配置，并且兼容性好。History 模式在用户手动输入地址或者刷新页面的时候会发起 URL 请求，后端需要配置 index.html 页面用于匹配不到静态资源的时候</li>
+</ul>
+<h3 id="Hash模式"><a href="#Hash模式" class="headerlink" title="Hash模式"></a>Hash模式</h3><p><a href="http://www.test.com/#/" target="_blank" rel="noopener">www.test.com/#/</a> 就是 Hash URL，当 # 后面的哈希值发生变化时，可以通过 hashchange 事件来监听到 URL 的变化，从而进行跳转页面，并且无论哈希值如何变化，服务端接收到的 URL 请求永远是 <a href="http://www.test.com" target="_blank" rel="noopener">www.test.com</a></p>
+<p>window.addEventListener(‘hashchange’, () =&gt; {… })</p>
+<h3 id="History模式"><a href="#History模式" class="headerlink" title="History模式"></a>History模式</h3><ul>
+<li>不会引起页面的刷新，只会更新浏览器的历史记录</li>
+<li>HTML5 新推出的功能，主要使用 history.pushState 和 history.replaceState 改变 URL。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'popstate'</span>, e =&gt; &#123;</span><br><span class="line">  <span class="comment">// e.state 就是 pushState(stateObject) 中的 stateObject</span></span><br><span class="line">  <span class="built_in">console</span>.log(e.state)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h1 id="vue的生命周期"><a href="#vue的生命周期" class="headerlink" title="vue的生命周期"></a>vue的生命周期</h1><h2 id="生命周期顺序"><a href="#生命周期顺序" class="headerlink" title="生命周期顺序"></a>生命周期顺序</h2>加载渲染过程</li>
+</ul>
+<ul>
+<li>父beforeCreate-&gt;父created-&gt;父beforeMount-&gt;子beforeCreate-&gt;子created-&gt;子beforeMount-&gt;子mounted-&gt;父mounted</li>
+</ul>
+<p>子组件全局状态更新过程</p>
+<ul>
+<li>父beforeUpdate-&gt;子beforeUpdate-&gt;子updated-&gt;父updated</li>
+</ul>
+<p>销毁过程</p>
+<ul>
+<li>父beforeDestroy-&gt;子beforeDestroy-&gt;子destroyed-&gt;父destroyed</li>
+</ul>
+<h2 id="生命周期的意义"><a href="#生命周期的意义" class="headerlink" title="生命周期的意义"></a>生命周期的意义</h2><p>创建-挂载-更新-销毁</p>
+<ul>
+<li>beforeCreate前，也就是new Vue的时候会初始化事件和生命周期；（获取不到 props 或者 data 中的数据）</li>
+<li>beforeCreate和created之间会挂载Data，绑定事件；接下来会根据el挂载页面元素，如果没有设置el则生命周期结束，直到手动挂载；el挂载结束后，根据templete/outerHTML(el)渲染页面；</li>
+<li>在beforeMount前虚拟DOM已经创建完成；</li>
+<li>之后在mounted前，将vm.$el替换掉页面元素el;mounted将虚拟dom挂载到真实页面（此时页面已经全部渲染完成）；</li>
+<li>之后发生数据变化时触发beforeUpdate和updated进行一些操作；</li>
+<li>最后主动调用销毁函数或者组件自动销毁时beforeDestroy，手动撤销监听事件，计时器等；</li>
+<li>destroyed时仅存在Dom节点，其他所有东西已自动销毁。</li>
+</ul>
+<h2 id="组件通讯"><a href="#组件通讯" class="headerlink" title="组件通讯"></a>组件通讯</h2><h3 id="父子组件通信"><a href="#父子组件通信" class="headerlink" title="父子组件通信"></a>父子组件通信</h3><ul>
+<li>父组件通过 props 传递数据给子组件，子组件通过 emit 发送事件传递数据给父组件</li>
+<li>v-model</li>
+<li>.sync语法糖</li>
+</ul>
+<p>兄弟组件通信</p>
+<ul>
+<li>this.$parent.$children.name</li>
+</ul>
+<p>跨多层级组件通信<br>任意组件</p>
+<ul>
+<li>Vuex 或者 Event Bus</li>
+</ul>
+<h2 id="mixin"><a href="#mixin" class="headerlink" title="mixin"></a>mixin</h2><ul>
+<li>选项合并<ul>
+<li>数据对象在内部会进行递归合并，并在发生冲突时以组件数据优先。</li>
+<li>同名钩子函数将合并为一个数组，，混入对象的钩子将在组件自身钩子之前调用。</li>
+<li>值为对象的选项，例如 methods、components 和 directives，将被合并为同一个对象。两个对象键名冲突时，取组件对象的键值对。</li>
+</ul>
+</li>
+</ul>
+<h2 id="computed-和-watch"><a href="#computed-和-watch" class="headerlink" title="computed 和 watch"></a>computed 和 watch</h2><p>computed 是计算属性，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算值变化才会返回内容。</p>
+<p>watch 监听到值的变化就会执行回调，在回调中可以进行一些逻辑操作。  </p>
+<h2 id="keep-alive-组件"><a href="#keep-alive-组件" class="headerlink" title="keep-alive 组件"></a>keep-alive 组件</h2><p>组件切换时保存一些组件的状态防止多次渲染<br>keep-alive 包裹的组件在切换时不会进行销毁，而是缓存到内存中并执行 deactivated 钩子函数，命中缓存渲染后会执行 actived 钩子函数。</p>
+<h2 id="v-show-与-v-if"><a href="#v-show-与-v-if" class="headerlink" title="v-show 与 v-if"></a>v-show 与 v-if</h2><p>v-show 只是在 display: none 和 display: block 之间切换<br>v-if 的话就得说到 Vue 底层的编译了。当属性初始为 false 时，组件就不会被渲染，直到条件为 true，并且切换条件时会触发销毁/挂载组件,在必要的时候才去渲染组件，减少整个页面的初始渲染开销。</p>
+<h2 id="data-对象还是函数"><a href="#data-对象还是函数" class="headerlink" title="data 对象还是函数"></a>data 对象还是函数</h2><p>组件复用时所有组件实例都会共享 data，对象的话，就会造成一个组件修改 data 以后会影响到其他所有组件，所以需要将 data 写成函数，每次用到就调用一次函数获得新的数据。</p>
+<h1 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h1><p>window.onerror 代码运行错误<br>异步代码来说，可以使用 catch 的方式捕获错误。比如 Promise 可以直接使用 catch 函数，async await 可以使用 try catch。</p>
+<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><h2 id="HTTP1-0"><a href="#HTTP1-0" class="headerlink" title="HTTP1.0"></a>HTTP1.0</h2><ul>
+<li>无法复用链接，完成即断开，重新慢启动和 TCP 3次握手 <ul>
+<li>TCP 连接会随着时间进行自我调谐，起初会限制连接的最大速度，如果数据成功传输，会随着时间的推移提高传输的速度。这种调谐则被称为 TCP 慢启动</li>
+<li>HTTP 1.0规定浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个TCP连接，服务器完成请求处理后立即断开TCP连接，</li>
+</ul>
+</li>
+<li>head of line blocking: 线头阻塞，导致请求之间互相影响 第一个请求阻塞后，后面的请求都需要等待<h2 id="HTTP1-1"><a href="#HTTP1-1" class="headerlink" title="HTTP1.1"></a>HTTP1.1</h2></li>
+<li>长连接(默认 keep-alive)，复用。 HTTP 1.1支持持久连接（HTTP/1.1的默认模式使用带流水线的持久连接），在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟</li>
+<li>host 字段指定对应的虚拟站点 同一个IP同一个端口不同的虚拟Web站点</li>
+<li>新增功能:<ul>
+<li>断点续传 要求服务器从文件XXXX字节处开始传送</li>
+<li>身份认证</li>
+<li>状态管理</li>
+<li>cache 缓存<ul>
+<li>Cache-Control</li>
+<li>Expires</li>
+<li>Last-Modified</li>
+<li>Etag<h2 id="HTTP2-0"><a href="#HTTP2-0" class="headerlink" title="HTTP2.0"></a>HTTP2.0</h2></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>多路复用。 允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息 双向数据流</li>
+<li>二进制分帧层。应用层http和传输层tcp之间 将所有传输的信息分割为更小的消息和帧（frame）,并对它们采用二进制格式的编码</li>
+<li>首部压缩。压缩http请求报文头部 首部压缩使得整个HTTP数据包小了很多，传输也就会更快</li>
+<li>服务端推送。 一种在客户端请求之前发送数据的机制。在 HTTP/2 中，服务器可以对客户端的一个请求发送多个响应。浏览器只请求了index.html，但是服务器把index.html、style.css、example.png全部发送给浏览器。这样的话，只需要一轮 HTTP 通信，浏览器就得到了全部资源，提高了性能。</li>
+</ul>
+<h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><ul>
+<li>工厂模式：vue创建组件 createComponent</li>
+<li>单例模式：全局缓存、全局状态管理 vuex单例 install</li>
+<li>装饰器模式： ES7 中的装饰器语法</li>
+<li>发布订阅模式：实现响应式也是使用了该模式。对于需要实现响应式的对象来说，在 get 的时候会进行依赖收集，当改变了对象的属性时，就会触发派发更新。</li>
+</ul>
+<h1 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h1><h2 id="选择器优先级"><a href="#选择器优先级" class="headerlink" title="选择器优先级"></a>选择器优先级</h2><p>!important &gt; style 属性 &gt; id &gt; class &gt; tag</p>
+<h2 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h2><ul>
+<li>absolute + transform</li>
+<li>flex + justify-content + align-items</li>
+<li>fixed margin:auto left:0 right:0 right:0 bottom：0</li>
+</ul>
+<h2 id="position-float-display"><a href="#position-float-display" class="headerlink" title="position float display"></a>position float display</h2><p>position：absolute/fixed优先级最高，有他们在时，float不起作用，display值需要调整。float 或者absolute定位的元素，只能是块元素或表格。</p>
+<h2 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h2><ul>
+<li><p>垂直放置</p>
+</li>
+<li><p>margin重叠</p>
+</li>
+<li><p>margin box与包含块border box的左边相接触</p>
+</li>
+<li><p>不与float重叠</p>
+</li>
+<li><p>浮动高度</p>
+</li>
+<li><p>不影响外部布局</p>
+</li>
+<li><p>根元素</p>
+</li>
+<li><p>float不默认</p>
+</li>
+<li><p>overflow不默认</p>
+</li>
+<li><p>postition：absolute 和fixed</p>
+</li>
+<li><p>display：inline-block 和flex</p>
+</li>
+</ul>
+<h1 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h1><h2 id="navigation"><a href="#navigation" class="headerlink" title="navigation"></a>navigation</h2><p>获取ua</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ua = navigator.userAgent</span><br><span class="line"><span class="keyword">var</span> isChrome = ua.indexOf(<span class="string">'Chrome'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(isChrome)</span><br></pre></td></tr></table></figure>
+
+<h2 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h2><p>屏幕宽高<br>screen.width + screen.height<br>可见页面宽高<br>document.body.clientWidth + document.body.clientHeight</p>
+<h2 id="location"><a href="#location" class="headerlink" title="location"></a>location</h2><p>获取网址、协议、path、参数、hash 等<br>// 例如当前网址是 <a href="https://juejin.im/timeline/frontend?a=10&amp;b=10#some" target="_blank" rel="noopener">https://juejin.im/timeline/frontend?a=10&amp;b=10#some</a><br>console.log(location.href)  // <a href="https://juejin.im/timeline/frontend?a=10&amp;b=10#some" target="_blank" rel="noopener">https://juejin.im/timeline/frontend?a=10&amp;b=10#some</a><br>console.log(location.protocol) // https:<br>console.log(location.pathname) // /timeline/frontend<br>console.log(location.search) // ?a=10&amp;b=10<br>console.log(location.hash) // #some</p>
+<h2 id="history"><a href="#history" class="headerlink" title="history"></a>history</h2><p>history.back()<br>history.forward()</p>
+<h1 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h1><h2 id="获取-DOM-节点"><a href="#获取-DOM-节点" class="headerlink" title="获取 DOM 节点"></a>获取 DOM 节点</h2><p>var div1 = document.getElementById(‘div1’)<br>var divList = document.getElementsByTagName(‘div’)<br>var containerList = document.getElementsByClassName(‘container’)<br>var pList = document.querySelectorAll(‘p’)</p>
+<h2 id="DOM-property"><a href="#DOM-property" class="headerlink" title="DOM property"></a>DOM property</h2><p>p可以有style属性，有className nodeName nodeType属性。注意，这些都是 JS 范畴的属性，符合 JS 语法标准的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> pList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'p'</span>)</span><br><span class="line"><span class="keyword">var</span> p = pList[<span class="number">0</span>]</span><br><span class="line"><span class="built_in">console</span>.log(p.style.width)  <span class="comment">// 获取样式</span></span><br><span class="line">p.style.width = <span class="string">'100px'</span>  <span class="comment">// 修改样式</span></span><br><span class="line"><span class="built_in">console</span>.log(p.className)  <span class="comment">// 获取 class</span></span><br><span class="line">p.className = <span class="string">'p1'</span>  <span class="comment">// 修改 class</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取 nodeName 和 nodeType</span></span><br><span class="line"><span class="built_in">console</span>.log(p.nodeName)</span><br><span class="line"><span class="built_in">console</span>.log(p.nodeType)</span><br></pre></td></tr></table></figure>
+
+<h2 id="HTML-attribute"><a href="#HTML-attribute" class="headerlink" title="HTML attribute"></a>HTML attribute</h2><p>attribute 就是对 HTML 属性的 get 和 set</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> pList = <span class="built_in">document</span>.querySelectorAll(<span class="string">'p'</span>)</span><br><span class="line"><span class="keyword">var</span> p = pList[<span class="number">0</span>]</span><br><span class="line">p.getAttribute(<span class="string">'data-name'</span>)</span><br><span class="line">p.setAttribute(<span class="string">'data-name'</span>, <span class="string">'juejin'</span>)</span><br><span class="line">p.getAttribute(<span class="string">'style'</span>)</span><br><span class="line">p.setAttribute(<span class="string">'style'</span>, <span class="string">'font-size:30px;'</span>)</span><br></pre></td></tr></table></figure>
+<p>get 和 set attribute 时，还会触发 DOM 的查询或者重绘、重排，频繁操作会影响页面性能。</p>
+<h2 id="常见DOM-API"><a href="#常见DOM-API" class="headerlink" title="常见DOM API"></a>常见DOM API</h2><h3 id="创建型API总结"><a href="#创建型API总结" class="headerlink" title="创建型API总结"></a>创建型API总结</h3><p>创建型api主要包括createElement，createTextNode，cloneNode和createDocumentFragment四个方法，需要注意下面几点：</p>
+<p>（1）它们创建的节点只是一个孤立的节点，要通过appendChild添加到文档中<br>（2）cloneNode要注意如果被复制的节点是否包含子节点以及事件绑定等问题<br>（3）使用createDocumentFragment来解决添加大量节点时的性能问题 </p>
+<h3 id="页面修改型API"><a href="#页面修改型API" class="headerlink" title="页面修改型API"></a>页面修改型API</h3><p>修改页面内容的api主要包括：appendChild，insertBefore，removeChild，replaceChild。</p>
+<p>要注意几个特点：</p>
+<p>（1）不管是新增还是替换节点，如果新增或替换的节点是原本存在页面上的，则其原来位置的节点将被移除，也就是说同一个节点不能存在于页面的多个位置<br>（2）节点本身绑定的事件会不会消失，会一直保留着。</p>
+<h3 id="节点查询型API"><a href="#节点查询型API" class="headerlink" title="节点查询型API"></a>节点查询型API</h3><p>document.getElementById<br>document.getElementsByTagName<br>document.getElementsByName<br>document.getElementsByClassName<br>document.querySelector和document.querySelectorAll:通过css选择器来查找元素，注意选择器要符合CSS选择器的规则,使用的深度优先搜索来获取元素</p>
+<h3 id="节点关系型api"><a href="#节点关系型api" class="headerlink" title="节点关系型api"></a>节点关系型api</h3><ol>
+<li>父关系型api</li>
+</ol>
+<p>parentNode：Element的父节点可能是Element，Document或DocumentFragment。<br>parentElement：与parentNode的区别在于，其父节点必须是一个Element，如果不是，则返回null<br>2. 兄弟关系型api</p>
+<p>previousSibling：节点的前一个节点，如果该节点是第一个节点，则为null。注意有可能拿到的节点是文本节点或注释节点，与预期的不符，要进行处理一下。<br>previousElementSibling：返回前一个元素节点，前一个节点必须是Element，注意IE9以下浏览器不支持。<br>nextSibling：节点的后一个节点，如果该节点是最后一个节点，则为null。注意有可能拿到的节点是文本节点，与预期的不符，要进行处理一下。<br>nextElementSibling：返回后一个元素节点，后一个节点必须是Element，注意IE9以下浏览器不支持。<br>3. 子关系型api</p>
+<p>childNodes：返回一个即时的NodeList，表示元素的子节点列表，子节点可能会包含文本节点，注释节点等。<br>children：一个即时的HTMLCollection，子节点都是Element，IE9以下浏览器不支持。<br>firstNode：第一个子节点<br>lastNode：最后一个子节点<br>hasChildNodes方法：可以用来判断是否包含子节点。   </p>
+<h3 id="元素属性型api"><a href="#元素属性型api" class="headerlink" title="元素属性型api"></a>元素属性型api</h3><p>setAttribute：根据名称和值修改元素的特性eg:element.setAttribute(name, value);<br>getAttribute返回指定的特性名相应的特性值，如果不存在，则返回null或空字符串.</p>
+<h3 id="元素样式型api"><a href="#元素样式型api" class="headerlink" title="元素样式型api"></a>元素样式型api</h3><p>window.getComputedStyle是用来获取应用到元素后的样式，假设某个元素并未设置高度而是通过其内容将其高度撑开，这时候要获取它的高度就要用到getComputedStyle，用法如下：</p>
+<p>var style = window.getComputedStyle(element[, pseudoElt]);<br>element是要获取的元素，pseudoElt指定一个伪元素进行匹配。<br>返回的style是一个CSSStyleDeclaration对象。<br>通过style可以访问到元素计算后的样式   </p>
+<p>getBoundingClientRect   </p>
+<p>getBoundingClientRect用来返回元素的大小以及相对于浏览器可视窗口的位置，用法如下：</p>
+<p>var clientRect = element.getBoundingClientRect();<br>clientRect是一个DOMRect对象，包含left，top，right，bottom，它是相对于可视窗口的距离，滚动位置发生改变时，它们的值是会发生变化的。除了IE9以下浏览器，还包含元素的height和width等数据，具体可查看链接</p>
 
                                     
 

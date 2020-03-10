@@ -66,6 +66,322 @@
     
     
     
+    <article id="post-interview/javascript知识点" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/"
+    >javascript知识点</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-date">
+  <time datetime="2020-02-16T16:15:39.000Z" itemprop="datePublished">2020-02-17</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h1 id="JS知识点"><a href="#JS知识点" class="headerlink" title="JS知识点"></a>JS知识点</h1><h2 id="this绑定"><a href="#this绑定" class="headerlink" title="this绑定"></a>this绑定</h2><ul>
+<li>直接调用，立即执行 -&gt; window|gloable</li>
+<li>obj.foo() -&gt; obj</li>
+<li>new Foo() -&gt; foo</li>
+<li>箭头函数 -&gt; 没有this、arguments、prototype</li>
+<li>bind({a:100}) -&gt; {a:100} 第一个bind </li>
+<li>bind() -&gt; window|gloable</li>
+<li>new &gt; bind &gt; 对象调用 &gt; 直接调用
+                            
+                              <a class="article-more-link" href="/2020/02/17/interview/javascript%E7%9F%A5%E8%AF%86%E7%82%B9/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-interview/手写代码" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/17/interview/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/"
+    >源码模拟</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/02/17/interview/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/" class="article-date">
+  <time datetime="2020-02-16T16:15:39.000Z" itemprop="datePublished">2020-02-17</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h2 id="call"><a href="#call" class="headerlink" title="call"></a>call</h2><ul>
+<li>思想: fn.call(obj,…args)转换成obj.fn(…args)<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.call2 = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="keyword">this</span> !== <span class="string">'function'</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'Error'</span>)</span><br><span class="line">  </span><br><span class="line">  obj = obj || <span class="built_in">window</span>;</span><br><span class="line">  <span class="comment">// 保存obj中原有的fn</span></span><br><span class="line">  <span class="keyword">const</span> &#123;fn&#125; = obj</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 将函数本身作为对象obj的属性调用，自动绑定this</span></span><br><span class="line">  obj.fn = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">const</span> args = [...arguments].slice(<span class="number">1</span>)</span><br><span class="line">  <span class="keyword">const</span> result =obj.fn(...args)</span><br><span class="line"></span><br><span class="line">  obj.fn = fn</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h2><ul>
+<li>思想：fn.call(obj,args) 转换成obj.fn(args)<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply2 = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="keyword">this</span> !== <span class="string">'function'</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">'Error'</span>)</span><br><span class="line">  </span><br><span class="line">  obj = obj || <span class="built_in">window</span>;</span><br><span class="line">  <span class="comment">// 保存obj中原有的fn</span></span><br><span class="line">  <span class="keyword">const</span> &#123;fn&#125; = obj</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 将函数本身作为对象obj的属性调用，自动绑定this</span></span><br><span class="line">  obj.fn = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">const</span> args = <span class="built_in">arguments</span>[<span class="number">1</span>]</span><br><span class="line">  <span class="keyword">let</span> result</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">Array</span>.isArray(args)) &#123;</span><br><span class="line">    result =obj.fn(...args)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    result = obj.fn()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  obj.fn = fn</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><ul>
+<li>思想 return function F(){ return new fn() 或者return fn.apply(…)}<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind2= <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">this</span> !== <span class="string">"function"</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">"Error"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> fn = <span class="keyword">this</span></span><br><span class="line">  <span class="keyword">let</span> obj = <span class="built_in">arguments</span>[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">let</span> args = [...arguments].slice(<span class="number">1</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span> <span class="keyword">instanceof</span> F)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> fn(...args,...arguments)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fn.apply(obj,args.concat(...arguments))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="new"><a href="#new" class="headerlink" title="new"></a>new</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Animal(<span class="string">'cat'</span>) = &#123;</span><br><span class="line">    <span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line">    obj.__proto__ = Animal.prototype;</span><br><span class="line">    <span class="keyword">var</span> result = Animal.call(obj,<span class="string">"cat"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> result === <span class="string">'object'</span>? result : obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><ul>
+<li>思路：1. 数组拷贝（递归）2.对象拷贝（递归） 3.基本类型 </li>
+<li>Object.keys()返回属性key，但仅包括可枚举的属性</li>
+<li>Reflect.ownKeys()返回所有属性key<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObject</span>(<span class="params">src</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> src &amp;&amp; <span class="keyword">typeof</span> src == <span class="string">'object'</span> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cloneObject</span>(<span class="params">src,hash=new WeakMap(</span>))</span>&#123;    <span class="comment">// 添加hash解决嵌套引用</span></span><br><span class="line">  <span class="keyword">if</span>(!isObject(src))&#123; <span class="keyword">return</span> src&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (hash.has(src)) <span class="keyword">return</span> hash.get(src);  <span class="comment">// 添加hash解决嵌套引用</span></span><br><span class="line">  <span class="keyword">let</span> keys = <span class="built_in">Reflect</span>.ownKeys(src)</span><br><span class="line">  <span class="keyword">let</span> target = <span class="built_in">Array</span>.isArray(src)?[]:&#123;&#125;</span><br><span class="line">  hash.set(src, target);  <span class="comment">//// 添加hash解决嵌套引用</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> keys)&#123;</span><br><span class="line">    <span class="keyword">let</span> value = src[key]</span><br><span class="line">    <span class="keyword">if</span>(isObject(value))&#123;  <span class="comment">//object和array</span></span><br><span class="line">      target[key] = cloneObject(value,hash)</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">      target[key] = value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> target</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h2><ul>
+<li>es5 Object.defineProperty(obj,”value”,{})<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">      <span class="keyword">const</span> obj = &#123;</span></span><br><span class="line"><span class="actionscript">        value: <span class="string">""</span></span></span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">      <span class="function"><span class="keyword">function</span> <span class="title">onKeyUp</span><span class="params">(event)</span> </span>&#123;</span></span><br><span class="line">        obj.value = event.target.value;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">      <span class="comment">// 对 obj.value 进行拦截</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">Object</span>.defineProperty(obj, <span class="string">"value"</span>, &#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">get</span>: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">          <span class="keyword">return</span> value;</span></span><br><span class="line">        &#125;,</span><br><span class="line"><span class="actionscript">        <span class="keyword">set</span>: <span class="function"><span class="keyword">function</span><span class="params">(newValue)</span> </span>&#123;</span></span><br><span class="line">          value = newValue;</span><br><span class="line"><span class="javascript">          <span class="built_in">document</span>.querySelector(<span class="string">"#value"</span>).innerHTML = newValue; <span class="comment">// 更新视图层</span></span></span><br><span class="line"><span class="javascript">          <span class="built_in">document</span>.querySelector(<span class="string">"input"</span>).value = newValue; <span class="comment">// 数据模型改变</span></span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>值是：<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"value"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">onkeyup</span>=<span class="string">"onKeyUp(event)"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+es6 vue3.0放弃IE，使用Proxy来实现双向数据绑定<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> obj = &#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> newObj = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</span></span><br><span class="line"><span class="actionscript">      <span class="keyword">get</span>: <span class="function"><span class="keyword">function</span><span class="params">(target, key, receiver)</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(target, key, receiver)</span></span><br><span class="line">      &#125;,</span><br><span class="line"><span class="actionscript">      <span class="keyword">set</span>: <span class="function"><span class="keyword">function</span><span class="params">(target, key, value, receiver)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">if</span>(key === <span class="string">'value'</span>) &#123;</span></span><br><span class="line"><span class="javascript">          <span class="built_in">document</span>.querySelector(<span class="string">'#value'</span>).innerHTML = value</span></span><br><span class="line"><span class="javascript">          <span class="built_in">document</span>.querySelector(<span class="string">'input'</span>).value = value</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.set(target, key, value, receiver)</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="function"><span class="keyword">function</span> <span class="title">onKeyUp</span><span class="params">(event)</span> </span>&#123;</span></span><br><span class="line">      newObj.value = event.target.value</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">    值是：<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"value"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">onkeyup</span>=<span class="string">"onKeyUp(event)"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h2><p>通过原型链来进行判断的，所以只要不断地通过访问<strong>proto</strong>，就可以拿到构造函数的原型prototype。直到null停止。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">iof</span>(<span class="params">obj,cons</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> prototype = cons.prototype</span><br><span class="line">  <span class="keyword">let</span> _proto = obj.__proto__</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(!_proto)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(_proto == prototype)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    _proto = _proto.__proto__</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="时间绑定-解绑-触发"><a href="#时间绑定-解绑-触发" class="headerlink" title="时间绑定/解绑/触发"></a>时间绑定/解绑/触发</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组置空：</span></span><br><span class="line"><span class="comment">// arr = []; arr.length = 0; arr.splice(0, arr.length)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Event</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>._cache = &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 注册事件：如果不存在此种type，创建相关数组</span></span><br><span class="line">  on(type, callback) &#123;</span><br><span class="line">    <span class="keyword">this</span>._cache[type] = <span class="keyword">this</span>._cache[type] || [];</span><br><span class="line">    <span class="keyword">let</span> fns = <span class="keyword">this</span>._cache[type];</span><br><span class="line">    <span class="keyword">if</span> (fns.indexOf(callback) === <span class="number">-1</span>) &#123;</span><br><span class="line">      fns.push(callback);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 触发事件：对于一个type中的所有事件函数，均进行触发</span></span><br><span class="line">  trigger(type, ...data) &#123;</span><br><span class="line">    <span class="keyword">let</span> fns = <span class="keyword">this</span>._cache[type];</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(fns)) &#123;</span><br><span class="line">      fns.forEach(<span class="function"><span class="params">fn</span> =&gt;</span> &#123;</span><br><span class="line">        fn(...data);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 删除事件：删除事件类型对应的array</span></span><br><span class="line">  off(type, callback) &#123;</span><br><span class="line">    <span class="keyword">let</span> fns = <span class="keyword">this</span>._cache[type];</span><br><span class="line">    <span class="comment">// 检查是否存在type的事件绑定</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(fns)) &#123;</span><br><span class="line">      <span class="keyword">if</span> (callback) &#123;</span><br><span class="line">        <span class="comment">// 卸载指定的回调函数</span></span><br><span class="line">        <span class="keyword">let</span> index = fns.indexOf(callback);</span><br><span class="line">        <span class="keyword">if</span> (index !== <span class="number">-1</span>) &#123;</span><br><span class="line">          fns.splice(index, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 全部清空</span></span><br><span class="line">        fns = [];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以下是测试函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> event = <span class="keyword">new</span> Event();</span><br><span class="line">event</span><br><span class="line">  .on(<span class="string">"test"</span>, a =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a);</span><br><span class="line">  &#125;)</span><br><span class="line">  .trigger(<span class="string">"test"</span>, <span class="string">"hello"</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="Promise-resolve-‘foo’"><a href="#Promise-resolve-‘foo’" class="headerlink" title="Promise.resolve(‘foo’)"></a>Promise.resolve(‘foo’)</h1><p>// 等价于<br>new Promise(resolve =&gt; resolve(‘foo’))</p>
+<h1 id="Promise-reject-‘foo’"><a href="#Promise-reject-‘foo’" class="headerlink" title="Promise.reject(‘foo’)"></a>Promise.reject(‘foo’)</h1><p>// 等价于<br>new Promise(null,reject =&gt; reject(‘foo’))</p>
+<h1 id="Promise-prototype-catch方法"><a href="#Promise-prototype-catch方法" class="headerlink" title="Promise.prototype.catch方法"></a>Promise.prototype.catch方法</h1><p>等价于.then(null, rejection)</p>
+<h1 id="Promise-prototype-done"><a href="#Promise-prototype-done" class="headerlink" title="Promise.prototype.done"></a>Promise.prototype.done</h1><p>确保最后一个方法可以抛出错误</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.prototype.done = <span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.then(resolve,reject).catch(</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">reason</span>)</span>&#123;</span><br><span class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;<span class="keyword">throw</span> reason&#125;,<span class="number">0</span>)  <span class="comment">//抛出全局错误</span></span><br><span class="line">    &#125;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>window.Promise &amp;&amp; !(‘finally’ in Promise) &amp;&amp; !function() {<br>  Promise.prototype.finally = function(cb) {<br>    cb = typeof cb === ‘function’ ? cb : function() {};</p>
+<pre><code>var Fn = this.constructor;  // 获取当前实例构造函数的引用
+
+// 接受状态：返回数据
+var onFulfilled = function(data) {
+  return Fn.resolve(cb()).then(function() {
+    return data
+  })
+};
+
+// 拒绝状态：抛出错误
+var onRejected = function(err) {
+  return Fn.resolve(cb()).then(function() {
+    throw err
+  })
+};
+
+return this.then(onFulfilled, onRejected);</code></pre><p>  }<br>}();</p>
+<p>/<strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong> 测试 <strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong>/<br>const p = new Promise((resolve, reject) =&gt; {<br>  console.info(‘starting…’);</p>
+<p>  setTimeout(() =&gt; {<br>    Math.random() &gt; 0.5 ? resolve(‘success’) : reject(‘fail’);<br>  }, 1000);<br>});</p>
+<p>// 正常顺序测试<br>p.then((data) =&gt; {<br>    console.log(<code>%c resolve: ${data}</code>, ‘color: green’)<br>  })<br>  .catch((err) =&gt; {<br>    console.log(<code>%c catch: ${err}</code>, ‘color: red’)<br>  })<br>  .finally(() =&gt; {<br>    console.info(‘finally: completed’)<br>  });</p>
+<h1 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all()"></a>Promise.all()</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">promiseAll</span>(<span class="params">promises</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">Array</span>.isArray(promises)) &#123;</span><br><span class="line">      <span class="keyword">return</span> reject(<span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">"argument must be anarray"</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> countNum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> promiseNum = promises.length;</span><br><span class="line">    <span class="keyword">var</span> resolvedvalue = <span class="keyword">new</span> <span class="built_in">Array</span>(promiseNum);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; promiseNum; i++) &#123;</span><br><span class="line">      <span class="built_in">Promise</span>.resolve(promises[i]).then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">        countNum++;</span><br><span class="line">        resolvedvalue[i] = value;</span><br><span class="line">        <span class="keyword">if</span> (countNum === promiseNum) &#123;</span><br><span class="line">          <span class="keyword">return</span> resolve(resolvedvalue)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;, <span class="function"><span class="keyword">function</span>(<span class="params">reason</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> reject(reason)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p1 = <span class="built_in">Promise</span>.resolve(<span class="number">1</span>),</span><br><span class="line">  p2 = <span class="built_in">Promise</span>.reject(<span class="number">2</span>),</span><br><span class="line">  p3 = <span class="built_in">Promise</span>.resolve(<span class="number">3</span>);</span><br><span class="line">promiseAll([p1, p2, p3]).then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(value)</span><br><span class="line">&#125;, (reason) =&gt; &#123; <span class="built_in">console</span>.log(reason) &#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Promise-race"><a href="#Promise-race" class="headerlink" title="Promise.race()"></a>Promise.race()</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.race = <span class="function"><span class="keyword">function</span>(<span class="params">promises</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(resolve,reject)&#123;</span><br><span class="line">    promises.forEach(</span><br><span class="line">      prom =&gt; <span class="built_in">Promise</span>.resolve(prom).then(resolve, reject)</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Promise</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> value = <span class="literal">null</span>, succallbacks = [], failcallbacks = [];</span><br><span class="line">    <span class="keyword">this</span>.then = <span class="function"><span class="keyword">function</span> (<span class="params">fulfilled, rejected</span>) </span>&#123;</span><br><span class="line">        succallbacks.push(fulfilled);</span><br><span class="line">        failcallbacks.push(rejected);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">resolve</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">         succallbacks.forEach(<span class="function">(<span class="params">callback</span>) =&gt;</span> &#123;</span><br><span class="line">             callback(value);</span><br><span class="line">         &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">reject</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">        failcallbacks.forEach(<span class="function">(<span class="params">callback</span>) =&gt;</span> &#123;</span><br><span class="line">            callback(value);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fn(resolve, reject);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            resolve(num); <span class="comment">//1   去掉time 则不会执行</span></span><br><span class="line">        &#125;, <span class="number">1000</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn(<span class="number">1</span>).then(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(data);</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-阮一峰/1" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/02/17/%E9%98%AE%E4%B8%80%E5%B3%B0/1/"
+    >阮一峰的网络日志</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/02/17/%E9%98%AE%E4%B8%80%E5%B3%B0/1/" class="article-date">
+  <time datetime="2020-02-16T16:15:39.000Z" itemprop="datePublished">2020-02-17</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%98%AE%E4%B8%80%E5%B3%B0/">阮一峰</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h2 id="Javascript获取页面元素的位置"><a href="#Javascript获取页面元素的位置" class="headerlink" title="Javascript获取页面元素的位置"></a>Javascript获取页面元素的位置</h2><ul>
+<li>document.body<ul>
+<li>页面大小：clientWidth</li>
+<li>滚动页面大小：scrollWidth</li>
+<li>滚动左侧：scrollLeft</li>
+</ul>
+</li>
+<li>HTMLElement<ul>
+<li>偏移距离：offsetTop</li>
+</ul>
+</li>
+<li>相对浏览器窗口（viewport）左上角距离：getBoundingClientRect()<ul>
+<li>相对位置：var X= this.getBoundingClientRect().left;</li>
+<li>绝对位置：var X= this.getBoundingClientRect().left+document.body.scrollLeft;</li>
+</ul>
+</li>
+</ul>
+<h2 id="面向对象-封装"><a href="#面向对象-封装" class="headerlink" title="面向对象-封装"></a>面向对象-封装</h2><ul>
+<li>构造函数：this绑定本地属性和方法</li>
+<li>原型：共享的属性和方法</li>
+<li>Cat.prototype.<strong>isPrototypeOf</strong>(cat1):判断原型对象与实例关系</li>
+<li>cat1.<strong>hasOwnProperty</strong>(“name”)：判断某一个属性到底是本地属性，还是继承自prototype对象的属性</li>
+<li>“type” <strong>in</strong> cat1:某个实例是否含有某个(实例或原型)属性</li>
+</ul>
+<h2 id="面向对象-构造函数的继承"><a href="#面向对象-构造函数的继承" class="headerlink" title="面向对象-构造函数的继承"></a>面向对象-构造函数的继承</h2><p>参考[javascript知识点]</p>
+<h2 id="面向对象-非构造函数的继承"><a href="#面向对象-非构造函数的继承" class="headerlink" title="面向对象-非构造函数的继承"></a>面向对象-非构造函数的继承</h2><ul>
+<li>把子对象的prototype属性，指向父对象</li>
+<li>深拷贝父对象</li>
+</ul>
+<h2 id="防止iframe嵌入"><a href="#防止iframe嵌入" class="headerlink" title="防止iframe嵌入"></a>防止iframe嵌入</h2><ul>
+<li>响应头设置<code>x-frame-options</code></li>
+<li>top重定向<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (top.location.hostname != <span class="built_in">window</span>.location.hostname) &#123;</span><br><span class="line">　　top.location.href = <span class="built_in">window</span>.location.href;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h2><ul>
+<li>console.profile() console.profileEnd();</li>
+</ul>
+<h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><ul>
+<li>表单元素file<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"upload-form"</span> <span class="attr">action</span>=<span class="string">"upload.php"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span> &gt;</span></span><br><span class="line">　　　　<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">id</span>=<span class="string">"upload"</span> <span class="attr">name</span>=<span class="string">"upload"</span> /&gt;</span> <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">　　　　<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Upload"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h2></li>
+<li>回调函数 同步操作变成了异步操作，f1不会堵塞程序运行，相当于先执行程序的主要逻辑，将耗时的操作推迟执行。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params">callback</span>)</span>&#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// f1的任务代码</span></span><br><span class="line">    callback();</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;</span><br><span class="line">f1(f2);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="js实现拖拽"><a href="#js实现拖拽" class="headerlink" title="js实现拖拽"></a>js实现拖拽</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dragObj = <span class="built_in">document</span>.getElementById(<span class="string">"out"</span>);</span><br><span class="line">        dragObj.style.left = <span class="string">"0px"</span>;</span><br><span class="line">        dragObj.style.top = <span class="string">"0px"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> mouseX, mouseY, objX, objY;</span><br><span class="line">        <span class="keyword">var</span> dragging = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        dragObj.onmousedown = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">            event = event || <span class="built_in">window</span>.event;</span><br><span class="line"></span><br><span class="line">            dragging = <span class="literal">true</span>;</span><br><span class="line">            dragObj.style.position = <span class="string">"relative"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            mouseX = event.clientX;</span><br><span class="line">            mouseY = event.clientY;</span><br><span class="line">          <span class="built_in">console</span>.log(mouseX+<span class="string">","</span>+mouseY);</span><br><span class="line">            objX = <span class="built_in">parseInt</span>(dragObj.style.left);</span><br><span class="line">            objY = <span class="built_in">parseInt</span>(dragObj.style.top);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">document</span>.onmousemove = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">            event = event || <span class="built_in">window</span>.event;</span><br><span class="line">            <span class="keyword">if</span> (dragging) &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(event.clientX+<span class="string">","</span>+event.clientY)</span><br><span class="line">                dragObj.style.left = <span class="built_in">parseInt</span>(event.clientX - mouseX + objX) + <span class="string">"px"</span>;</span><br><span class="line">                dragObj.style.top = <span class="built_in">parseInt</span>(event.clientY - mouseY + objY) + <span class="string">"px"</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">document</span>.onmouseup = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            dragging = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%AE%E4%B8%80%E5%B3%B0/" rel="tag">阮一峰</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-排序" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -867,229 +1183,6 @@
                           <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>keep-alive组件是一个抽象组件，它的实现通过自定义render函数并且利用了插槽，并且知道了 keep-alive 缓存 vnode，了解组件包裹的子元素——也就是插槽是如何做更新的。且在 patch 过程中对于已缓存的组件不会执行 mounted，所以不会有一般的组件的生命周期函数但是又提供了activated 和 deactivated 钩子函数。另外我们还知道了keep-alive的 props 除了 include 和 exclude 还有文档中没有提到的 max，它能控制我们缓存的个数。</p>
                             
                               <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/10.插槽" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/"
-    >10.插槽</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/" class="article-date">
-  <time datetime="2019-12-21T16:15:35.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p><a href="./demo/slot.html">demo</a></p>
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/10.%E6%8F%92%E6%A7%BD/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/9.双向绑定v-model" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/"
-    >9.双向绑定</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/" class="article-date">
-  <time datetime="2019-12-21T16:15:34.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h2 id="补充表单知识点"><a href="#补充表单知识点" class="headerlink" title="补充表单知识点"></a>补充表单知识点</h2><h4 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h4><p>input</p>
-<ul>
-<li>text 单行文本<ul>
-<li>placeholder 默认文本</li>
-</ul>
-</li>
-<li>radio 单选框<ul>
-<li>value</li>
-<li>name  单选框组名字相同</li>
-</ul>
-</li>
-<li>checkbox 复选框<ul>
-<li>value 提交的值 </li>
-</ul>
-</li>
-</ul>
-<p>textarea 多行文本</p>
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/9.%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9Av-model/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/8.event" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/"
-    >8.事件绑定</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/" class="article-date">
-  <time datetime="2019-12-21T16:15:33.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h4 id="生成-ast树"><a href="#生成-ast树" class="headerlink" title="生成 ast树"></a>生成 ast树</h4><p> 根据 assts的属性来提取出其中的 事件属性<br>
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/8.event/">
                                 阅读更多...
                               </a>
                               

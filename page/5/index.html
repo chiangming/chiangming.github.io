@@ -66,6 +66,257 @@
     
     
     
+    <article id="post-跨标签页通信" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/12/22/%E8%B7%A8%E6%A0%87%E7%AD%BE%E9%A1%B5%E9%80%9A%E4%BF%A1/"
+    >跨标签页通讯</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/12/22/%E8%B7%A8%E6%A0%87%E7%AD%BE%E9%A1%B5%E9%80%9A%E4%BF%A1/" class="article-date">
+  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h4 id="postMessage-子页面"><a href="#postMessage-子页面" class="headerlink" title="postMessage 子页面"></a>postMessage 子页面</h4><ul>
+<li>父页面 通过 window.open() 或 iframe标签 打开子页面</li>
+<li>子页面对象调用 postMessage(msg,targetOrigin)发送消息<ul>
+<li>targetOrigin 表示可以获得<strong>该消息所在的域</strong>也可以设置为”*”，表示任何域名都可取得消息</li>
+</ul>
+</li>
+<li>子页面中，通过window.addEventListener(“message”,(evt)=&gt;{},false)取得消息<ul>
+<li>evt中 data为传递的消息 <h4 id="localStorage-同源"><a href="#localStorage-同源" class="headerlink" title="localStorage 同源"></a>localStorage 同源</h4></li>
+</ul>
+</li>
+<li>localstorage是浏览器多个标签共用的存储空间，所以可以用来实现多标签之间的通信(ps：session是会话级的存储空间，每个标签页都是单独的）。</li>
+<li>直接在window对象上添加监听即可：</li>
+<li>onstorage以及storage事件，针对都是非当前页面对localStorage进行修改时才会触发，当前页面修改localStorage不会触发监听函数。然后就是在对原有的数据的值进行修改时才会触发，比如原本已经有一个key会a值为b的localStorage，你再执行：localStorage.setItem(‘a’, ‘b’)代码，同样是不会触发监听函数的<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">window.onstorage &#x3D; (e)&#x3D;&gt;&#123;&#125;</span><br><span class="line">window.addEventListener(&#39;storage&#39;,fn);</span><br></pre></td></tr></table></figure>
+<h4 id="定时器setInterval-cookie-同域"><a href="#定时器setInterval-cookie-同域" class="headerlink" title="定时器setInterval+cookie 同域"></a>定时器setInterval+cookie 同域</h4></li>
+<li>document.cookie = 改变cookie的值</li>
+<li>setInterval(getcookie(),100);<h4 id="html5浏览器的新特性SharedWorker"><a href="#html5浏览器的新特性SharedWorker" class="headerlink" title="html5浏览器的新特性SharedWorker"></a>html5浏览器的新特性SharedWorker</h4></li>
+<li>普通的webworker直接使用new Worker()即可创建，这种webworker是当前页面专有的。然后还有种共享worker(SharedWorker)，这种是可以多个标签页、iframe共同使用的。</li>
+<li>SharedWorker可以被多个window共同使用，但必须保证这些标签页都是同源的(相同的协议，主机和端口号)<h4 id="webSocket"><a href="#webSocket" class="headerlink" title="webSocket"></a>webSocket</h4>在浏览器和服务器之间建立一个不受限的双向通信的通道<br>WebSocket连接必须由浏览器发起，特点：</li>
+</ul>
+<ol>
+<li>建立在 TCP 协议之上，服务器端的实现比较容易。</li>
+<li>与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。</li>
+<li>数据格式比较轻量，性能开销小，通信高效。</li>
+<li>可以发送文本，也可以发送二进制数据。</li>
+<li>没有同源限制，客户端可以与任意服务器通信。</li>
+<li>协议标识符是ws（如果加密，则为wss），服务器网址就是 URL。</li>
+</ol>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-ajax&amp;axios&amp;fetch" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/ajax&axios&fetch/"
+    >ajax和axios和fetch</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/ajax&axios&fetch/" class="article-date">
+  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <p>XMLHTTPRequest -&gt; Jquery $.ajax 默认form表单形式Post<br>XMLHTTPRequest -&gt; axios 默认json形式Post</p>
+<p>fetch</p>
+<p>浏览器中地址栏输入<code>data:text/html,&lt;h1&gt;hello&lt;/h1&gt;</code>可以直接使用html标签生成页面</p>
+<figure class="highlight plain"><figcaption><span>src</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">header[url(query),method,header]</span><br><span class="line">body[a&#x3D;b&amp;c&#x3D;d] form类型</span><br><span class="line">body[&#123;a:&quot;b&quot;&#125;] json类型</span><br><span class="line"></span><br><span class="line"># ajax</span><br><span class="line">&#96;&#96;&#96;js</span><br><span class="line">$.ajax(&#123;</span><br><span class="line">    url:&quot;http:&#x2F;&#x2F;localhost:8099&quot;,</span><br><span class="line">    success:function(data)&#123;console.log(data)&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>响应结果</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">url: GET /</span><br><span class="line">query: &#123;&#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>POST 方法默认’content-type’: ‘application/x-www-form-urlencoded; charset=UTF-8’</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    method:<span class="string">"POST"</span>,</span><br><span class="line">    data:&#123;<span class="attr">a</span>:<span class="number">10</span>&#125;,</span><br><span class="line">    url:<span class="string">"http://localhost:8099"</span>,</span><br><span class="line">    success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">url: POST /</span><br><span class="line">query: &#123;&#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  <span class="string">'content-length'</span>: <span class="string">'4'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  <span class="string">'content-type'</span>: <span class="string">'application/x-www-form-urlencoded; charset=UTF-8'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body [<span class="built_in">Object</span>: <span class="literal">null</span> prototype] &#123; <span class="attr">a</span>: <span class="string">'10'</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>GET方法data放在url的query中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    method:<span class="string">"GET"</span>,</span><br><span class="line">    data:&#123;<span class="attr">a</span>:<span class="number">10</span>&#125;,</span><br><span class="line">    url:<span class="string">"http://localhost:8099"</span>,</span><br><span class="line">    success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">url: GET /?a=<span class="number">10</span></span><br><span class="line">query: &#123; <span class="attr">a</span>: <span class="string">'10'</span> &#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>修改POST的’content-type’:’application/json’</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    method:<span class="string">"POST"</span>,</span><br><span class="line">    headers:&#123;<span class="string">'content-type'</span>:<span class="string">'application/json'</span>&#125;,</span><br><span class="line">    data:<span class="built_in">JSON</span>.stringify(&#123;<span class="attr">a</span>:<span class="number">10</span>&#125;),</span><br><span class="line">    url:<span class="string">"http://localhost:8099"</span>,</span><br><span class="line">    success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">url: POST /</span><br><span class="line">query: &#123;&#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  <span class="string">'content-length'</span>: <span class="string">'8'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  <span class="string">'content-type'</span>: <span class="string">'application/json'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body &#123; <span class="attr">a</span>: <span class="number">10</span> &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h1><p>浏览器自带</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'http://localhost:8099'</span>).then(<span class="function"><span class="params">res</span>=&gt;</span>res.json()).then(<span class="function"><span class="params">d</span>=&gt;</span><span class="built_in">console</span>.log(d))</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">url: GET /</span><br><span class="line">query: &#123;&#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'http://localhost:8099'</span>,&#123;</span><br><span class="line">  method:<span class="string">"POST"</span>,</span><br><span class="line">  headers:&#123;<span class="string">'content-type'</span>: <span class="string">'application/x-www-form-urlencoded'</span>&#125;,</span><br><span class="line">  body:<span class="string">"a=12&amp;b=23"</span></span><br><span class="line">&#125;).then(<span class="function"><span class="params">res</span>=&gt;</span>res.json()).then(<span class="function"><span class="params">d</span>=&gt;</span><span class="built_in">console</span>.log(d))</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">url: POST /</span><br><span class="line">query: &#123;&#125;</span><br><span class="line">headers &#123;</span><br><span class="line">  host: <span class="string">'localhost:8099'</span>,</span><br><span class="line">  connection: <span class="string">'keep-alive'</span>,</span><br><span class="line">  <span class="string">'content-length'</span>: <span class="string">'9'</span>,</span><br><span class="line">  origin: <span class="string">'null'</span>,</span><br><span class="line">  <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36'</span>,</span><br><span class="line">  <span class="string">'content-type'</span>: <span class="string">'application/x-www-form-urlencoded'</span>,</span><br><span class="line">  accept: <span class="string">'*/*'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-site'</span>: <span class="string">'cross-site'</span>,</span><br><span class="line">  <span class="string">'sec-fetch-mode'</span>: <span class="string">'cors'</span>,</span><br><span class="line">  <span class="string">'accept-encoding'</span>: <span class="string">'gzip, deflate, br'</span>,</span><br><span class="line">  <span class="string">'accept-language'</span>: <span class="string">'zh-CN,zh;q=0.9'</span></span><br><span class="line">&#125;</span><br><span class="line">body [<span class="built_in">Object</span>: <span class="literal">null</span> prototype] &#123; <span class="attr">a</span>: <span class="string">'12'</span>, <span class="attr">b</span>: <span class="string">'23'</span> &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="axios-前后端均可使用"><a href="#axios-前后端均可使用" class="headerlink" title="axios(前后端均可使用)"></a>axios(前后端均可使用)</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">axios(&#123;</span><br><span class="line">    method:<span class="string">"POST"</span>,</span><br><span class="line">    data:&#123;<span class="attr">a</span>:<span class="number">12</span>&#125;,</span><br><span class="line">    url:<span class="string">"http://localhost:8099"</span>,</span><br><span class="line">&#125;).then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;<span class="built_in">console</span>.log(res.data)&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">axios(&#123;</span><br><span class="line">    method:<span class="string">"POST"</span>,</span><br><span class="line">    headers:&#123;<span class="string">'content-type'</span>:<span class="string">'application/x-www-form-urlencoded'</span>&#125;,</span><br><span class="line">    data:<span class="string">"a=123&amp;b=abc"</span>,</span><br><span class="line">    url:<span class="string">"http://localhost:8099"</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
+    <article id="post-bind和new" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/bind%E5%92%8Cnew/"
+    >bind和new</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/bind%E5%92%8Cnew/" class="article-date">
+  <time datetime="2018-11-20T16:15:28.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="bind"><a href="#bind" class="headerlink" title="bind()"></a>bind()</h1><p>bind() 方法会 <strong>1. 创建一个新函数</strong> ，当这个新函数被调用时，它 <strong>2. 指定this值</strong> 是传递给 bind() 的第一个参数，传入bind方法的第二个以及以后的 <strong>3. 传入参数</strong> 加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数。 <strong>4. 可以用来柯里化</strong><br>bind返回的绑定函数也能使用 new 操作符创建对象：这种行为就像把原函数当成构造器，提供的 this 值被忽略，同时调用时的参数被提供给模拟函数。</p>
+<h1 id="bind模拟"><a href="#bind模拟" class="headerlink" title="bind模拟"></a>bind模拟</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind2 = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">  context = context ? <span class="built_in">Object</span>(context) : <span class="built_in">window</span>;</span><br><span class="line">  context.fn = <span class="keyword">this</span>                                                       <span class="comment">// 2. 指定this值</span></span><br><span class="line">  <span class="keyword">let</span> args = [...arguments].slice(<span class="number">1</span>);                                     <span class="comment">// 3. 传入参数</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;                                                 <span class="comment">// 1. 创建一个新函数</span></span><br><span class="line">    args = args.concat([...arguments])                                    <span class="comment">// 4. 柯里化（补充参数）</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span> <span class="keyword">instanceof</span> func ? <span class="keyword">this</span>.fn(...args) : context.fn(...args)  <span class="comment">// 5.实现函数构造化的new值绑定</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  func.prototype = <span class="keyword">this</span>.prototype                                         <span class="comment">// 5. 修改返回函数的原型</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> func</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整模拟见<a href="./javascript/call&apply&bind/bind.js">bind</a></p>
+<h1 id="new"><a href="#new" class="headerlink" title="new"></a>new</h1><p> new 创建的实例:</p>
+<ol>
+<li>访问到构造函数里的属性</li>
+<li>访问到原型里的属性</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">create</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 创建一个空的对象</span></span><br><span class="line">    <span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>(),</span><br><span class="line">	<span class="comment">// 获得构造函数，arguments中去除第一个参数</span></span><br><span class="line">    Con = [].shift.call(<span class="built_in">arguments</span>);</span><br><span class="line">	<span class="comment">// 链接到原型，obj 可以访问到构造函数原型中的属性</span></span><br><span class="line">    obj.__proto__ = Con.prototype;</span><br><span class="line">	<span class="comment">// 绑定 this 实现继承，obj 可以访问到构造函数中的属性</span></span><br><span class="line">    Con.apply(obj, <span class="built_in">arguments</span>);</span><br><span class="line">	<span class="comment">// 返回对象</span></span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-移动端适配" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -764,295 +1015,6 @@
 <h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1. 交换两个数据</span></span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>,b=<span class="number">2</span>;</span><br><span class="line">[b,a] = [a,b];</span><br><span class="line"><span class="comment">//2. 返回对象，数组更好取值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getData</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        name:<span class="string">'zz'</span>,</span><br><span class="line">        age:<span class="number">12</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#123;name,age&#125; = getData();</span><br><span class="line"><span class="comment">//3. 传参 更方便的将变量名 和一组参数对应</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printData</span>(<span class="params">&#123;name,age&#125;</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(name+<span class="string">" "</span>+age);</span><br><span class="line">&#125;</span><br><span class="line">printData(&#123;<span class="attr">name</span>:<span class="string">'zz'</span>,<span class="attr">age</span>:<span class="number">12</span>&#125;);</span><br><span class="line"><span class="comment">//4. 函数默认值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">&#123;x=<span class="number">0</span>,y=<span class="number">0</span>&#125; = &#123;&#125;</span>)</span>&#123; <span class="comment">// = &#123;&#125; 避免没有参数的情况 默认参数为&#123;&#125;</span></span><br><span class="line">    <span class="built_in">console</span>.log(x+<span class="string">" "</span>+y);</span><br><span class="line">&#125;</span><br><span class="line">print(&#123;<span class="attr">y</span>:<span class="number">1</span>&#125;);</span><br><span class="line"><span class="comment">//5.Map遍历</span></span><br><span class="line"><span class="keyword">var</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">map.set(<span class="number">1</span>,<span class="string">"1"</span>);</span><br><span class="line">map.set(<span class="number">2</span>,<span class="string">"2"</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> [key,value] <span class="keyword">of</span> map)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(key+<span class="string">" "</span>+value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//6. 加载模块时，往往需要指定输入哪些方法</span></span><br><span class="line"><span class="keyword">var</span> &#123;getData,printData&#125; = <span class="built_in">require</span>(<span class="string">""</span>);</span><br></pre></td></tr></table></figure>
 
                                     
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-express" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/21/express/"
-    >express</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/11/21/express/" class="article-date">
-  <time datetime="2018-11-20T16:15:24.000Z" itemprop="datePublished">2018-11-21</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <h2 id="express"><a href="#express" class="headerlink" title="express"></a>express</h2><p>Express框架建立在node.js内置的http模块上。</p>
-<p>Express框架的核心是对http模块的再包装。</p>
-<p>Express框架等于在http模块之上，加了一个中间层。</p>
-<h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><p>中间件（middleware）就是处理HTTP请求的函数。它最大的特点就是，一个中间件处理完，再传递给下一个中间件。App实例在运行过程中，会调用一系列的中间件。</p>
-<h4 id="use"><a href="#use" class="headerlink" title="use"></a>use</h4><p>use是express注册中间件的方法，它返回一个函数。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line">app.use(<span class="string">"/home"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">request, response, next</span>) </span>&#123;</span><br><span class="line">  response.writeHead(<span class="number">200</span>, &#123; <span class="string">"Content-Type"</span>: <span class="string">"text/plain"</span> &#125;);</span><br><span class="line">  response.end(<span class="string">"Welcome to the homepage!\n"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">app.use(<span class="string">"/about"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">request, response, next</span>) </span>&#123;</span><br><span class="line">  response.writeHead(<span class="number">200</span>, &#123; <span class="string">"Content-Type"</span>: <span class="string">"text/plain"</span> &#125;);</span><br><span class="line">  response.end(<span class="string">"Welcome to the about page!\n"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">  response.writeHead(<span class="number">404</span>, &#123; <span class="string">"Content-Type"</span>: <span class="string">"text/plain"</span> &#125;);</span><br><span class="line">  response.end(<span class="string">"404 error!\n"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">http.createServer(app).listen(<span class="number">1337</span>);</span><br><span class="line"><span class="comment">//等同于 app.listen(1337);</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="all方法和HTTP动词方法"><a href="#all方法和HTTP动词方法" class="headerlink" title="all方法和HTTP动词方法"></a>all方法和HTTP动词方法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.all(<span class="string">"*"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">request, response, next</span>) </span>&#123;</span><br><span class="line">  response.writeHead(<span class="number">200</span>, &#123; <span class="string">"Content-Type"</span>: <span class="string">"text/plain"</span> &#125;);</span><br><span class="line">  next();</span><br><span class="line">&#125;);</span><br><span class="line">app.get(<span class="string">"/"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">  response.end(<span class="string">"Welcome to the homepage!"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>除了get方法以外，Express还提供post、put、delete方法，即HTTP动词都是Express的方法。</p>
-<h3 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 路径参数</span></span><br><span class="line">app.get(<span class="string">"/path/:id"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(req.params.id)</span><br><span class="line">  res.send(req.params.id)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询字符串 ？username=aaa&amp;age=10</span></span><br><span class="line">app.get(<span class="string">"/querystring"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(req.query.username)</span><br><span class="line">  res.send(req.query.username)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 表单 可以用restlet模拟请求</span></span><br><span class="line">app.use(express.urlencoded()&#123;<span class="attr">extended</span>:<span class="literal">false</span>&#125;) </span><br><span class="line">app.post(<span class="string">'/form'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(req.body)</span><br><span class="line">  res.send(req.body.username)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// json</span></span><br><span class="line">app.use(express.json()) </span><br><span class="line">app.post(<span class="string">'/json'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(req.body)</span><br><span class="line">  res.send(req.body.username)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">res.send(req.body.username) <span class="comment">// 纯文本</span></span><br><span class="line">res.json(&#123;<span class="attr">a</span>:<span class="string">"12"</span>,<span class="attr">b</span>:<span class="string">"1111"</span>&#125;) <span class="comment">// json</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="header"><a href="#header" class="headerlink" title="header"></a>header</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(req.headers.a)  <span class="comment">// 获取请求头</span></span><br><span class="line">res.header(<span class="string">"b"</span>,<span class="string">"c"</span>)         <span class="comment">// 设置响应头</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="配置路由"><a href="#配置路由" class="headerlink" title="配置路由"></a>配置路由</h3><h3 id="指定静态文件目录"><a href="#指定静态文件目录" class="headerlink" title="指定静态文件目录"></a>指定静态文件目录</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app.use(<span class="string">'/static'</span>,express.static(<span class="string">'public'</span>)) <span class="comment">// public路径下的index.html</span></span><br><span class="line">app.use(express.static(<span class="string">'public'</span>));</span><br></pre></td></tr></table></figure>
-
-<h3 id="Express-Router"><a href="#Express-Router" class="headerlink" title="Express.Router"></a>Express.Router</h3><p>express.Router是一个构造函数，调用后返回一个路由器实例。然后，使用该实例的HTTP动词方法，为不同的访问路径，指定回调函数；最后，挂载到某个路径。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> router = express.Router();</span><br><span class="line">router.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">'首页'</span>);</span><br><span class="line">&#125;);</span><br><span class="line">router.get(<span class="string">'/about'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.send(<span class="string">'关于'</span>);</span><br><span class="line">&#125;);</span><br><span class="line">app.use(<span class="string">'/'</span>, router);</span><br><span class="line"><span class="keyword">var</span> router = express.Router();</span><br><span class="line"><span class="comment">// Router.route(api)</span></span><br><span class="line">router.route(<span class="string">'/api'</span>)</span><br><span class="line">	.post(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">		<span class="comment">// ...</span></span><br><span class="line">	&#125;)</span><br><span class="line">	.get(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">		Bear.find(<span class="function"><span class="keyword">function</span>(<span class="params">err, bears</span>) </span>&#123;</span><br><span class="line">			<span class="keyword">if</span> (err) res.send(err);</span><br><span class="line">			res.json(bears);</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;);</span><br><span class="line">app.use(<span class="string">'/'</span>, router);</span><br></pre></td></tr></table></figure>
-<p><a href="http://javascript.ruanyifeng.com/nodejs/express.html" target="_blank" rel="noopener">参考</a><br><a href="https://expressjs.com/zh-cn/guide/routing.html" target="_blank" rel="noopener">api</a></p>
-
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-flex" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/21/flex/"
-    >flex</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/11/21/flex/" class="article-date">
-  <time datetime="2018-11-20T16:15:23.000Z" itemprop="datePublished">2018-11-21</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/css/">css</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <h2 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h2><ul>
-<li>容器<ul>
-<li>flex-direction 主轴方向<ul>
-<li>row</li>
-<li>row-reverse</li>
-<li>column</li>
-<li>column-reverse</li>
-</ul>
-</li>
-<li>flex-wrap 是否换行<ul>
-<li>nowrap</li>
-<li>wrap</li>
-<li>wrap-reserve</li>
-</ul>
-</li>
-<li>flex-flow ：flex-direction flex-wrap</li>
-<li>justify-content 同一行内 所有元素在一行的水平位置<ul>
-<li>flex-start</li>
-<li>flex-end</li>
-<li>center</li>
-<li>space-between</li>
-<li>space-round</li>
-</ul>
-</li>
-<li>align-items   同一行 所有元素 在一行的垂直位置<ul>
-<li>flex-start</li>
-<li>flex-end</li>
-<li>center</li>
-<li>baseline</li>
-<li>stretch</li>
-</ul>
-</li>
-<li>align-content 各行 在垂在方向上 的对齐方式<ul>
-<li>flex-start</li>
-<li>flex-end</li>
-<li>center</li>
-<li>space-between</li>
-<li>space-round</li>
-<li>strech</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>项目<ul>
-<li>order 根据order从小到大排列显示项目 </li>
-<li>flex-grow 有剩余空间是否放大<ul>
-<li>默认0,不放大 </li>
-<li>number(!=0)，每个项目根据数字比例放大</li>
-<li>可以设置flex-basis:0,依据flex-grow来均分容器</li>
-</ul>
-</li>
-<li>flex-shrink 空间不足是否缩小<ul>
-<li>默认1，缩小</li>
-<li>0 不缩小</li>
-</ul>
-</li>
-<li>flex-basis 指定了 flex 元素在主轴方向上的初始大小。如果不使用 box-sizing 来改变盒模型的话，那么这个属性就决定了 flex 元素的内容盒（content-box）的宽或者高（取决于主轴的方向）的尺寸大小</li>
-<li>flex：flex-grow,flex-shrink,flex-basis</li>
-<li>align-self<ul>
-<li>允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-javascript" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/11/21/javascript/"
-    >javascript知识点</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/11/21/javascript/" class="article-date">
-  <time datetime="2018-11-20T16:15:22.000Z" itemprop="datePublished">2018-11-21</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/javascript/">javascript</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h1 id="复制变量、作用域和垃圾收集"><a href="#复制变量、作用域和垃圾收集" class="headerlink" title="复制变量、作用域和垃圾收集"></a>复制变量、作用域和垃圾收集</h1><h2 id="赋值变量"><a href="#赋值变量" class="headerlink" title="赋值变量"></a>赋值变量</h2><ol>
-<li>复制变量和传参：基本变量完全独立，引用类型的指针指向存储在堆中的同一个对象。</li>
-<li>typeof 操作符用于检测基本类型值。instanceof 操作符检测一个引用类型值和 Object 构造函数时，instanceof 操作符始终会返回 true。当然，如果使用 instanceof 操作符检测基本类型的值，则该操作符始终会返回 false，因为基本类型不是对象。<a href="javascript/test1.js">test1</a></li>
-</ol>
-<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><ol>
-<li>EC（执行环境）&lt;————&gt;VO(变量对象)</li>
-<li>代码执行时，创建<br>Scope Chain： 当前VO ——&gt;外部EC ——&gt; …… ——&gt; 全局EC<br>标识符解析： ——————————————————————&gt;</li>
-<li>var没有块级作用域, let有块级作用域。<a href="javascript/test2.js">test2</a></li>
-<li>函数内部初始化变量时没有使用 var 声明，该变量会自动被添加到全局环境。在严格模式下，初始化未经声明的变量会导致错误。
-                            
-                              <a class="article-more-link" href="/2018/11/21/javascript/">
-                                阅读更多...
-                              </a>
-                              
-                                
 
                                       <!-- copyright -->
                                       

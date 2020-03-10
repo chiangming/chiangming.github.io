@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    掘金/leetcode |  Matt&#39;s Blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Matt's Blog" type="application/atom+xml">
+</head>
+
+</html>
+
+  <body>
+    <div id="app">
+      <main class="content">
+        <section class="outer">
+  <article id="post-掘金/leetcode" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  掘金/leetcode
+</h1>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/03/08/%E6%8E%98%E9%87%91/leetcode/" class="article-date">
+  <time datetime="2020-03-08T01:57:26.849Z" itemprop="datePublished">2020-03-08</time>
+</a>
+              
+                
+                  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.5k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">14分钟</span>
+        </span>
+    </span>
+</div>
+
+                    
+          </div>
+          
+
+            
+              
+    <div class="tocbot"></div>
+
+
+
+
+
+                
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h2 id="数组方法"><a href="#数组方法" class="headerlink" title="数组方法"></a>数组方法</h2><ul>
+<li><p>splice(2,4) 从索引2开始，删除4个元素，把删除的部分以新数组返回</p>
+</li>
+<li><p>splice(n,0,x) 从索引n开始，不删除，把x添加到索引n的前面</p>
+</li>
+<li><p>push 向末尾追加</p>
+</li>
+<li><p>unshift 向开头追加</p>
+</li>
+<li><p>reverse 数组反序</p>
+</li>
+</ul>
+<ul>
+<li>concat 数组拼接</li>
+<li>sort 数组排序 （默认字典序）<ul>
+<li>sort((a,b)=&gt;{return a-b})</li>
+</ul>
+</li>
+<li>V8 引擎 sort 函数数量小于10的数组使用 InsertionSort，比10大的数组则使用 QuickSort。</li>
+</ul>
+<h2 id="bubble排序算法"><a href="#bubble排序算法" class="headerlink" title="bubble排序算法"></a>bubble排序算法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i=arr.length<span class="number">-1</span> ;i&gt;<span class="number">0</span>;i--)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> j=<span class="number">1</span>;j&lt;arr.length;j++)&#123;</span><br><span class="line">      <span class="keyword">if</span>(arr[j]&lt;arr[j<span class="number">-1</span>])&#123;</span><br><span class="line">        [arr[j],arr[j<span class="number">-1</span>]] = [arr[j<span class="number">-1</span>],arr[j]]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="insert排序算法"><a href="#insert排序算法" class="headerlink" title="insert排序算法"></a>insert排序算法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> j=i;j&gt;=<span class="number">0</span>;j--)&#123;</span><br><span class="line">      <span class="keyword">if</span>(arr[j]&lt;arr[j<span class="number">-1</span>])&#123;</span><br><span class="line">        [arr[j],arr[j<span class="number">-1</span>]] = [arr[j<span class="number">-1</span>],arr[j]]</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="quick排序算法"><a href="#quick排序算法" class="headerlink" title="quick排序算法"></a>quick排序算法</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arr= arr.length &lt;=<span class="number">1</span>?arr:</span><br><span class="line">  quickSort(arr.filter(<span class="function"><span class="params">item</span> =&gt;</span> item &lt; arr[<span class="number">0</span>])).concat(</span><br><span class="line">    arr.filter(<span class="function"><span class="params">item</span> =&gt;</span> item == arr[<span class="number">0</span>]),</span><br><span class="line">    quickSort(arr.filter(<span class="function"><span class="params">item</span> =&gt;</span> item &gt; arr[<span class="number">0</span>]))</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr, begin = <span class="number">0</span>, end = arr.length - <span class="number">1</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> i = begin</span><br><span class="line">  <span class="keyword">let</span> j = end</span><br><span class="line">  <span class="keyword">if</span> (j - i &lt;= <span class="number">0</span>) <span class="keyword">return</span></span><br><span class="line">  <span class="keyword">let</span> value = arr[i]</span><br><span class="line">  <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[j] &gt;= value) &#123;</span><br><span class="line">      j--</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[i] &lt;= value) &#123;</span><br><span class="line">      i++</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [arr[i], arr[j]] = [arr[j], arr[i]]</span><br><span class="line">  &#125;</span><br><span class="line">  [arr[begin], arr[i]] = [arr[i], arr[begin]]</span><br><span class="line">  quickSort(arr, begin, i - <span class="number">1</span>)</span><br><span class="line">  quickSort(arr, i + <span class="number">1</span>, end)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数组去重"><a href="#数组去重" class="headerlink" title="数组去重"></a>数组去重</h2><p>Array.from(new Set(arr))</p>
+<h2 id="扁平化"><a href="#扁平化" class="headerlink" title="扁平化"></a>扁平化</h2><p>Array.prototype.flat = function (){<br>  return [].concat(…this.map(item =&gt;(Array.isArray(item)?item.flat():[item])))<br>}</p>
+<h2 id="负数放一边，正数放另一边-不开新数组，O-n-一次for循环-不要求排序"><a href="#负数放一边，正数放另一边-不开新数组，O-n-一次for循环-不要求排序" class="headerlink" title="负数放一边，正数放另一边,不开新数组，O(n)一次for循环 不要求排序"></a>负数放一边，正数放另一边,不开新数组，O(n)一次for循环 不要求排序</h2><p>输入:[-12,11,-13,-5,6,-7,5,-3,-6]<br>输出:[-12,-13,-5,-7,-3,-6,5,6,11]</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> input = [<span class="number">-12</span>,<span class="number">11</span>,<span class="number">-13</span>,<span class="number">-5</span>,<span class="number">6</span>,<span class="number">-7</span>,<span class="number">5</span>,<span class="number">-3</span>,<span class="number">-6</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> j=<span class="number">0</span> <span class="comment">// 指向第一个遇到的正数</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;input.length;i++)&#123;</span><br><span class="line">  <span class="keyword">if</span>(input[i]&lt;<span class="number">0</span>)&#123;</span><br><span class="line">    [input[i],input[j]] = [input[j],input[i]]</span><br><span class="line">    j++</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="大于50的放一边，保证大于50的顺序"><a href="#大于50的放一边，保证大于50的顺序" class="headerlink" title="大于50的放一边，保证大于50的顺序"></a>大于50的放一边，保证大于50的顺序</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> input = [<span class="number">51</span>,<span class="number">32</span>,<span class="number">22</span>,<span class="number">52</span>,<span class="number">53</span>,<span class="number">59</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> j=<span class="number">0</span> <span class="comment">// 指向第一个遇到的小于等于50的数</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;input.length;i++)&#123;</span><br><span class="line">  <span class="keyword">if</span>(input[i]&gt;<span class="number">50</span>)&#123;</span><br><span class="line">    [input[i],input[j]] = [input[j],input[i]]</span><br><span class="line">    j++</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-121-买卖股票的最大利润"><a href="#leetcode-121-买卖股票的最大利润" class="headerlink" title="leetcode 121 买卖股票的最大利润"></a>leetcode 121 买卖股票的最大利润</h2><p>找每个点左边区间的最低点</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> maxProfit = <span class="function"><span class="keyword">function</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(arr.length ===<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> minPrice = arr[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">let</span> maxProfit = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(arr[i]&lt;minPrice)&#123;</span><br><span class="line">      minPrice = arr[i]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(arr[i]-minPrice&gt;maxProfit) &#123;</span><br><span class="line">      maxProfit = arr[i]-minPrice</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> maxProfit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">7</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">6</span>,<span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-443-字符串压缩"><a href="#leetcode-443-字符串压缩" class="headerlink" title="leetcode 443 字符串压缩"></a>leetcode 443 字符串压缩</h2><p>输入： abcaaabbb<br>输出： abca3b3</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringCompress</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> sum = <span class="number">1</span></span><br><span class="line">  <span class="keyword">let</span> result = <span class="string">""</span></span><br><span class="line">  str = str.split(<span class="string">""</span>)</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i&lt;str.length<span class="number">-1</span>;i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(str[i]===str[i+<span class="number">1</span>])&#123;</span><br><span class="line">      sum++</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(i===str.length<span class="number">-2</span> || str[i]!==str[i+<span class="number">1</span>])&#123;</span><br><span class="line">      result+=str[i]+sum</span><br><span class="line">      sum=<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-1-twosum"><a href="#leetcode-1-twosum" class="headerlink" title="leetcode 1 twosum"></a>leetcode 1 twosum</h2><p>输入：[2,3,11,7] target = 9<br>输出：[0,3]</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">twoSum</span>(<span class="params">arr,target</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">    <span class="keyword">let</span> complement = target - arr[i]</span><br><span class="line">    <span class="keyword">if</span>(map.has(complement))&#123;</span><br><span class="line">      <span class="keyword">return</span> [map.get(complement),i]</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">      map.set(arr[i],i)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-242-Valid-Anagram"><a href="#leetcode-242-Valid-Anagram" class="headerlink" title="leetcode 242 Valid Anagram"></a>leetcode 242 Valid Anagram</h2><p>输入：s = “anagram” t= “nagaram”<br>输出：true</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">validAnagram</span>(<span class="params">s1,s2</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(s1.length!== s2.length) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">  <span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">  <span class="keyword">let</span> slen = s1.length</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i&lt;slen;i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(map.has(s1[i]))&#123;</span><br><span class="line">      map.set(s1[i],map.get(s1[i])+<span class="number">1</span>)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      map.set(s1[i],<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(map.has(s2[i]))&#123;</span><br><span class="line">      map.set(s2[i],map.get(s2[i])<span class="number">-1</span>)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      map.set(s2[i],<span class="number">-1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  map.forEach(<span class="function">(<span class="params">value</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(value) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// for(let number of map)&#123;</span></span><br><span class="line">  <span class="comment">//   if(number[1]) return false</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-3-字符串最长无重复字符子串"><a href="#leetcode-3-字符串最长无重复字符子串" class="headerlink" title="leetcode 3 字符串最长无重复字符子串"></a>leetcode 3 字符串最长无重复字符子串</h2><p>输入：”abcabcbb”<br>输出：3</p>
+<p>输入： “bbbbbb”<br>输出：1</p>
+<p>使用滑动窗口</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">slideWindow</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> j = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> maxLength = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> <span class="keyword">set</span> = new Set()</span><br><span class="line">  let res = []</span><br><span class="line">  if (s.length === 0) return 0</span><br><span class="line">  for (let i = 0; i &lt; s.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">set</span>.has(s[i])) &#123;</span><br><span class="line">      <span class="keyword">set</span>.add(s[i])</span><br><span class="line">        // maxLength = Math.max(maxLength, <span class="keyword">set</span>.size)</span><br><span class="line">      if (maxLength &lt; <span class="keyword">set</span>.size) &#123;</span><br><span class="line">        res = [...set]</span><br><span class="line">        maxLength = <span class="keyword">set</span>.size</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      <span class="keyword">while</span> (<span class="keyword">set</span>.has(s[i])) &#123;</span><br><span class="line">        <span class="keyword">set</span>.delete(s[j])</span><br><span class="line">        j++;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">set</span>.add(s[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="leetcode-125-验证回文"><a href="#leetcode-125-验证回文" class="headerlink" title="leetcode 125 验证回文"></a>leetcode 125 验证回文</h2><p>输入:”A man, a plan: a can alpanama”<br>输出：true</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">validate</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> s = str.toLowerCase().replace(<span class="regexp">/[^a-zA-z]/g</span>,<span class="string">""</span>)</span><br><span class="line">  <span class="keyword">if</span>(s.length&lt;<span class="number">2</span>) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  <span class="keyword">let</span> left = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> right = s.length <span class="number">-1</span></span><br><span class="line">  <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">    <span class="keyword">if</span>(s[left]!==s[right])&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    left++</span><br><span class="line">    right--</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-20-括号配对"><a href="#leetcode-20-括号配对" class="headerlink" title="leetcode 20 括号配对"></a>leetcode 20 括号配对</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">valide</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> stack = []</span><br><span class="line">  <span class="keyword">const</span> mapping = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">  mapping.set(<span class="string">')'</span>, <span class="string">'('</span>)</span><br><span class="line">  mapping.set(<span class="string">']'</span>, <span class="string">'['</span>)</span><br><span class="line">  mapping.set(<span class="string">'&#125;'</span>, <span class="string">'&#123;'</span>)</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; s.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (s[i] === <span class="string">'('</span> || s[i] === <span class="string">'['</span> || s[i] === <span class="string">'&#123;'</span>) &#123;</span><br><span class="line">      stack.push(s[i])</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (stack[stack.length - <span class="number">1</span>] === mapping.get(s[i])) &#123;</span><br><span class="line">      stack.pop()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (stack.length !== <span class="number">0</span>) &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-56-合并区间"><a href="#leetcode-56-合并区间" class="headerlink" title="leetcode 56 合并区间"></a>leetcode 56 合并区间</h2><p>输入:[[1,3],[2,6],[8,10],[15,18]]<br>输出:[[1,6],[8,10],[15,18]]</p>
+<p>根据区间起始位置排序</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(arr.length&lt;<span class="number">2</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  arr.sort(<span class="function">(<span class="params">a,b</span>)=&gt;</span>&#123;a[<span class="number">0</span>]-b[<span class="number">0</span>]&#125;)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">let</span> curr = arr[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">let</span> res = []</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> arr)&#123;</span><br><span class="line">    <span class="keyword">if</span>(curr[<span class="number">1</span>]&gt;=item[<span class="number">0</span>])&#123;</span><br><span class="line">      curr[<span class="number">1</span>] = <span class="built_in">Math</span>.max(curr[<span class="number">1</span>],item[<span class="number">1</span>])</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      res.push(curr)</span><br><span class="line">      curr = item</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(curr.length!==<span class="number">0</span>)&#123;</span><br><span class="line">    res.push(curr)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-5-最长回文字串"><a href="#leetcode-5-最长回文字串" class="headerlink" title="leetcode 5 最长回文字串"></a>leetcode 5 最长回文字串</h2><p>输入:”babad”<br>输出：”bab”</p>
+<p>从中心扩散</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">longestP</span>(<span class="params">s</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(s.length&lt;<span class="number">2</span>) <span class="keyword">return</span> s;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> start = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> maxLen = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">expandAroundCenter</span>(<span class="params">left,right</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(left&gt;=<span class="number">0</span> &amp;&amp; right&lt;s.length &amp;&amp; s[left]===s[right])&#123;</span><br><span class="line">      <span class="keyword">if</span>(right-left+<span class="number">1</span>&gt;maxLen)&#123;</span><br><span class="line">        maxLen = right - left +<span class="number">1</span></span><br><span class="line">        start = left</span><br><span class="line">      &#125;</span><br><span class="line">      left--</span><br><span class="line">      right++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;s.length;i++)&#123;</span><br><span class="line">    expandAroundCenter(i<span class="number">-1</span>,i+<span class="number">1</span>)</span><br><span class="line">    expandAroundCenter(i,i+<span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> s.substring(start,start+maxLen)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-49-group-anagram"><a href="#leetcode-49-group-anagram" class="headerlink" title="leetcode 49 group anagram"></a>leetcode 49 group anagram</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">groupAnagram</span>(<span class="params">strs</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(strs.length&lt;<span class="number">2</span>) <span class="keyword">return</span> strs </span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">const</span> str <span class="keyword">of</span> strs)&#123;</span><br><span class="line">    <span class="keyword">const</span> characters = <span class="built_in">Array</span>(<span class="number">26</span>).fill(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;str.length;i++)&#123;</span><br><span class="line">      <span class="keyword">const</span> ascii = str.charCodeAt(i) - <span class="number">97</span></span><br><span class="line">      characters[ascii]++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> key = characters.join(<span class="string">""</span>)</span><br><span class="line">    <span class="keyword">if</span>(map.has(key))&#123;</span><br><span class="line">      map.set(key,[...map.get(key),str])</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      map.set(key,[str])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> result =[]</span><br><span class="line">  map.forEach(<span class="function">(<span class="params">value</span>)=&gt;</span>&#123;result.push(value)&#125;)</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-54-二元数组螺旋输出"><a href="#leetcode-54-二元数组螺旋输出" class="headerlink" title="leetcode 54 二元数组螺旋输出"></a>leetcode 54 二元数组螺旋输出</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">spiralOrder</span> (<span class="params">matrix</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(matrix.length === <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> []</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> top = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> bottom = matrix.length<span class="number">-1</span></span><br><span class="line">  <span class="keyword">let</span> left = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> right = matrix[<span class="number">0</span>].length <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> direction = <span class="string">"right"</span></span><br><span class="line">  <span class="keyword">let</span> result = []</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span>(left &lt;= right&amp;&amp; top&lt;=bottom)&#123;</span><br><span class="line">    <span class="keyword">if</span>(direction === <span class="string">"right"</span>)&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i =left;i&lt;=right;i++)&#123;</span><br><span class="line">        result.push(matrix[top][i])</span><br><span class="line">      &#125;</span><br><span class="line">      top++</span><br><span class="line">      direction =<span class="string">"down"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(direction === <span class="string">"down"</span>)&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i =top;i&lt;=bottom;i++)&#123;</span><br><span class="line">        result.push(matrix[i][right])</span><br><span class="line">      &#125;</span><br><span class="line">      right--</span><br><span class="line">      direction =<span class="string">"left"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(direction === <span class="string">"left"</span>)&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i =right;i&gt;=left;i--)&#123;</span><br><span class="line">        result.push(matrix[bottom][i])</span><br><span class="line">      &#125;</span><br><span class="line">      bottom--</span><br><span class="line">      direction =<span class="string">"top"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(direction === <span class="string">"top"</span>)&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i =bottom;i&gt;=top;i--)&#123;</span><br><span class="line">        result.push(matrix[i][left])</span><br><span class="line">      &#125;</span><br><span class="line">      left++</span><br><span class="line">      direction =<span class="string">"right"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-73-矩阵0置"><a href="#leetcode-73-矩阵0置" class="headerlink" title="leetcode 73 矩阵0置"></a>leetcode 73 矩阵0置</h2><p>检查并标记第一行和第一列是否有0<br>使用第一行和第一列来标记其余行列是否含有0<br>最后处理第一行第一列标0</p>
+<h2 id="leetcode-509-斐波那契数-动态规划-递归-记忆-topDown"><a href="#leetcode-509-斐波那契数-动态规划-递归-记忆-topDown" class="headerlink" title="leetcode 509 斐波那契数 动态规划(递归+记忆 topDown)"></a>leetcode 509 斐波那契数 动态规划(递归+记忆 topDown)</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fib = <span class="function"><span class="keyword">function</span>(<span class="params">N</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(N&lt;=<span class="number">1</span>) <span class="keyword">return</span> N</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> cache = []</span><br><span class="line">  cache[<span class="number">0</span>]=<span class="number">0</span></span><br><span class="line">  cache[<span class="number">1</span>]=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">memoize</span>(<span class="params">number</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(cache[number]!== <span class="literal">undefined</span>)&#123;</span><br><span class="line">      <span class="keyword">return</span> cache[number]</span><br><span class="line">    &#125;</span><br><span class="line">    cache[number] = memoize(number<span class="number">-1</span>) + memoize(number<span class="number">-2</span>)</span><br><span class="line">    <span class="keyword">return</span> cache[number]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> result = memoize(N)</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-15-三数之和"><a href="#leetcode-15-三数之和" class="headerlink" title="leetcode 15 三数之和"></a>leetcode 15 三数之和</h2><p>1.数组排序<br>2.从0遍历到倒数第二位 len-2<br>3.遇到重复数字跳过<br>4.start =i+1 end =len-1 i三者和&lt;=&gt;0?</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> threeSum = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span>  res = []</span><br><span class="line">    nums.sort(<span class="function">(<span class="params">a,b</span>)=&gt;</span>a-b)</span><br><span class="line">    <span class="keyword">let</span> nlen = nums.length</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;nlen<span class="number">-2</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i]===nums[i<span class="number">-1</span>])&#123;<span class="keyword">break</span>&#125;</span><br><span class="line">        <span class="keyword">let</span> start = i+<span class="number">1</span></span><br><span class="line">        <span class="keyword">let</span> end = nlen <span class="number">-1</span></span><br><span class="line">        <span class="keyword">while</span>(start&lt;end)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]+nums[start]+nums[end]===<span class="number">0</span>)&#123;</span><br><span class="line">                res.push([nums[i],nums[start],nums[end]])</span><br><span class="line">                start++</span><br><span class="line">                end--</span><br><span class="line">                <span class="keyword">while</span>(start&lt;end &amp;&amp; nums[start] === nums[start<span class="number">-1</span>])&#123;</span><br><span class="line">                    start++</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">while</span>(start&lt;end &amp;&amp; nums[end] === nums[end+<span class="number">1</span>])&#123;</span><br><span class="line">                    end--</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[i]+nums[start]+nums[end] &lt; <span class="number">0</span>)&#123;</span><br><span class="line">                start++</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                end--</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-704-二分查找"><a href="#leetcode-704-二分查找" class="headerlink" title="leetcode 704 二分查找"></a>leetcode 704 二分查找</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> search = <span class="function"><span class="keyword">function</span>(<span class="params">nums, target</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> left =<span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> right = nums.length<span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span>(left&lt;=right)&#123;</span><br><span class="line">        <span class="keyword">let</span> mid = <span class="built_in">Math</span>.floor(left+(right-left)/<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">if</span>(nums[mid]=== target)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[mid]&gt;target)&#123;</span><br><span class="line">            right = mid <span class="number">-1</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            left = mid+<span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-153-旋转数组的二分搜索查找"><a href="#leetcode-153-旋转数组的二分搜索查找" class="headerlink" title="leetcode 153 旋转数组的二分搜索查找"></a>leetcode 153 旋转数组的二分搜索查找</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> findMin = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums.length === <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> left = <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> right = nums.length <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(nums[right]&gt;nums[left])&#123;</span><br><span class="line">        <span class="keyword">return</span> nums[left]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">        <span class="keyword">let</span> mid = <span class="built_in">Math</span>.floor(left+(right-left)/<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(nums[mid]&gt;nums[mid+<span class="number">1</span>])&#123;</span><br><span class="line">            <span class="keyword">return</span> nums[mid+<span class="number">1</span>]</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(nums[mid<span class="number">-1</span>]&gt;nums[mid])&#123;</span><br><span class="line">            <span class="keyword">return</span> nums[mid]</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(nums[mid]&gt;nums[left])&#123;</span><br><span class="line">            left = mid+<span class="number">1</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            right = mid<span class="number">-1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-217-存在重复元素"><a href="#leetcode-217-存在重复元素" class="headerlink" title="leetcode 217 存在重复元素"></a>leetcode 217 存在重复元素</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> containsDuplicate = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">set</span> = new Set()</span><br><span class="line">    for(let i=0;i&lt;nums.length;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">set</span>.has(nums[i])) return true</span><br><span class="line">        <span class="keyword">set</span>.add(nums[i])</span><br><span class="line">    &#125;</span><br><span class="line">    return false</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-55-跳跃游戏"><a href="#leetcode-55-跳跃游戏" class="headerlink" title="leetcode 55 跳跃游戏"></a>leetcode 55 跳跃游戏</h2><p>top down</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canJump = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> nlen = nums.length</span><br><span class="line">    <span class="keyword">const</span> dp = <span class="built_in">Array</span>(nlen).fill(<span class="number">0</span>)</span><br><span class="line">    dp[nlen<span class="number">-1</span>]=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">jump</span>(<span class="params">position</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(dp[position]=== <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(dp[position]===<span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> maxJump = <span class="built_in">Math</span>.min(nlen<span class="number">-1</span>,position+nums[position])</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = position+<span class="number">1</span>;i&lt;=maxJump;i++)&#123;</span><br><span class="line">            <span class="keyword">const</span> jumpResult = jump(i)</span><br><span class="line">            <span class="keyword">if</span>(jumpResult === <span class="literal">true</span>)&#123;</span><br><span class="line">                dp[position] =<span class="number">1</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        dp[position] = <span class="number">-1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> res = jump(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>buttom up</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canJump = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> nlen = nums.length</span><br><span class="line">    <span class="keyword">const</span> dp = <span class="built_in">Array</span>(nlen).fill(<span class="number">0</span>)</span><br><span class="line">    dp[nlen<span class="number">-1</span>]=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = nlen<span class="number">-2</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">const</span> maxJump = <span class="built_in">Math</span>.min(i+nums[i],nlen<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> j = i+<span class="number">1</span>;j&lt;=maxJump;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(dp[j]===<span class="number">1</span>)&#123;</span><br><span class="line">                dp[i] = <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(dp[<span class="number">0</span>] === <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>贪心</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canJump = <span class="function"><span class="keyword">function</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> maxJump = nums.length<span class="number">-1</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = nums.length<span class="number">-2</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[i]+i&gt;=maxJump)&#123;</span><br><span class="line">            maxJump = i</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> maxJump === <span class="number">0</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-198-打家劫舍"><a href="#leetcode-198-打家劫舍" class="headerlink" title="leetcode 198 打家劫舍"></a>leetcode 198 打家劫舍</h2><p>dp[i] 到第i家偷或不偷的最大价值<br>dp[i] = Math.max(dp[i-2]+nums[i],dp[i-1])<br>返回dp[nums.length-1]</p>
+<h2 id="leetcode-62-单独路径"><a href="#leetcode-62-单独路径" class="headerlink" title="leetcode 62 单独路径"></a>leetcode 62 单独路径</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> uniquePaths = <span class="function"><span class="keyword">function</span>(<span class="params">m, n</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> memo = []</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        memo.push([])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> row =<span class="number">0</span>;row&lt;n;row++)&#123;</span><br><span class="line">        memo[row][<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> col=<span class="number">0</span>;col&lt;m;col++)&#123;</span><br><span class="line">        memo[<span class="number">0</span>][col] = <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> row=<span class="number">1</span>;row&lt;n;row++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> col = <span class="number">1</span>;col&lt;m;col++)&#123;</span><br><span class="line">            memo[row][col] =  memo[row<span class="number">-1</span>][col] + memo[row][col<span class="number">-1</span>] </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> memo[n<span class="number">-1</span>][m<span class="number">-1</span>]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-53-最大子序和"><a href="#leetcode-53-最大子序和" class="headerlink" title="leetcode 53 最大子序和"></a>leetcode 53 最大子序和</h2><p>dp[i] 到第i位的子序和最大值 = Math.max(nums[i]+dp[i-1],nums[i])</p>
+<h2 id="leetcode-349-两个数组的交集"><a href="#leetcode-349-两个数组的交集" class="headerlink" title="leetcode 349 两个数组的交集"></a>leetcode 349 两个数组的交集</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> intersection = <span class="function"><span class="keyword">function</span>(<span class="params">nums1,nums2</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">set</span> = new Set(nums2)</span><br><span class="line"></span><br><span class="line">  for(num of nums1)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">set</span>.has(num))&#123;</span><br><span class="line">      result.add(num)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(result)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="leetcode-152-乘积最大子序列"><a href="#leetcode-152-乘积最大子序列" class="headerlink" title="leetcode 152 乘积最大子序列"></a>leetcode 152 乘积最大子序列</h2><p>maxProductMemo[i] 到第i位 最大的乘积 = Math.max(nums[i],nums[i]<em>maxProductMemo[i-1],nums[i]</em>minProductMemo[i-1])<br>minProductMemo[i] 到第i位 最小的乘积 = Math.min(nums[i],nums[i]<em>maxProductMemo[i-1],nums[i]</em>minProductMemo[i-1])</p>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2020/03/08/%E6%8E%98%E9%87%91/leetcode/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/03/05/interview/%E4%BA%8C%E5%8F%89%E6%A0%91/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">interview/二叉树</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+
+          <div class="to_top">
+            <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+          </div>
+      </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Matt&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/resume">关于我</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9001/" target="_blank" rel="noopener">项目1</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="http://103.14.34.148:9003/" target="_blank" rel="noopener">项目2</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+        
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['https://github.com/chiangming/','sa517144@mail.ustc.edu.cn',''],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+    </div>
+  </body>
+
+  </html>
