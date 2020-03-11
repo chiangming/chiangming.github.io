@@ -66,6 +66,75 @@
     
     
     
+    <article id="post-vue源码/11.keep-alive" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/"
+    >11.keep-alive</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/" class="article-date">
+  <time datetime="2019-12-21T16:15:36.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>keep-alive组件是一个抽象组件，它的实现通过自定义render函数并且利用了插槽，并且知道了 keep-alive 缓存 vnode，了解组件包裹的子元素——也就是插槽是如何做更新的。且在 patch 过程中对于已缓存的组件不会执行 mounted，所以不会有一般的组件的生命周期函数但是又提供了activated 和 deactivated 钩子函数。另外我们还知道了keep-alive的 props 除了 include 和 exclude 还有文档中没有提到的 max，它能控制我们缓存的个数。</p>
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-vue源码/10.插槽" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -714,92 +783,6 @@
 <li>created 可以获得data,props (initInjections,initState,initProvide)，在这里已经完成了 数据data computed的响应式处理以及 watch event的事件回调
                             
                               <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/2.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
-                                阅读更多...
-                              </a>
-                              
-                                
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-vue源码/1.数据驱动" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/"
-    >1.数据驱动</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/" class="article-date">
-  <time datetime="2019-12-21T16:15:28.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                          <h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ol>
-<li>初始化，在Vue原型上部署各种方法，</li>
-<li><code>new Vue</code>时执行<code>Vue.prototype._init()</code><ul>
-<li>initState() =&gt; initData()</li>
-</ul>
-</li>
-<li>执行 <code>Vue.prototype.$mount</code><ul>
-<li>编译生成 render 函数</li>
-<li>mountComponent <ul>
-<li>new Watcher =&gt; this.get =&gt; this.getter() =&gt; vm._update(vm._render(), hydrating)</li>
-</ul>
-</li>
-<li>Vue.prototype._render()<ul>
-<li>render.call(vm._renderProxy, vm.$createElement)</li>
-</ul>
-</li>
-<li>Vue.prototype._update()<ul>
-<li>patch()
-                            
-                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/">
                                 阅读更多...
                               </a>
                               

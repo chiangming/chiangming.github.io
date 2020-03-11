@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://chiangming.github.io/"/>
-  <updated>2020-03-10T05:21:47.082Z</updated>
+  <updated>2020-03-11T05:46:20.394Z</updated>
   <id>https://chiangming.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>interview/木易杨</title>
+    <link href="https://chiangming.github.io/2020/03/11/interview/%E6%9C%A8%E6%98%93%E6%9D%A8/"/>
+    <id>https://chiangming.github.io/2020/03/11/interview/%E6%9C%A8%E6%98%93%E6%9D%A8/</id>
+    <published>2020-03-11T02:25:21.186Z</published>
+    <updated>2020-03-11T05:46:20.394Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;BFC&quot;&gt;&lt;a href=&quot;#BFC&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>leetcode</title>
@@ -107,7 +130,7 @@
     <link href="https://chiangming.github.io/2020/03/03/%E6%8E%98%E9%87%91/%E6%95%B4%E7%90%861/"/>
     <id>https://chiangming.github.io/2020/03/03/%E6%8E%98%E9%87%91/%E6%95%B4%E7%90%861/</id>
     <published>2020-03-03T01:32:50.155Z</published>
-    <updated>2020-03-10T05:16:42.015Z</updated>
+    <updated>2020-03-11T03:38:23.346Z</updated>
     
     <summary type="html">
     
@@ -170,18 +193,18 @@
     <link href="https://chiangming.github.io/2020/02/24/interview/%E9%9D%A2%E8%AF%95/"/>
     <id>https://chiangming.github.io/2020/02/24/interview/%E9%9D%A2%E8%AF%95/</id>
     <published>2020-02-24T00:04:11.241Z</published>
-    <updated>2020-03-10T03:01:32.211Z</updated>
+    <updated>2020-03-11T04:00:05.089Z</updated>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;面试题&quot;&gt;&lt;a href=&quot;#面试题&quot; class=&quot;headerlink&quot; title=&quot;面试题&quot;&gt;&lt;/a&gt;面试题&lt;/h1&gt;&lt;h2 id=&quot;JS获取当年当月最后一天日期&quot;&gt;&lt;a href=&quot;#JS获取当年当月最后一天日期&quot; class=&quot;headerlink&quot; title=&quot;JS获取当年当月最后一天日期&quot;&gt;&lt;/a&gt;JS获取当年当月最后一天日期&lt;/h2&gt;&lt;p&gt;var new_date = new Date(new_year,new_month,1); //取当年次月中的第一天&lt;br&gt;return (new Date(new_date.getTime()-1000&lt;em&gt;60&lt;/em&gt;60*24)).getDate();//获取当月最后一天日期 &lt;/p&gt;
-&lt;h2 id=&quot;为什么js里需要闭包&quot;&gt;&lt;a href=&quot;#为什么js里需要闭包&quot; class=&quot;headerlink&quot; title=&quot;为什么js里需要闭包&quot;&gt;&lt;/a&gt;为什么js里需要闭包&lt;/h2&gt;&lt;ul&gt;
+      &lt;h1 id=&quot;面试题&quot;&gt;&lt;a href=&quot;#面试题&quot; class=&quot;headerlink&quot; title=&quot;面试题&quot;&gt;&lt;/a&gt;面试题&lt;/h1&gt;&lt;h1 id=&quot;JS获取当年当月最后一天日期&quot;&gt;&lt;a href=&quot;#JS获取当年当月最后一天日期&quot; class=&quot;headerlink&quot; title=&quot;JS获取当年当月最后一天日期&quot;&gt;&lt;/a&gt;JS获取当年当月最后一天日期&lt;/h1&gt;&lt;p&gt;var new_date = new Date(new_year,new_month,1); //取当年次月中的第一天&lt;br&gt;return (new Date(new_date.getTime()-1000&lt;em&gt;60&lt;/em&gt;60*24)).getDate();//获取当月最后一天日期 &lt;/p&gt;
+&lt;h1 id=&quot;为什么js里需要闭包&quot;&gt;&lt;a href=&quot;#为什么js里需要闭包&quot; class=&quot;headerlink&quot; title=&quot;为什么js里需要闭包&quot;&gt;&lt;/a&gt;为什么js里需要闭包&lt;/h1&gt;&lt;ul&gt;
 &lt;li&gt;js也采用词法作用域是在函数定义时决定的，而不是函数调用时决定的。&lt;/li&gt;
 &lt;li&gt;C语言这种底层编程语言中，函数中的非静态变量是储存在CPU栈中的，当函数调用结束后堆栈中的空间也由编译器自动释放。&lt;/li&gt;
 &lt;li&gt;js闭包函数中的该函数被定义时所有外层的变量对象的引用被放在其上下文Scope属性作为一个作用域链包含，&lt;/li&gt;
 &lt;li&gt;所以定义了闭包的函数虽然销毁了，但是其变量对象依然被绑定在函数inner上，保留在内存中。不被GC&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&quot;TIP&quot;&gt;&lt;a href=&quot;#TIP&quot; class=&quot;headerlink&quot; title=&quot;TIP:&quot;&gt;&lt;/a&gt;TIP:&lt;/h3&gt;&lt;ul&gt;
+&lt;h2 id=&quot;TIP&quot;&gt;&lt;a href=&quot;#TIP&quot; class=&quot;headerlink&quot; title=&quot;TIP:&quot;&gt;&lt;/a&gt;TIP:&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;变量对象与活动对象的概念是ES3提出的老概念，从ES5开始就用词法环境和变量环境替代了&lt;/li&gt;
 &lt;li&gt;变量环境也是词法环境，它具备词法环境所有属性，一样有环境记录EnvironmentRecord（VO）与outer外部环境引入（作用域链）。&lt;/li&gt;
 &lt;li&gt;作用域链是处理标识符时进行变量查询的变量对象列表&lt;/li&gt;
@@ -189,7 +212,7 @@
 &lt;li&gt;变量对象是与执行上下文相关的数据作用域&lt;/li&gt;
 &lt;li&gt;在函数上下文中，我们用活动对象来表示变量对象 对应于 词法记录&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&quot;js解析引擎解析&quot;&gt;&lt;a href=&quot;#js解析引擎解析&quot; class=&quot;headerlink&quot; title=&quot;js解析引擎解析&quot;&gt;&lt;/a&gt;js解析引擎解析&lt;/h2&gt;&lt;ul&gt;
+&lt;h1 id=&quot;js解析引擎解析&quot;&gt;&lt;a href=&quot;#js解析引擎解析&quot; class=&quot;headerlink&quot; title=&quot;js解析引擎解析&quot;&gt;&lt;/a&gt;js解析引擎解析&lt;/h1&gt;&lt;ul&gt;
 &lt;li&gt;js是脚本语言，浏览器解析js过程分为：语法检查阶段和运行阶段。&lt;/li&gt;
 &lt;li&gt;语法检查：&lt;ul&gt;
 &lt;li&gt;字符流 - 记号流 - AST抽象语法树&lt;/li&gt;
@@ -213,15 +236,128 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&quot;fetch跨与-cookie&quot;&gt;&lt;a href=&quot;#fetch跨与-cookie&quot; class=&quot;headerlink&quot; title=&quot;fetch跨与 cookie&quot;&gt;&lt;/a&gt;fetch跨与 cookie&lt;/h2&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; myHeaders = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Headers();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;fetch(url, &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              method: &lt;span class=&quot;string&quot;&gt;&#39;GET&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              headers: myHeaders,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              credentials: &lt;span class=&quot;string&quot;&gt;&quot;include&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h1 id=&quot;fetch跨域-cookie&quot;&gt;&lt;a href=&quot;#fetch跨域-cookie&quot; class=&quot;headerlink&quot; title=&quot;fetch跨域 cookie&quot;&gt;&lt;/a&gt;fetch跨域 cookie&lt;/h1&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; myHeaders = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Headers();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;fetch(url, &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              method: &lt;span class=&quot;string&quot;&gt;&#39;GET&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              headers: myHeaders,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              credentials: &lt;span class=&quot;string&quot;&gt;&quot;include&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;在后台添加。允许浏览器&lt;br&gt;&lt;code&gt;response.setHeader(&amp;quot;Access-Control-Allow-Credentials&amp;quot;,&amp;quot;true&amp;quot;);&lt;/code&gt;&lt;br&gt;&lt;code&gt;response.setHeader(‘Access-Control-Allow-Origin’, ‘http://localhost:8080’)//不能为*&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&quot;express-中间件&quot;&gt;&lt;a href=&quot;#express-中间件&quot; class=&quot;headerlink&quot; title=&quot;express 中间件&quot;&gt;&lt;/a&gt;express 中间件&lt;/h2&gt;&lt;p&gt;Express框架建立在node.js内置的http模块上。&lt;br&gt;Express框架的核心是对http模块的再包装。&lt;br&gt;Express框架等于在http模块之上，加了一个中间层。&lt;/p&gt;
-&lt;p&gt;app.use（[path]，function）&lt;br&gt;path：是路由的url，默认参数‘/‘，意义是路由到这个路径时使用这个中间件&lt;br&gt;function：中间件函数&lt;br&gt;这个中间件函数可以理解为就是function(request,response,next)&lt;/p&gt;
-&lt;p&gt;express.static(__dirname + ‘/public’) // express.static 是Express目前唯一内置的一个中间件。用来处理静态资源文件。&lt;/p&gt;
-&lt;h2 id=&quot;body-parser&quot;&gt;&lt;a href=&quot;#body-parser&quot; class=&quot;headerlink&quot; title=&quot;body-parser&quot;&gt;&lt;/a&gt;body-parser&lt;/h2&gt;&lt;p&gt;post请求，enctype属性一般设置为“application/x-www-form-urlencoded”，用于key1=val1&amp;amp;key2=val2 的方式进行编码&lt;br&gt;如果设置成multipart/form-data，则多用于文件上传&lt;br&gt;如果设置成application/json,用于json序列化&lt;/p&gt;
+&lt;h1 id=&quot;express-中间件&quot;&gt;&lt;a href=&quot;#express-中间件&quot; class=&quot;headerlink&quot; title=&quot;express 中间件&quot;&gt;&lt;/a&gt;express 中间件&lt;/h1&gt;&lt;p&gt;Express框架建立在node.js内置的http模块上。&lt;br&gt;Express框架的核心是对http模块的再包装。&lt;br&gt;Express框架等于在http模块之上，加了一个中间层。&lt;br&gt;应用层中间件、路由中间件、内置中间件、错误处理中间件和第三方中间件&lt;/p&gt;
+&lt;h2 id=&quot;应用层中间件&quot;&gt;&lt;a href=&quot;#应用层中间件&quot; class=&quot;headerlink&quot; title=&quot;应用层中间件&quot;&gt;&lt;/a&gt;应用层中间件&lt;/h2&gt;&lt;p&gt;app.use（[path]，function）&lt;br&gt;path：是路由的url，默认参数‘/‘，意义是路由到这个路径时使用这个中间件&lt;br&gt;function：中间件函数&lt;br&gt;这个中间件函数可以理解为就是function(request,response,next)&lt;/p&gt;
+&lt;h2 id=&quot;内置中间件express-static&quot;&gt;&lt;a href=&quot;#内置中间件express-static&quot; class=&quot;headerlink&quot; title=&quot;内置中间件express.static&quot;&gt;&lt;/a&gt;内置中间件express.static&lt;/h2&gt;&lt;p&gt;express.static(__dirname + ‘/public’) // express.static 是Express目前唯一内置的一个中间件。用来处理静态资源文件。&lt;/p&gt;
+&lt;h2 id=&quot;路由中间件-express-Router&quot;&gt;&lt;a href=&quot;#路由中间件-express-Router&quot; class=&quot;headerlink&quot; title=&quot;路由中间件 express.Router();&quot;&gt;&lt;/a&gt;路由中间件 express.Router();&lt;/h2&gt;&lt;h2 id=&quot;body-parser&quot;&gt;&lt;a href=&quot;#body-parser&quot; class=&quot;headerlink&quot; title=&quot;body-parser&quot;&gt;&lt;/a&gt;body-parser&lt;/h2&gt;&lt;p&gt;post请求，enctype属性一般设置为“application/x-www-form-urlencoded”，用于key1=val1&amp;amp;key2=val2 的方式进行编码&lt;br&gt;如果设置成multipart/form-data，则多用于文件上传&lt;br&gt;如果设置成application/json,用于json序列化&lt;/p&gt;
 &lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;action&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;#&quot;&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;method&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;enctype&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;application/x-www-form-urlencoded&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;form&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; bodyParser=&lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&quot;body-parser&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 解析以 application/json 和 application/x-www-form-urlencoded 提交的数据&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; jsonParser = bodyParser.json();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; urlencodedParser = bodyParser.urlencoded(&amp;#123; &lt;span class=&quot;attr&quot;&gt;extended&lt;/span&gt;: &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt; &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
+&lt;h3 id=&quot;动态路由-req-params&quot;&gt;&lt;a href=&quot;#动态路由-req-params&quot; class=&quot;headerlink&quot; title=&quot;动态路由 req.params&quot;&gt;&lt;/a&gt;动态路由 req.params&lt;/h3&gt;&lt;h3 id=&quot;get传参-req-query-参数名&quot;&gt;&lt;a href=&quot;#get传参-req-query-参数名&quot; class=&quot;headerlink&quot; title=&quot;get传参 req.query.参数名&quot;&gt;&lt;/a&gt;get传参 req.query.参数名&lt;/h3&gt;&lt;h2 id=&quot;cookie-parser&quot;&gt;&lt;a href=&quot;#cookie-parser&quot; class=&quot;headerlink&quot; title=&quot;cookie-parser&quot;&gt;&lt;/a&gt;cookie-parser&lt;/h2&gt;&lt;p&gt;const cookieParser=require(“cookie-parser”);&lt;/p&gt;
+&lt;p&gt;app.use(cookieParser());&lt;/p&gt;
+&lt;p&gt;res.cookie(“name”,’zhangsan’,{maxAge: 900000, httpOnly: true});&lt;br&gt;//res.cookie(名称,值,{配置信息})&lt;/p&gt;
+&lt;h3 id=&quot;cookie加密-crypto&quot;&gt;&lt;a href=&quot;#cookie加密-crypto&quot; class=&quot;headerlink&quot; title=&quot;cookie加密 crypto&quot;&gt;&lt;/a&gt;cookie加密 crypto&lt;/h3&gt;&lt;h2 id=&quot;express-session&quot;&gt;&lt;a href=&quot;#express-session&quot; class=&quot;headerlink&quot; title=&quot;express-session&quot;&gt;&lt;/a&gt;express-session&lt;/h2&gt;&lt;h1 id=&quot;什么是事件委托吗？&quot;&gt;&lt;a href=&quot;#什么是事件委托吗？&quot; class=&quot;headerlink&quot; title=&quot;什么是事件委托吗？&quot;&gt;&lt;/a&gt;什么是事件委托吗？&lt;/h1&gt;&lt;p&gt;利用事件冒泡机制，给所有的li绑定点击事件，极为繁琐，这时候需要用到事件代理给ul绑定事件&lt;br&gt;element.addEventListener(event, function, useCapture)；&lt;br&gt;attachEvent()     //IE8及IE更早版本&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;大量减少内存占用，减少事件注册。&lt;/li&gt;
+&lt;li&gt;新增元素实现动态绑定事件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;2-对Promise了解吗？&quot;&gt;&lt;a href=&quot;#2-对Promise了解吗？&quot; class=&quot;headerlink&quot; title=&quot;2.对Promise了解吗？&quot;&gt;&lt;/a&gt;2.对Promise了解吗？&lt;/h2&gt;&lt;p&gt;promise构造函数是同步执行的，then方法是异步执行的，微任务&lt;/p&gt;
+&lt;h2 id=&quot;3-window的onload事件和domcontentloaded谁先谁后？&quot;&gt;&lt;a href=&quot;#3-window的onload事件和domcontentloaded谁先谁后？&quot; class=&quot;headerlink&quot; title=&quot;3.window的onload事件和domcontentloaded谁先谁后？&quot;&gt;&lt;/a&gt;3.window的onload事件和domcontentloaded谁先谁后？&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;当 onload 事件触发时，页面上所有的DOM，样式表，脚本，图片，flash都已经加载完成了。&lt;/li&gt;
+&lt;li&gt;当 DOMContentLoaded 事件触发时，仅当DOM加载完成，不包括样式表，图片，flash。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;url展示的过程&quot;&gt;&lt;a href=&quot;#url展示的过程&quot; class=&quot;headerlink&quot; title=&quot;url展示的过程&quot;&gt;&lt;/a&gt;url展示的过程&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;DNS 解析 域名 -&amp;gt; ip （DNS缓存 浏览器/操作系统/hosts文件 -》本地配置的首选DNS服务器 -》运营商的DNS代我们的浏览器发起迭代DNS解析请求 -》com IP -》test.com IP -&amp;gt; &lt;a href=&quot;http://www.test.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;www.test.com&lt;/a&gt; IP&lt;/li&gt;
+&lt;li&gt;TCP 三次握手&lt;/li&gt;
+&lt;li&gt;发送请求，分析 url，设置请求报文(头，主体)&lt;/li&gt;
+&lt;li&gt;服务器返回请求的文件 (html)&lt;/li&gt;
+&lt;li&gt;浏览器渲染&lt;ul&gt;
+&lt;li&gt;HTML parser –&amp;gt; DOM Tree&lt;ul&gt;
+&lt;li&gt;标记化算法，进行元素状态的标记&lt;/li&gt;
+&lt;li&gt;dom 树构建&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;CSS parser –&amp;gt; Style Tree&lt;ul&gt;
+&lt;li&gt;解析 css 代码，生成样式树&lt;/li&gt;
+&lt;li&gt;css是由单独的下载线程异步下载的 &lt;/li&gt;
+&lt;li&gt;css加载不会阻塞DOM树解析（异步加载时DOM照常构建） &lt;/li&gt;
+&lt;li&gt;但会阻塞render树渲染（渲染时需等css加载完毕，因为render树需要css信息）  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;attachment –&amp;gt; Render Tree&lt;ul&gt;
+&lt;li&gt;结合 dom树 与 style树，生成渲染树&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;layout: 布局&lt;/li&gt;
+&lt;li&gt;GPU painting: 像素绘制页面&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;vue的渲染过程&quot;&gt;&lt;a href=&quot;#vue的渲染过程&quot; class=&quot;headerlink&quot; title=&quot;vue的渲染过程&quot;&gt;&lt;/a&gt;vue的渲染过程&lt;/h1&gt;&lt;p&gt;把模板编译为render函数&lt;br&gt;实例进行挂载, 根据根节点render函数的调用，递归的生成虚拟dom&lt;br&gt;对比虚拟dom，渲染到真实dom&lt;br&gt;组件内部data发生变化，组件和子组件引用data作为props重新调用render函数，生成虚拟dom, 返回到步骤3    &lt;/p&gt;
+&lt;h1 id=&quot;箭头函数this&quot;&gt;&lt;a href=&quot;#箭头函数this&quot; class=&quot;headerlink&quot; title=&quot;箭头函数this&quot;&gt;&lt;/a&gt;箭头函数this&lt;/h1&gt;&lt;p&gt;（1）默认指向定义它时，所处上下文的对象的this指向。即ES6箭头函数里this的指向就是 &lt;strong&gt;上下文里对象this指向&lt;/strong&gt;，偶尔没有上下文对象，this就指向window&lt;br&gt;（2）即使是call，apply，bind等方法也不能改变箭头函数this的指向&lt;/p&gt;
+&lt;h1 id=&quot;for-in和-for-of&quot;&gt;&lt;a href=&quot;#for-in和-for-of&quot; class=&quot;headerlink&quot; title=&quot;for in和 for of&quot;&gt;&lt;/a&gt;for in和 for of&lt;/h1&gt;&lt;p&gt;for in会遍历数组所有的可枚举属性，包括原型。&lt;br&gt;for of遍历的只是数组内的元素，而不包括数组的原型属性method和索引name&lt;/p&gt;
+&lt;p&gt;for in来遍历对象的键名/索引&lt;/p&gt;
+&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; key &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; myObject) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;　　&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;（myObject.hasOwnProperty(key))&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;　　　　&lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(key);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;　　&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;Object.keys(myObject)获取对象的实例属性组成的数组，不包括原型方法和属性&lt;/p&gt;
+&lt;p&gt;for..of适用遍历数/数组对象/字符串/map/set等拥有迭代器对象的集合.但是不能遍历对象,因为没有迭代器对象.&lt;/p&gt;
+&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;jQuery.prototype[&lt;span class=&quot;built_in&quot;&gt;Symbol&lt;/span&gt;.iterator] = &lt;span class=&quot;built_in&quot;&gt;Array&lt;/span&gt;.prototype[&lt;span class=&quot;built_in&quot;&gt;Symbol&lt;/span&gt;.iterator];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h1 id=&quot;Generator&quot;&gt;&lt;a href=&quot;#Generator&quot; class=&quot;headerlink&quot; title=&quot;Generator&quot;&gt;&lt;/a&gt;Generator&lt;/h1&gt;&lt;p&gt;Generator 函数是一个状态机，封装了多个内部状态。&lt;/p&gt;
+&lt;p&gt;执行 Generator 函数会返回一个遍历器对象，&lt;br&gt;函数除了状态机，还是一个遍历器对象生成函数。返回的遍历器对象，可以依次遍历 Generator 函数内部的每一个状态。&lt;/p&gt;
+&lt;h1 id=&quot;浏览器下事件循环-Event-Loop&quot;&gt;&lt;a href=&quot;#浏览器下事件循环-Event-Loop&quot; class=&quot;headerlink&quot; title=&quot;浏览器下事件循环(Event Loop)&quot;&gt;&lt;/a&gt;浏览器下事件循环(Event Loop)&lt;/h1&gt;&lt;p&gt;主线程只会做一件事情，就是从消息队列里面取消息、执行消息，再取消息、再执行。当消息队列为空时，就会等待直到消息队列变成非空。而且主线程只有在将当前的消息执行完成后，才会去取下一个消息。这种机制就叫做事件循环机制，取一个消息并执行的过程叫做一次循环&lt;/p&gt;
+&lt;h4 id=&quot;过程&quot;&gt;&lt;a href=&quot;#过程&quot; class=&quot;headerlink&quot; title=&quot;过程&quot;&gt;&lt;/a&gt;过程&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;在此次 tick 中选择最先进入宏任务队列的任务(oldest task)，如果有则执行(一次)&lt;/li&gt;
+&lt;li&gt;检查是否存在 Microtasks，如果存在则不停地执行，直至清空 Microtasks Queue （在执行微任务的时候，如果又有微任务进入队列，则在此次循环中执行）&lt;/li&gt;
+&lt;li&gt;更新 render （视图更新）&lt;/li&gt;
+&lt;li&gt;主线程重复执行上述步骤&lt;br&gt;上述为一轮事件循环&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://103.14.34.148:9000/imgs/blog/img/browser-deom1-excute-animate.gif&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;Http请求中的keep-alive&quot;&gt;&lt;a href=&quot;#Http请求中的keep-alive&quot; class=&quot;headerlink&quot; title=&quot;Http请求中的keep-alive&quot;&gt;&lt;/a&gt;Http请求中的keep-alive&lt;/h1&gt;&lt;p&gt;在http早期，每个http请求都要求打开一个tpc socket连接，并且使用一次之后就断开这个tcp连接。&lt;br&gt;使用keep-alive可以改善这种状态，即在一次TCP连接中可以持续发送多份数据而不会断开连接。通过使用keep-alive机制，可以减少tcp连接建立次数，也意味着可以减少TIME_WAIT状态连接，以此提高性能和提高httpd服务器的吞吐率(更少的tcp连接意味着更少的系统内核调用,socket的accept()和close()调用)。&lt;br&gt;但是，keep-alive并不是免费的午餐,长时间的tcp连接容易导致系统资源无效占用。配置不当的keep-alive，有时比重复利用连接带来的损失还更大。&lt;/p&gt;
+&lt;h1 id=&quot;1-从输入URL到页面加载发生了什么？url展示&quot;&gt;&lt;a href=&quot;#1-从输入URL到页面加载发生了什么？url展示&quot; class=&quot;headerlink&quot; title=&quot;1. 从输入URL到页面加载发生了什么？url展示&quot;&gt;&lt;/a&gt;1. 从输入URL到页面加载发生了什么？url展示&lt;/h1&gt;&lt;p&gt;1、浏览器的地址栏输入URL并按下回车。&lt;br&gt;2、浏览器查找当前URL是否存在缓存，并比较缓存是否过期。&lt;br&gt;3、DNS解析URL对应的IP。&lt;br&gt;4、根据IP建立TCP连接（三次握手）。&lt;br&gt;5、HTTP发起请求。&lt;br&gt;6、服务器处理请求，浏览器接收HTTP响应。&lt;br&gt;7、渲染页面，构建DOM树。&lt;br&gt;8、关闭TCP连接（四次挥手）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://user-gold-cdn.xitu.io/2018/12/22/167d5e19c54ae53e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;2-缓存相关的知识吧？&quot;&gt;&lt;a href=&quot;#2-缓存相关的知识吧？&quot; class=&quot;headerlink&quot; title=&quot;2. 缓存相关的知识吧？&quot;&gt;&lt;/a&gt;2. 缓存相关的知识吧？&lt;/h1&gt;&lt;p&gt;浏览器缓存,HTTP缓存有多种规则，根据是否需要重新向服务器发起请求来分类，我将其分为强制缓存，对比缓存（协商缓存）。&lt;br&gt;两者的主要区别是使用本地缓存的时候，是否需要向服务器验证本地缓存是否依旧有效。顾名思义，协商缓存，就是需要和服务器进行协商，最终确定是否使用本地缓存。&lt;/p&gt;
+&lt;p&gt;强制缓存判断HTTP首部字段：cache-control，Expires。&lt;/p&gt;
+&lt;p&gt;Expires是一个绝对时间，即服务器时间。浏览器检查当前时间，如果还没到失效时间就直接使用缓存文件。但是该方法存在一个问题：服务器时间与客户端时间可能不一致。因此该字段已经很少使用。&lt;/p&gt;
+&lt;p&gt;cache-control中的max-age保存一个相对时间。例如Cache-Control: max-age = 484200，表示浏览器收到文件后，缓存在484200s内均有效。如果同时存在cache-control和Expires，浏览器总是优先使用cache-control。&lt;/p&gt;
+&lt;p&gt;协商缓存通过HTTP的last-modified，Etag字段进行判断。&lt;/p&gt;
+&lt;p&gt;last-modified是第一次请求资源时，服务器返回的字段，表示最后一次更新的时间。下一次浏览器请求资源时就发送if-modified-since字段。服务器用本地Last-modified时间与if-modified-since时间比较，如果不一致则认为缓存已过期并返回新资源给浏览器；如果时间一致则发送304状态码，让浏览器继续使用缓存。&lt;/p&gt;
+&lt;p&gt;Etag：资源的实体标识（哈希字符串），当资源内容更新时，Etag会改变。服务器会判断Etag是否发生变化，如果变化则返回新资源，否则返回304。&lt;/p&gt;
+&lt;p&gt;如果需要浏览器强缓存，我们可以这样设置：&lt;br&gt;res.setHeader(‘Cache-Control’, ‘public, max-age=xxx’);&lt;br&gt;复制代码如果需要协商缓存，则可以这样设置：&lt;br&gt;res.setHeader(‘Cache-Control’, ‘public, max-age=0’);&lt;br&gt;res.setHeader(‘Last-Modified’, xxx);&lt;br&gt;res.setHeader(‘ETag’, xxx);&lt;/p&gt;
+&lt;h1 id=&quot;TCP-三次握手-四次挥手&quot;&gt;&lt;a href=&quot;#TCP-三次握手-四次挥手&quot; class=&quot;headerlink&quot; title=&quot;TCP 三次握手 四次挥手&quot;&gt;&lt;/a&gt;TCP 三次握手 四次挥手&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/qq_38950316/article/details/81087809&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://blog.csdn.net/qq_38950316/article/details/81087809&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;常见状态码&quot;&gt;&lt;a href=&quot;#常见状态码&quot; class=&quot;headerlink&quot; title=&quot;常见状态码&quot;&gt;&lt;/a&gt;常见状态码&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;1xx: 接受，继续处理&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;200: 成功，并返回数据&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;201: 已创建&lt;/li&gt;
+&lt;li&gt;202: 已接受&lt;/li&gt;
+&lt;li&gt;203: 成为，但未授权&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;204: 成功，无内容&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;205: 成功，重置内容&lt;/li&gt;
+&lt;li&gt;206: 成功，部分内容&lt;/li&gt;
+&lt;li&gt;301: 永久移动，重定向&lt;/li&gt;
+&lt;li&gt;302: 临时移动，可使用原有URI&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;304: 资源未修改，可使用缓存&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;305: 需代理访问&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;400: 请求语法错误&lt;/li&gt;
+&lt;li&gt;401: 要求身份认证&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;403: 拒绝请求&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;404: 资源不存在&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;500: 服务器错误&lt;/strong&gt;&lt;h3 id=&quot;GET-POST&quot;&gt;&lt;a href=&quot;#GET-POST&quot; class=&quot;headerlink&quot; title=&quot;GET POST&quot;&gt;&lt;/a&gt;GET POST&lt;/h3&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;GET把参数包含在URL中，而POST将数据放在BODY中。&lt;/li&gt;
+&lt;li&gt;GET方式提交的数据有长度限制，则POST的数据则可以非常大。&lt;/li&gt;
+&lt;li&gt;POST比GET安全，因为数据在地址栏上不可见。&lt;/li&gt;
+&lt;li&gt;GET 会被历史保存记录，POST中的参数不会被保留&lt;/li&gt;
+&lt;li&gt;GET只能进行url编码，POST支持更多编码类型（请求头中的Content-Type属性表示编码方式）&lt;/li&gt;
+&lt;li&gt;对参数的数据类型，GET只接受ASCII字符，而POST没有限制&lt;/li&gt;
+&lt;li&gt;GET在浏览器回退时是无害的，而POST会再次提交请求&lt;/li&gt;
+&lt;li&gt;GET能被缓存，而POST不能&lt;/li&gt;
+&lt;li&gt;GET是幂等(请求次数与资源无关)的。幂等性是指一次和多次请求某一个资源应该具有同样的副作用。简单来说意味着对同一URL的多个请求应该返回同样的结果。&lt;br&gt;GET和POST本质上就是TCP链接，并无差别。但是由于HTTP的规定和浏览器/服务器的限制，导致他们在应用过程中体现出一些不同&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;get: &lt;ul&gt;
+&lt;li&gt;缓存、请求长度受限、会被历史保存记录 无副作用(不修改资源)，&lt;/li&gt;
+&lt;li&gt;发送一个TCP请求 &lt;/li&gt;
+&lt;li&gt;幂等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;post: 安全、大数据、更多编码类型 发送两个TCP请求 &lt;/li&gt;
+&lt;li&gt;最直观的区别就是GET把参数包含在URL中，POST通过request body传递参数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;X时Y分时的两针位置&quot;&gt;&lt;a href=&quot;#X时Y分时的两针位置&quot; class=&quot;headerlink&quot; title=&quot;X时Y分时的两针位置&quot;&gt;&lt;/a&gt;X时Y分时的两针位置&lt;/h1&gt;&lt;p&gt;θ=|6Y-(30X+0.5Y)|=|5.5Y-30X|,单位是度（°）；&lt;/p&gt;
+&lt;h1 id=&quot;归并排序&quot;&gt;&lt;a href=&quot;#归并排序&quot; class=&quot;headerlink&quot; title=&quot;归并排序&quot;&gt;&lt;/a&gt;归并排序&lt;/h1&gt;&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;mergeSort&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;arr&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; len = arr.length;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;(len &amp;gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; index = &lt;span class=&quot;built_in&quot;&gt;Math&lt;/span&gt;.floor(len / &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    left = arr.slice(&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;,index); &lt;span class=&quot;comment&quot;&gt;//得到下标从0~index-1的数组&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    right = arr.slice(index);  &lt;span class=&quot;comment&quot;&gt;//得到下标从index开始到末尾的数组&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; merge(mergeSort(left) , mergeSort(right));  里面采用递归&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; arr;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;merge&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;left , right&lt;/span&gt;) &lt;/span&gt;&amp;#123;   &lt;span class=&quot;comment&quot;&gt;//该函数与快排类似，但是仔细发现，每次left或者right都是要shift掉第一个元素，表示left或者right是会变化的，最后arr.concat，因为不知道left或者right其中一个哪个剩下元素，所以要将剩下的元素给加上&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; arr = [];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;while&lt;/span&gt;(left.length &amp;amp;&amp;amp; right.length) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;(left[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;] &amp;lt; right[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;]) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      arr.push(left.shift());&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      arr.push(right.shift())&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; arr.concat(left , right);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
 &lt;h1 id=&quot;js的bind、apply、call有什么区别&quot;&gt;&lt;a href=&quot;#js的bind、apply、call有什么区别&quot; class=&quot;headerlink&quot; title=&quot;js的bind、apply、call有什么区别&quot;&gt;&lt;/a&gt;js的bind、apply、call有什么区别&lt;/h1&gt;&lt;ul&gt;
 &lt;li&gt;fn.call(obj,…args)转换成obj.fn(…args)&lt;/li&gt;
@@ -239,7 +375,7 @@
     <link href="https://chiangming.github.io/2020/02/23/interview/vue/"/>
     <id>https://chiangming.github.io/2020/02/23/interview/vue/</id>
     <published>2020-02-22T16:15:39.000Z</published>
-    <updated>2020-02-25T02:55:23.631Z</updated>
+    <updated>2020-03-10T05:38:49.505Z</updated>
     
     <summary type="html">
     
@@ -595,29 +731,6 @@
 &lt;ul&gt;
 &lt;li&gt;合并component配置的过程中，&lt;code&gt;opts._renderChildren = vnodeComponentOptions.children;&lt;/code&gt;，&lt;/li&gt;
 &lt;li&gt;initRender 将 opts._renderChildren 挂载到 vm.$slots.default 上
-    
-    </summary>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/categories/Vue/"/>
-    
-    
-      <category term="Vue" scheme="https://chiangming.github.io/tags/Vue/"/>
-    
-      <category term="源码解析" scheme="https://chiangming.github.io/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>11.keep-alive</title>
-    <link href="https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/"/>
-    <id>https://chiangming.github.io/2019/12/22/vue%E6%BA%90%E7%A0%81/11.keep-alive/</id>
-    <published>2019-12-21T16:15:36.000Z</published>
-    <updated>2020-02-10T08:36:01.745Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;keep-alive组件是一个抽象组件，它的实现通过自定义render函数并且利用了插槽，并且知道了 keep-alive 缓存 vnode，了解组件包裹的子元素——也就是插槽是如何做更新的。且在 patch 过程中对于已缓存的组件不会执行 mounted，所以不会有一般的组件的生命周期函数但是又提供了activated 和 deactivated 钩子函数。另外我们还知道了keep-alive的 props 除了 include 和 exclude 还有文档中没有提到的 max，它能控制我们缓存的个数。&lt;/p&gt;
     
     </summary>
     

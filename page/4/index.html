@@ -66,6 +66,92 @@
     
     
     
+    <article id="post-vue源码/1.数据驱动" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/"
+    >1.数据驱动</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/" class="article-date">
+  <time datetime="2019-12-21T16:15:28.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                          <h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ol>
+<li>初始化，在Vue原型上部署各种方法，</li>
+<li><code>new Vue</code>时执行<code>Vue.prototype._init()</code><ul>
+<li>initState() =&gt; initData()</li>
+</ul>
+</li>
+<li>执行 <code>Vue.prototype.$mount</code><ul>
+<li>编译生成 render 函数</li>
+<li>mountComponent <ul>
+<li>new Watcher =&gt; this.get =&gt; this.getter() =&gt; vm._update(vm._render(), hydrating)</li>
+</ul>
+</li>
+<li>Vue.prototype._render()<ul>
+<li>render.call(vm._renderProxy, vm.$createElement)</li>
+</ul>
+</li>
+<li>Vue.prototype._update()<ul>
+<li>patch()
+                            
+                              <a class="article-more-link" href="/2019/12/22/vue%E6%BA%90%E7%A0%81/1.%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/">
+                                阅读更多...
+                              </a>
+                              
+                                
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" rel="tag">源码解析</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-interview/css" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -1403,72 +1489,6 @@ for (microTask of microTaskQueue) {
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li></ul>
-
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-  
-
-</article>
-    
-    <article id="post-跨域" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-      <header class="article-header">
-         
-<h2 itemprop="name">
-  <a class="article-title" href="/2018/12/22/%E8%B7%A8%E5%9F%9F/"
-    >跨域</a
-  >
-</h2>
-  
-
-      </header>
-      
-
-        
-          <div class="article-meta">
-            <a href="/2018/12/22/%E8%B7%A8%E5%9F%9F/" class="article-date">
-  <time datetime="2018-12-21T16:15:28.000Z" itemprop="datePublished">2018-12-22</time>
-</a>
-              
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/">前端理论</a>
-  </div>
-
-                
-                  
-                    
-          </div>
-          
-
-            
-
-                  <div class="article-entry" itemprop="articleBody">
-                    
-
-
-                      
-
-                        
-                                  <h1 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h1><h1 id="ACCESS-CONTROL-ALLOW-ORIGIN响应头"><a href="#ACCESS-CONTROL-ALLOW-ORIGIN响应头" class="headerlink" title="ACCESS-CONTROL-ALLOW-ORIGIN响应头"></a>ACCESS-CONTROL-ALLOW-ORIGIN响应头</h1><h1 id="nginx反向代理"><a href="#nginx反向代理" class="headerlink" title="nginx反向代理"></a>nginx反向代理</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /a/ &#123;</span><br><span class="line">  proxy_pass http://192.168.0.12:80/;   # 将url/a路径反向代理到http://192.168.0.12:80/</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> location /a &#123;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  proxy_pass http://192.168.0.12:80/;   <span class="comment"># 将url/a路径反向代理到http://192.168.0.12:80/a</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> &#125;</span></span><br></pre></td></tr></table></figure>
-<h1 id="nginx负载均衡"><a href="#nginx负载均衡" class="headerlink" title="nginx负载均衡"></a>nginx负载均衡</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    upstream group1&#123;                  # 负载均衡</span><br><span class="line">      server http://192.168.0.12:80 weight=10; #配置权重 10：1</span><br><span class="line">      server http://192.168.0.12:81 weight=1;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    gzip  on; # 开启gzip加速网页加载</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">	      default_type  text/html;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">           proxy_pass http://group1/;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-                                    
-
-                                      <!-- copyright -->
-                                      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF%E7%90%86%E8%AE%BA/" rel="tag">前端理论</a></li></ul>
 
 
     </footer>

@@ -63,7 +63,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">9.8k字</span>
+            <span class="post-count">9.9k字</span>
         </span>
     </span>
 
@@ -72,7 +72,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">38分钟</span>
+            <span class="post-count">39分钟</span>
         </span>
     </span>
 </div>
@@ -154,6 +154,7 @@
 <li>Object.defineProperty只能劫持对象的属性，从而需要对每个对象，每个属性进行遍历，如果，属性值是对象，还需要深度遍历。Proxy可以劫持整个对象，并返回一个新的对象。</li>
 <li>Proxy不仅可以代理对象，还可以代理数组。还可以代理动态增加的属性。</li>
 </ul>
+<h1 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h1><p>ViewModel 通过双向数据绑定把 View 层和 Model层连接了起来，而View和 Model 之间的同步工作完全是自动的，无需人为干涉，因此开发者只需关注业务逻辑，不需要手动操作DOM，不需要关注数据状态的同步问题</p>
 <h1 id="Vue-的双向数据绑定，Model-如何改变-View，View-又是如何改变-Model-的？"><a href="#Vue-的双向数据绑定，Model-如何改变-View，View-又是如何改变-Model-的？" class="headerlink" title="Vue 的双向数据绑定，Model 如何改变 View，View 又是如何改变 Model 的？"></a>Vue 的双向数据绑定，Model 如何改变 View，View 又是如何改变 Model 的？</h1><p>双向数据绑定无非就是在单向绑定的基础上给可输入元素（input、textare等）添加了change(input)事件，来动态修改model和 view</p>
 <p>vue.js 采用<strong>数据劫持</strong>结合<strong>发布者-订阅者模式</strong>的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。</p>
 <p>要实现mvvm的双向绑定，就必须要实现以下几点： </p>

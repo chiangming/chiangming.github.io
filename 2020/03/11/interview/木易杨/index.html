@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    Archives |  Matt&#39;s Blog
+    interview/木易杨 |  Matt&#39;s Blog
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -32,254 +32,188 @@
     <div id="app">
       <main class="content">
         <section class="outer">
-  <article class="articles">
+  <article id="post-interview/木易杨" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
     
-    
-    <h1 class="page-type-title">Archives</h1>
-    
-    
+      <header class="article-header">
+         
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  interview/木易杨
+</h1>
   
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2020" class="archive-year">2020</a>
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2020/03/11/interview/%E6%9C%A8%E6%98%93%E6%9D%A8/" class="article-date">
+  <time datetime="2020-03-11T02:25:21.186Z" itemprop="datePublished">2020-03-11</time>
+</a>
+              
+                
+                  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">328字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">1分钟</span>
+        </span>
+    </span>
+</div>
+
+                    
+          </div>
+          
+
+            
+              
+    <div class="tocbot"></div>
+
+
+
+
+
+                
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h1 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h1><ul>
+<li>垂直放置。</li>
+<li>外边距折叠。</li>
+<li>margin-left触碰容器左边缘border-left（对于从右到左的格式来说，则触碰到右边缘）</li>
+<li>不与float 重叠</li>
+<li>浮动元素计算高度</li>
+</ul>
+<p>实现：</p>
+<ul>
+<li>html 根元素</li>
+<li>float 浮动</li>
+<li>position absolute 和fixed</li>
+<li>overflow 不为 visiable</li>
+<li>display 为表格布局或者弹性布局</li>
+</ul>
+<h1 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h1><ul>
+<li>absolute+transform: translate(-50%,-50%);</li>
+<li>flex + align-items: center + justify-content:center;</li>
+</ul>
+<h1 id="opacity-0、visibility-hidden、display-none"><a href="#opacity-0、visibility-hidden、display-none" class="headerlink" title="opacity: 0、visibility: hidden、display: none"></a>opacity: 0、visibility: hidden、display: none</h1><ul>
+<li>display: none (不占空间，不能点击)（场景，显示出原来这里不存在的结构）（不会被子元素继承）（重排，性能较差）</li>
+<li>visibility: hidden（占据空间，不能点击）（场景：显示不会导致页面结构发生变动，不会撑开）（子元素visibility: visible; 来取消隐藏）（重绘，性能较高）</li>
+<li>opacity: 0（占据空间，可以点击）（场景：可以跟transition搭配）（不能通过 opacity: 1 来取消隐藏）（提升为新图层，不会触发重绘，性能较高）</li>
+</ul>
+<h1 id="内联width-480px-important样式覆盖"><a href="#内联width-480px-important样式覆盖" class="headerlink" title="内联width:480px!important样式覆盖"></a>内联width:480px!important样式覆盖</h1><ul>
+<li>max-width:300px;覆盖</li>
+<li>transform: scale(0.625, 1)</li>
+<li>width:300px!important;</li>
+<li>element.setAttribute(“style”,”width:300px!important;”)</li>
+</ul>
+<h1 id="1px问题"><a href="#1px问题" class="headerlink" title="1px问题"></a>1px问题</h1><p>伪类 + transform: scaleY(0.5);</p>
+<h1 id="IFC"><a href="#IFC" class="headerlink" title="IFC"></a>IFC</h1><ul>
+<li>content box/area的高由font-size决定的；</li>
+<li>content box/area的宽等于其子行级盒子的外宽度(margin+border+padding+content width)之和。</li>
+<li>inline-level box宽度大于父容器宽度时会被拆分成多个inline-level box</li>
+</ul>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://chiangming.github.io/2020/03/11/interview/%E6%9C%A8%E6%98%93%E6%9D%A8/" alt="微信分享二维码">
     </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/03/11/interview/%E6%9C%A8%E6%98%93%E6%9D%A8/" class="archive-article-date">
-  <time datetime="2020-03-11T02:25:21.186Z" itemprop="datePublished">03/11</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/03/11/interview/%E6%9C%A8%E6%98%93%E6%9D%A8/"
-    >interview/木易杨</a
-  >
-</h2>
-  
+</div>
 
-    </header>
-    
-    
-  </div>
-</article>
+<div id="share-mask"></div>
       
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/03/09/%E6%8E%98%E9%87%91/leetcode/" class="archive-article-date">
-  <time datetime="2020-03-08T16:15:28.000Z" itemprop="datePublished">03/09</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/03/09/%E6%8E%98%E9%87%91/leetcode/"
-    >leetcode</a
-  >
-</h2>
-  
+      
 
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/03/05/interview/%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
-  <time datetime="2020-03-05T06:40:33.027Z" itemprop="datePublished">03/05</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/03/05/interview/%E4%BA%8C%E5%8F%89%E6%A0%91/"
-    >interview/二叉树</a
-  >
-</h2>
-  
+    </footer>
 
-    </header>
-    
-    
   </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/03/03/%E6%8E%98%E9%87%91/promise/" class="archive-article-date">
-  <time datetime="2020-03-03T09:00:37.788Z" itemprop="datePublished">03/03</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/03/03/%E6%8E%98%E9%87%91/promise/"
-    >掘金/promise</a
-  >
-</h2>
-  
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/03/03/%E6%8E%98%E9%87%91/%E6%95%B4%E7%90%861/" class="archive-article-date">
-  <time datetime="2020-03-03T01:32:50.155Z" itemprop="datePublished">03/03</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/03/03/%E6%8E%98%E9%87%91/%E6%95%B4%E7%90%861/"
-    >掘金/整理1</a
-  >
-</h2>
-  
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/25/%E9%98%AE%E4%B8%80%E5%B3%B0/400/" class="archive-article-date">
-  <time datetime="2020-02-25T01:55:54.561Z" itemprop="datePublished">02/25</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/02/25/%E9%98%AE%E4%B8%80%E5%B3%B0/400/"
-    >阮一峰/400</a
-  >
-</h2>
-  
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/24/interview/%E9%9D%A2%E8%AF%95/" class="archive-article-date">
-  <time datetime="2020-02-24T00:04:11.241Z" itemprop="datePublished">02/24</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/02/24/interview/%E9%9D%A2%E8%AF%95/"
-    >interview/面试</a
-  >
-</h2>
-  
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/23/interview/vue/" class="archive-article-date">
-  <time datetime="2020-02-22T16:15:39.000Z" itemprop="datePublished">02/23</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/02/23/interview/vue/"
-    >Vue题目</a
-  >
-</h2>
-  
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/23/interview/js%E7%BC%96%E7%A8%8B/" class="archive-article-date">
-  <time datetime="2020-02-22T16:15:39.000Z" itemprop="datePublished">02/23</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/02/23/interview/js%E7%BC%96%E7%A8%8B/"
-    >编程</a
-  >
-</h2>
-  
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/20/interview/vue-blog/" class="archive-article-date">
-  <time datetime="2020-02-20T02:11:00.675Z" itemprop="datePublished">02/20</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/02/20/interview/vue-blog/"
-    >interview/vue-blog</a
-  >
-</h2>
-  
-
-    </header>
-    
-    
-  </div>
-</article>
-      
-      
-    </div>
-  </div>
-  
-  
 
   
-  <nav class="page-nav">
+  
+  <nav class="article-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/2/">下一页</a>
+    
+      <a href="/2020/03/09/%E6%8E%98%E9%87%91/leetcode/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">leetcode</div>
+      </a>
+    
   </nav>
+
+
   
+
+  
+
+  
+  
+  
+
+</article>
 </section>
 
           <div class="to_top">
@@ -410,6 +344,30 @@
 </script>
 
 
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
 
 
 <script>

@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>interview/木易杨</title>
+    <url>/2020/03/11/interview/%E6%9C%A8%E6%98%93%E6%9D%A8/</url>
+    <content><![CDATA[<h1 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h1><ul>
+<li>垂直放置。</li>
+<li>外边距折叠。</li>
+<li>margin-left触碰容器左边缘border-left（对于从右到左的格式来说，则触碰到右边缘）</li>
+<li>不与float 重叠</li>
+<li>浮动元素计算高度</li>
+</ul>
+<p>实现：</p>
+<ul>
+<li>html 根元素</li>
+<li>float 浮动</li>
+<li>position absolute 和fixed</li>
+<li>overflow 不为 visiable</li>
+<li>display 为表格布局或者弹性布局</li>
+</ul>
+<h1 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h1><ul>
+<li>absolute+transform: translate(-50%,-50%);</li>
+<li>flex + align-items: center + justify-content:center;</li>
+</ul>
+<h1 id="opacity-0、visibility-hidden、display-none"><a href="#opacity-0、visibility-hidden、display-none" class="headerlink" title="opacity: 0、visibility: hidden、display: none"></a>opacity: 0、visibility: hidden、display: none</h1><ul>
+<li>display: none (不占空间，不能点击)（场景，显示出原来这里不存在的结构）（不会被子元素继承）（重排，性能较差）</li>
+<li>visibility: hidden（占据空间，不能点击）（场景：显示不会导致页面结构发生变动，不会撑开）（子元素visibility: visible; 来取消隐藏）（重绘，性能较高）</li>
+<li>opacity: 0（占据空间，可以点击）（场景：可以跟transition搭配）（不能通过 opacity: 1 来取消隐藏）（提升为新图层，不会触发重绘，性能较高）</li>
+</ul>
+<h1 id="内联width-480px-important样式覆盖"><a href="#内联width-480px-important样式覆盖" class="headerlink" title="内联width:480px!important样式覆盖"></a>内联width:480px!important样式覆盖</h1><ul>
+<li>max-width:300px;覆盖</li>
+<li>transform: scale(0.625, 1)</li>
+<li>width:300px!important;</li>
+<li>element.setAttribute(“style”,”width:300px!important;”)</li>
+</ul>
+<h1 id="1px问题"><a href="#1px问题" class="headerlink" title="1px问题"></a>1px问题</h1><p>伪类 + transform: scaleY(0.5);</p>
+<h1 id="IFC"><a href="#IFC" class="headerlink" title="IFC"></a>IFC</h1><ul>
+<li>content box/area的高由font-size决定的；</li>
+<li>content box/area的宽等于其子行级盒子的外宽度(margin+border+padding+content width)之和。</li>
+<li>inline-level box宽度大于父容器宽度时会被拆分成多个inline-level box</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>leetcode</title>
     <url>/2020/03/09/%E6%8E%98%E9%87%91/leetcode/</url>
     <content><![CDATA[<h2 id="数组方法"><a href="#数组方法" class="headerlink" title="数组方法"></a>数组方法</h2><ul>
@@ -841,7 +882,7 @@ return (typeof o === &#39;object&#39; || typeof o === &#39;function&#39;) &amp;&
 <li>操作 DOM 是很慢的,操作 JS 对象会快很多</li>
 <li>判断新旧两个 JS 对象的最小差异并且实现局部更新 DOM</li>
 </ul>
-<h2 id="前端路由"><a href="#前端路由" class="headerlink" title="前端路由"></a>前端路由</h2><p>监听 URL 的变化，然后匹配路由规则，显示相应的页面，并且无须刷新页面</p>
+<h2 id="前端路由-vue-router"><a href="#前端路由-vue-router" class="headerlink" title="前端路由 vue router"></a>前端路由 vue router</h2><p>监听 URL 的变化，然后匹配路由规则，显示相应的页面，并且无须刷新页面</p>
 <ul>
 <li>Hash 模式只可以更改 # 后面的内容，History 模式可以通过 API 设置任意的同源 URL</li>
 <li>History 模式可以通过 API 添加任意类型的数据到历史记录中，Hash 模式只能更改哈希值，也就是字符串</li>
@@ -1008,14 +1049,14 @@ return (typeof o === &#39;object&#39; || typeof o === &#39;function&#39;) &amp;&
   <entry>
     <title>interview/面试</title>
     <url>/2020/02/24/interview/%E9%9D%A2%E8%AF%95/</url>
-    <content><![CDATA[<h1 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h1><h2 id="JS获取当年当月最后一天日期"><a href="#JS获取当年当月最后一天日期" class="headerlink" title="JS获取当年当月最后一天日期"></a>JS获取当年当月最后一天日期</h2><p>var new_date = new Date(new_year,new_month,1); //取当年次月中的第一天<br>return (new Date(new_date.getTime()-1000<em>60</em>60*24)).getDate();//获取当月最后一天日期 </p>
-<h2 id="为什么js里需要闭包"><a href="#为什么js里需要闭包" class="headerlink" title="为什么js里需要闭包"></a>为什么js里需要闭包</h2><ul>
+    <content><![CDATA[<h1 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h1><h1 id="JS获取当年当月最后一天日期"><a href="#JS获取当年当月最后一天日期" class="headerlink" title="JS获取当年当月最后一天日期"></a>JS获取当年当月最后一天日期</h1><p>var new_date = new Date(new_year,new_month,1); //取当年次月中的第一天<br>return (new Date(new_date.getTime()-1000<em>60</em>60*24)).getDate();//获取当月最后一天日期 </p>
+<h1 id="为什么js里需要闭包"><a href="#为什么js里需要闭包" class="headerlink" title="为什么js里需要闭包"></a>为什么js里需要闭包</h1><ul>
 <li>js也采用词法作用域是在函数定义时决定的，而不是函数调用时决定的。</li>
 <li>C语言这种底层编程语言中，函数中的非静态变量是储存在CPU栈中的，当函数调用结束后堆栈中的空间也由编译器自动释放。</li>
 <li>js闭包函数中的该函数被定义时所有外层的变量对象的引用被放在其上下文Scope属性作为一个作用域链包含，</li>
 <li>所以定义了闭包的函数虽然销毁了，但是其变量对象依然被绑定在函数inner上，保留在内存中。不被GC</li>
 </ul>
-<h3 id="TIP"><a href="#TIP" class="headerlink" title="TIP:"></a>TIP:</h3><ul>
+<h2 id="TIP"><a href="#TIP" class="headerlink" title="TIP:"></a>TIP:</h2><ul>
 <li>变量对象与活动对象的概念是ES3提出的老概念，从ES5开始就用词法环境和变量环境替代了</li>
 <li>变量环境也是词法环境，它具备词法环境所有属性，一样有环境记录EnvironmentRecord（VO）与outer外部环境引入（作用域链）。</li>
 <li>作用域链是处理标识符时进行变量查询的变量对象列表</li>
@@ -1023,7 +1064,7 @@ return (typeof o === &#39;object&#39; || typeof o === &#39;function&#39;) &amp;&
 <li>变量对象是与执行上下文相关的数据作用域</li>
 <li>在函数上下文中，我们用活动对象来表示变量对象 对应于 词法记录</li>
 </ul>
-<h2 id="js解析引擎解析"><a href="#js解析引擎解析" class="headerlink" title="js解析引擎解析"></a>js解析引擎解析</h2><ul>
+<h1 id="js解析引擎解析"><a href="#js解析引擎解析" class="headerlink" title="js解析引擎解析"></a>js解析引擎解析</h1><ul>
 <li>js是脚本语言，浏览器解析js过程分为：语法检查阶段和运行阶段。</li>
 <li>语法检查：<ul>
 <li>字符流 - 记号流 - AST抽象语法树</li>
@@ -1047,15 +1088,128 @@ return (typeof o === &#39;object&#39; || typeof o === &#39;function&#39;) &amp;&
 </ul>
 </li>
 </ul>
-<h2 id="fetch跨与-cookie"><a href="#fetch跨与-cookie" class="headerlink" title="fetch跨与 cookie"></a>fetch跨与 cookie</h2><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> myHeaders = <span class="keyword">new</span> Headers();</span><br><span class="line">fetch(url, &#123;</span><br><span class="line">              method: <span class="string">'GET'</span>,</span><br><span class="line">              headers: myHeaders,</span><br><span class="line">              credentials: <span class="string">"include"</span></span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure>
+<h1 id="fetch跨域-cookie"><a href="#fetch跨域-cookie" class="headerlink" title="fetch跨域 cookie"></a>fetch跨域 cookie</h1><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> myHeaders = <span class="keyword">new</span> Headers();</span><br><span class="line">fetch(url, &#123;</span><br><span class="line">              method: <span class="string">'GET'</span>,</span><br><span class="line">              headers: myHeaders,</span><br><span class="line">              credentials: <span class="string">"include"</span></span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure>
 <p>在后台添加。允许浏览器<br><code>response.setHeader(&quot;Access-Control-Allow-Credentials&quot;,&quot;true&quot;);</code><br><code>response.setHeader(‘Access-Control-Allow-Origin’, ‘http://localhost:8080’)//不能为*</code></p>
-<h2 id="express-中间件"><a href="#express-中间件" class="headerlink" title="express 中间件"></a>express 中间件</h2><p>Express框架建立在node.js内置的http模块上。<br>Express框架的核心是对http模块的再包装。<br>Express框架等于在http模块之上，加了一个中间层。</p>
-<p>app.use（[path]，function）<br>path：是路由的url，默认参数‘/‘，意义是路由到这个路径时使用这个中间件<br>function：中间件函数<br>这个中间件函数可以理解为就是function(request,response,next)</p>
-<p>express.static(__dirname + ‘/public’) // express.static 是Express目前唯一内置的一个中间件。用来处理静态资源文件。</p>
-<h2 id="body-parser"><a href="#body-parser" class="headerlink" title="body-parser"></a>body-parser</h2><p>post请求，enctype属性一般设置为“application/x-www-form-urlencoded”，用于key1=val1&amp;key2=val2 的方式进行编码<br>如果设置成multipart/form-data，则多用于文件上传<br>如果设置成application/json,用于json序列化</p>
+<h1 id="express-中间件"><a href="#express-中间件" class="headerlink" title="express 中间件"></a>express 中间件</h1><p>Express框架建立在node.js内置的http模块上。<br>Express框架的核心是对http模块的再包装。<br>Express框架等于在http模块之上，加了一个中间层。<br>应用层中间件、路由中间件、内置中间件、错误处理中间件和第三方中间件</p>
+<h2 id="应用层中间件"><a href="#应用层中间件" class="headerlink" title="应用层中间件"></a>应用层中间件</h2><p>app.use（[path]，function）<br>path：是路由的url，默认参数‘/‘，意义是路由到这个路径时使用这个中间件<br>function：中间件函数<br>这个中间件函数可以理解为就是function(request,response,next)</p>
+<h2 id="内置中间件express-static"><a href="#内置中间件express-static" class="headerlink" title="内置中间件express.static"></a>内置中间件express.static</h2><p>express.static(__dirname + ‘/public’) // express.static 是Express目前唯一内置的一个中间件。用来处理静态资源文件。</p>
+<h2 id="路由中间件-express-Router"><a href="#路由中间件-express-Router" class="headerlink" title="路由中间件 express.Router();"></a>路由中间件 express.Router();</h2><h2 id="body-parser"><a href="#body-parser" class="headerlink" title="body-parser"></a>body-parser</h2><p>post请求，enctype属性一般设置为“application/x-www-form-urlencoded”，用于key1=val1&amp;key2=val2 的方式进行编码<br>如果设置成multipart/form-data，则多用于文件上传<br>如果设置成application/json,用于json序列化</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"#"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"application/x-www-form-urlencoded"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> bodyParser=<span class="built_in">require</span>(<span class="string">"body-parser"</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 解析以 application/json 和 application/x-www-form-urlencoded 提交的数据</span></span><br><span class="line"><span class="keyword">var</span> jsonParser = bodyParser.json();</span><br><span class="line"><span class="keyword">var</span> urlencodedParser = bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">false</span> &#125;);</span><br></pre></td></tr></table></figure>
 
+<h3 id="动态路由-req-params"><a href="#动态路由-req-params" class="headerlink" title="动态路由 req.params"></a>动态路由 req.params</h3><h3 id="get传参-req-query-参数名"><a href="#get传参-req-query-参数名" class="headerlink" title="get传参 req.query.参数名"></a>get传参 req.query.参数名</h3><h2 id="cookie-parser"><a href="#cookie-parser" class="headerlink" title="cookie-parser"></a>cookie-parser</h2><p>const cookieParser=require(“cookie-parser”);</p>
+<p>app.use(cookieParser());</p>
+<p>res.cookie(“name”,’zhangsan’,{maxAge: 900000, httpOnly: true});<br>//res.cookie(名称,值,{配置信息})</p>
+<h3 id="cookie加密-crypto"><a href="#cookie加密-crypto" class="headerlink" title="cookie加密 crypto"></a>cookie加密 crypto</h3><h2 id="express-session"><a href="#express-session" class="headerlink" title="express-session"></a>express-session</h2><h1 id="什么是事件委托吗？"><a href="#什么是事件委托吗？" class="headerlink" title="什么是事件委托吗？"></a>什么是事件委托吗？</h1><p>利用事件冒泡机制，给所有的li绑定点击事件，极为繁琐，这时候需要用到事件代理给ul绑定事件<br>element.addEventListener(event, function, useCapture)；<br>attachEvent()     //IE8及IE更早版本</p>
+<ol>
+<li>大量减少内存占用，减少事件注册。</li>
+<li>新增元素实现动态绑定事件</li>
+</ol>
+<h2 id="2-对Promise了解吗？"><a href="#2-对Promise了解吗？" class="headerlink" title="2.对Promise了解吗？"></a>2.对Promise了解吗？</h2><p>promise构造函数是同步执行的，then方法是异步执行的，微任务</p>
+<h2 id="3-window的onload事件和domcontentloaded谁先谁后？"><a href="#3-window的onload事件和domcontentloaded谁先谁后？" class="headerlink" title="3.window的onload事件和domcontentloaded谁先谁后？"></a>3.window的onload事件和domcontentloaded谁先谁后？</h2><ol>
+<li>当 onload 事件触发时，页面上所有的DOM，样式表，脚本，图片，flash都已经加载完成了。</li>
+<li>当 DOMContentLoaded 事件触发时，仅当DOM加载完成，不包括样式表，图片，flash。</li>
+</ol>
+<h3 id="url展示的过程"><a href="#url展示的过程" class="headerlink" title="url展示的过程"></a>url展示的过程</h3><ul>
+<li>DNS 解析 域名 -&gt; ip （DNS缓存 浏览器/操作系统/hosts文件 -》本地配置的首选DNS服务器 -》运营商的DNS代我们的浏览器发起迭代DNS解析请求 -》com IP -》test.com IP -&gt; <a href="http://www.test.com" target="_blank" rel="noopener">www.test.com</a> IP</li>
+<li>TCP 三次握手</li>
+<li>发送请求，分析 url，设置请求报文(头，主体)</li>
+<li>服务器返回请求的文件 (html)</li>
+<li>浏览器渲染<ul>
+<li>HTML parser –&gt; DOM Tree<ul>
+<li>标记化算法，进行元素状态的标记</li>
+<li>dom 树构建</li>
+</ul>
+</li>
+<li>CSS parser –&gt; Style Tree<ul>
+<li>解析 css 代码，生成样式树</li>
+<li>css是由单独的下载线程异步下载的 </li>
+<li>css加载不会阻塞DOM树解析（异步加载时DOM照常构建） </li>
+<li>但会阻塞render树渲染（渲染时需等css加载完毕，因为render树需要css信息）  </li>
+</ul>
+</li>
+<li>attachment –&gt; Render Tree<ul>
+<li>结合 dom树 与 style树，生成渲染树</li>
+</ul>
+</li>
+<li>layout: 布局</li>
+<li>GPU painting: 像素绘制页面</li>
+</ul>
+</li>
+</ul>
+<h1 id="vue的渲染过程"><a href="#vue的渲染过程" class="headerlink" title="vue的渲染过程"></a>vue的渲染过程</h1><p>把模板编译为render函数<br>实例进行挂载, 根据根节点render函数的调用，递归的生成虚拟dom<br>对比虚拟dom，渲染到真实dom<br>组件内部data发生变化，组件和子组件引用data作为props重新调用render函数，生成虚拟dom, 返回到步骤3    </p>
+<h1 id="箭头函数this"><a href="#箭头函数this" class="headerlink" title="箭头函数this"></a>箭头函数this</h1><p>（1）默认指向定义它时，所处上下文的对象的this指向。即ES6箭头函数里this的指向就是 <strong>上下文里对象this指向</strong>，偶尔没有上下文对象，this就指向window<br>（2）即使是call，apply，bind等方法也不能改变箭头函数this的指向</p>
+<h1 id="for-in和-for-of"><a href="#for-in和-for-of" class="headerlink" title="for in和 for of"></a>for in和 for of</h1><p>for in会遍历数组所有的可枚举属性，包括原型。<br>for of遍历的只是数组内的元素，而不包括数组的原型属性method和索引name</p>
+<p>for in来遍历对象的键名/索引</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> myObject) &#123;</span><br><span class="line">　　<span class="keyword">if</span>（myObject.hasOwnProperty(key))&#123;</span><br><span class="line">　　　　<span class="built_in">console</span>.log(key);</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Object.keys(myObject)获取对象的实例属性组成的数组，不包括原型方法和属性</p>
+<p>for..of适用遍历数/数组对象/字符串/map/set等拥有迭代器对象的集合.但是不能遍历对象,因为没有迭代器对象.</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">jQuery.prototype[<span class="built_in">Symbol</span>.iterator] = <span class="built_in">Array</span>.prototype[<span class="built_in">Symbol</span>.iterator];</span><br></pre></td></tr></table></figure>
+
+<h1 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h1><p>Generator 函数是一个状态机，封装了多个内部状态。</p>
+<p>执行 Generator 函数会返回一个遍历器对象，<br>函数除了状态机，还是一个遍历器对象生成函数。返回的遍历器对象，可以依次遍历 Generator 函数内部的每一个状态。</p>
+<h1 id="浏览器下事件循环-Event-Loop"><a href="#浏览器下事件循环-Event-Loop" class="headerlink" title="浏览器下事件循环(Event Loop)"></a>浏览器下事件循环(Event Loop)</h1><p>主线程只会做一件事情，就是从消息队列里面取消息、执行消息，再取消息、再执行。当消息队列为空时，就会等待直到消息队列变成非空。而且主线程只有在将当前的消息执行完成后，才会去取下一个消息。这种机制就叫做事件循环机制，取一个消息并执行的过程叫做一次循环</p>
+<h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><ul>
+<li>在此次 tick 中选择最先进入宏任务队列的任务(oldest task)，如果有则执行(一次)</li>
+<li>检查是否存在 Microtasks，如果存在则不停地执行，直至清空 Microtasks Queue （在执行微任务的时候，如果又有微任务进入队列，则在此次循环中执行）</li>
+<li>更新 render （视图更新）</li>
+<li>主线程重复执行上述步骤<br>上述为一轮事件循环</li>
+</ul>
+<p><img src="http://103.14.34.148:9000/imgs/blog/img/browser-deom1-excute-animate.gif" alt=""></p>
+<h1 id="Http请求中的keep-alive"><a href="#Http请求中的keep-alive" class="headerlink" title="Http请求中的keep-alive"></a>Http请求中的keep-alive</h1><p>在http早期，每个http请求都要求打开一个tpc socket连接，并且使用一次之后就断开这个tcp连接。<br>使用keep-alive可以改善这种状态，即在一次TCP连接中可以持续发送多份数据而不会断开连接。通过使用keep-alive机制，可以减少tcp连接建立次数，也意味着可以减少TIME_WAIT状态连接，以此提高性能和提高httpd服务器的吞吐率(更少的tcp连接意味着更少的系统内核调用,socket的accept()和close()调用)。<br>但是，keep-alive并不是免费的午餐,长时间的tcp连接容易导致系统资源无效占用。配置不当的keep-alive，有时比重复利用连接带来的损失还更大。</p>
+<h1 id="1-从输入URL到页面加载发生了什么？url展示"><a href="#1-从输入URL到页面加载发生了什么？url展示" class="headerlink" title="1. 从输入URL到页面加载发生了什么？url展示"></a>1. 从输入URL到页面加载发生了什么？url展示</h1><p>1、浏览器的地址栏输入URL并按下回车。<br>2、浏览器查找当前URL是否存在缓存，并比较缓存是否过期。<br>3、DNS解析URL对应的IP。<br>4、根据IP建立TCP连接（三次握手）。<br>5、HTTP发起请求。<br>6、服务器处理请求，浏览器接收HTTP响应。<br>7、渲染页面，构建DOM树。<br>8、关闭TCP连接（四次挥手）。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/22/167d5e19c54ae53e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
+<h1 id="2-缓存相关的知识吧？"><a href="#2-缓存相关的知识吧？" class="headerlink" title="2. 缓存相关的知识吧？"></a>2. 缓存相关的知识吧？</h1><p>浏览器缓存,HTTP缓存有多种规则，根据是否需要重新向服务器发起请求来分类，我将其分为强制缓存，对比缓存（协商缓存）。<br>两者的主要区别是使用本地缓存的时候，是否需要向服务器验证本地缓存是否依旧有效。顾名思义，协商缓存，就是需要和服务器进行协商，最终确定是否使用本地缓存。</p>
+<p>强制缓存判断HTTP首部字段：cache-control，Expires。</p>
+<p>Expires是一个绝对时间，即服务器时间。浏览器检查当前时间，如果还没到失效时间就直接使用缓存文件。但是该方法存在一个问题：服务器时间与客户端时间可能不一致。因此该字段已经很少使用。</p>
+<p>cache-control中的max-age保存一个相对时间。例如Cache-Control: max-age = 484200，表示浏览器收到文件后，缓存在484200s内均有效。如果同时存在cache-control和Expires，浏览器总是优先使用cache-control。</p>
+<p>协商缓存通过HTTP的last-modified，Etag字段进行判断。</p>
+<p>last-modified是第一次请求资源时，服务器返回的字段，表示最后一次更新的时间。下一次浏览器请求资源时就发送if-modified-since字段。服务器用本地Last-modified时间与if-modified-since时间比较，如果不一致则认为缓存已过期并返回新资源给浏览器；如果时间一致则发送304状态码，让浏览器继续使用缓存。</p>
+<p>Etag：资源的实体标识（哈希字符串），当资源内容更新时，Etag会改变。服务器会判断Etag是否发生变化，如果变化则返回新资源，否则返回304。</p>
+<p>如果需要浏览器强缓存，我们可以这样设置：<br>res.setHeader(‘Cache-Control’, ‘public, max-age=xxx’);<br>复制代码如果需要协商缓存，则可以这样设置：<br>res.setHeader(‘Cache-Control’, ‘public, max-age=0’);<br>res.setHeader(‘Last-Modified’, xxx);<br>res.setHeader(‘ETag’, xxx);</p>
+<h1 id="TCP-三次握手-四次挥手"><a href="#TCP-三次握手-四次挥手" class="headerlink" title="TCP 三次握手 四次挥手"></a>TCP 三次握手 四次挥手</h1><p><a href="https://blog.csdn.net/qq_38950316/article/details/81087809" target="_blank" rel="noopener">https://blog.csdn.net/qq_38950316/article/details/81087809</a></p>
+<h3 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h3><ul>
+<li>1xx: 接受，继续处理</li>
+<li><strong>200: 成功，并返回数据</strong></li>
+<li>201: 已创建</li>
+<li>202: 已接受</li>
+<li>203: 成为，但未授权</li>
+<li><strong>204: 成功，无内容</strong></li>
+<li>205: 成功，重置内容</li>
+<li>206: 成功，部分内容</li>
+<li>301: 永久移动，重定向</li>
+<li>302: 临时移动，可使用原有URI</li>
+<li><strong>304: 资源未修改，可使用缓存</strong></li>
+<li><strong>305: 需代理访问</strong></li>
+<li>400: 请求语法错误</li>
+<li>401: 要求身份认证</li>
+<li><strong>403: 拒绝请求</strong></li>
+<li><strong>404: 资源不存在</strong></li>
+<li><strong>500: 服务器错误</strong><h3 id="GET-POST"><a href="#GET-POST" class="headerlink" title="GET POST"></a>GET POST</h3></li>
+</ul>
+<ol>
+<li>GET把参数包含在URL中，而POST将数据放在BODY中。</li>
+<li>GET方式提交的数据有长度限制，则POST的数据则可以非常大。</li>
+<li>POST比GET安全，因为数据在地址栏上不可见。</li>
+<li>GET 会被历史保存记录，POST中的参数不会被保留</li>
+<li>GET只能进行url编码，POST支持更多编码类型（请求头中的Content-Type属性表示编码方式）</li>
+<li>对参数的数据类型，GET只接受ASCII字符，而POST没有限制</li>
+<li>GET在浏览器回退时是无害的，而POST会再次提交请求</li>
+<li>GET能被缓存，而POST不能</li>
+<li>GET是幂等(请求次数与资源无关)的。幂等性是指一次和多次请求某一个资源应该具有同样的副作用。简单来说意味着对同一URL的多个请求应该返回同样的结果。<br>GET和POST本质上就是TCP链接，并无差别。但是由于HTTP的规定和浏览器/服务器的限制，导致他们在应用过程中体现出一些不同</li>
+</ol>
+<ul>
+<li>get: <ul>
+<li>缓存、请求长度受限、会被历史保存记录 无副作用(不修改资源)，</li>
+<li>发送一个TCP请求 </li>
+<li>幂等</li>
+</ul>
+</li>
+<li>post: 安全、大数据、更多编码类型 发送两个TCP请求 </li>
+<li>最直观的区别就是GET把参数包含在URL中，POST通过request body传递参数</li>
+</ul>
+<h1 id="X时Y分时的两针位置"><a href="#X时Y分时的两针位置" class="headerlink" title="X时Y分时的两针位置"></a>X时Y分时的两针位置</h1><p>θ=|6Y-(30X+0.5Y)|=|5.5Y-30X|,单位是度（°）；</p>
+<h1 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h1><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> len = arr.length;</span><br><span class="line">  <span class="keyword">if</span>(len &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> index = <span class="built_in">Math</span>.floor(len / <span class="number">2</span>);</span><br><span class="line">    left = arr.slice(<span class="number">0</span>,index); <span class="comment">//得到下标从0~index-1的数组</span></span><br><span class="line">    right = arr.slice(index);  <span class="comment">//得到下标从index开始到末尾的数组</span></span><br><span class="line">    <span class="keyword">return</span> merge(mergeSort(left) , mergeSort(right));  里面采用递归</span><br><span class="line">  &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params">left , right</span>) </span>&#123;   <span class="comment">//该函数与快排类似，但是仔细发现，每次left或者right都是要shift掉第一个元素，表示left或者right是会变化的，最后arr.concat，因为不知道left或者right其中一个哪个剩下元素，所以要将剩下的元素给加上</span></span><br><span class="line">  <span class="keyword">var</span> arr = [];</span><br><span class="line">  <span class="keyword">while</span>(left.length &amp;&amp; right.length) &#123;</span><br><span class="line">    <span class="keyword">if</span>(left[<span class="number">0</span>] &lt; right[<span class="number">0</span>]) &#123;</span><br><span class="line">      arr.push(left.shift());</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">      arr.push(right.shift())</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr.concat(left , right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="js的bind、apply、call有什么区别"><a href="#js的bind、apply、call有什么区别" class="headerlink" title="js的bind、apply、call有什么区别"></a>js的bind、apply、call有什么区别</h1><ul>
 <li>fn.call(obj,…args)转换成obj.fn(…args)</li>
@@ -1144,6 +1298,7 @@ return (typeof o === &#39;object&#39; || typeof o === &#39;function&#39;) &amp;&
 <li>Object.defineProperty只能劫持对象的属性，从而需要对每个对象，每个属性进行遍历，如果，属性值是对象，还需要深度遍历。Proxy可以劫持整个对象，并返回一个新的对象。</li>
 <li>Proxy不仅可以代理对象，还可以代理数组。还可以代理动态增加的属性。</li>
 </ul>
+<h1 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h1><p>ViewModel 通过双向数据绑定把 View 层和 Model层连接了起来，而View和 Model 之间的同步工作完全是自动的，无需人为干涉，因此开发者只需关注业务逻辑，不需要手动操作DOM，不需要关注数据状态的同步问题</p>
 <h1 id="Vue-的双向数据绑定，Model-如何改变-View，View-又是如何改变-Model-的？"><a href="#Vue-的双向数据绑定，Model-如何改变-View，View-又是如何改变-Model-的？" class="headerlink" title="Vue 的双向数据绑定，Model 如何改变 View，View 又是如何改变 Model 的？"></a>Vue 的双向数据绑定，Model 如何改变 View，View 又是如何改变 Model 的？</h1><p>双向数据绑定无非就是在单向绑定的基础上给可输入元素（input、textare等）添加了change(input)事件，来动态修改model和 view</p>
 <p>vue.js 采用<strong>数据劫持</strong>结合<strong>发布者-订阅者模式</strong>的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。</p>
 <p>要实现mvvm的双向绑定，就必须要实现以下几点： </p>

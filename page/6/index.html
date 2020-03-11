@@ -66,6 +66,85 @@
     
     
     
+    <article id="post-解构赋值" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+         
+<h2 itemprop="name">
+  <a class="article-title" href="/2018/11/21/%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/"
+    >解构赋值</a
+  >
+</h2>
+  
+
+      </header>
+      
+
+        
+          <div class="article-meta">
+            <a href="/2018/11/21/%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/" class="article-date">
+  <time datetime="2018-11-20T16:15:25.000Z" itemprop="datePublished">2018-11-21</time>
+</a>
+              
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javascript/">javascript</a>
+  </div>
+
+                
+                  
+                    
+          </div>
+          
+
+            
+
+                  <div class="article-entry" itemprop="articleBody">
+                    
+
+
+                      
+
+                        
+                                  <h3 id="变量的解构赋值"><a href="#变量的解构赋值" class="headerlink" title="变量的解构赋值"></a>变量的解构赋值</h3><h4 id="数组的解构赋值"><a href="#数组的解构赋值" class="headerlink" title="数组的解构赋值"></a>数组的解构赋值</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [a,b] = [<span class="number">1</span>,<span class="number">2</span>];</span><br><span class="line"><span class="comment">//默认值 只有在值为undefined时生效</span></span><br><span class="line"><span class="keyword">let</span> [a=<span class="number">2</span>,b=<span class="number">1</span>] = [<span class="number">1</span>,<span class="literal">undefined</span>]</span><br></pre></td></tr></table></figure>
+
+<h4 id="对象的解构赋值"><a href="#对象的解构赋值" class="headerlink" title="对象的解构赋值"></a>对象的解构赋值</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//变量名必须和属性名对应才能取到值</span></span><br><span class="line"><span class="keyword">var</span> &#123;foo,boo&#125; = &#123;<span class="attr">foo</span>:<span class="number">1</span>,<span class="attr">boo</span>:<span class="string">"hello"</span>&#125;;</span><br><span class="line"><span class="comment">//如果变量名和属性名不一致</span></span><br><span class="line"><span class="keyword">var</span> &#123;<span class="attr">foo</span>:name,<span class="attr">boo</span>:str&#125; = &#123;<span class="attr">foo</span>:<span class="number">1</span>,<span class="attr">boo</span>:<span class="string">"hello"</span>&#125;;</span><br><span class="line">name <span class="comment">//1</span></span><br><span class="line">str <span class="comment">//"hello"</span></span><br><span class="line"><span class="comment">//定义默认值</span></span><br><span class="line"><span class="keyword">var</span> &#123;<span class="attr">x</span>: y = <span class="number">3</span>&#125; = &#123;<span class="attr">x</span>: <span class="number">5</span>&#125;;</span><br><span class="line"><span class="comment">//在对一个已经声明的变量进行结构时，需要用大括号包住</span></span><br><span class="line"><span class="keyword">let</span> x;</span><br><span class="line">(&#123;x&#125; = &#123;<span class="attr">x</span>: <span class="number">1</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串解构赋值"><a href="#字符串解构赋值" class="headerlink" title="字符串解构赋值"></a>字符串解构赋值</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 字符串被当作数值处理，一个下标存放一个字母</span></span><br><span class="line"><span class="keyword">let</span> [a,b,c] = <span class="string">'hello'</span>;</span><br><span class="line">a <span class="comment">// 'h'</span></span><br><span class="line">b <span class="comment">// 'e'</span></span><br><span class="line">c <span class="comment">// 'l'</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="数值和布尔值解构赋值"><a href="#数值和布尔值解构赋值" class="headerlink" title="数值和布尔值解构赋值"></a>数值和布尔值解构赋值</h4><ul>
+<li>解构赋值时，如果等号右边是数值和布尔值，则会先转为对象。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> &#123;toString&#125; = <span class="number">123</span>;</span><br><span class="line">toString === <span class="built_in">Number</span>.prototype.toString; <span class="comment">//true</span></span><br></pre></td></tr></table></figure></li>
+<li>解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> &#123;toString&#125; = <span class="literal">undefined</span>;</span><br><span class="line"><span class="comment">//Uncaught TypeError: Cannot destructure property `string` of 'undefined' or 'null'.</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="函数参数的解构赋值"><a href="#函数参数的解构赋值" class="headerlink" title="函数参数的解构赋值"></a>函数参数的解构赋值</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">[x,y]</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(x+<span class="string">" "</span>+y);</span><br><span class="line">&#125;</span><br><span class="line">print([<span class="number">1</span>,<span class="number">2</span>]);</span><br><span class="line"><span class="comment">//解构使用默认值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">[x=<span class="number">0</span>,y=<span class="number">0</span>]</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(x+<span class="string">" "</span>+y);</span><br><span class="line">&#125;</span><br><span class="line">print([<span class="literal">undefined</span>,<span class="number">2</span>]);</span><br><span class="line"><span class="comment">//参数为对象的情况 解构使用默认值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">&#123;x=<span class="number">0</span>,y=<span class="number">0</span>&#125; = &#123;&#125;</span>)</span>&#123; <span class="comment">// = &#123;&#125; 避免没有参数的情况 默认参数为&#123;&#125;</span></span><br><span class="line">    <span class="built_in">console</span>.log(x+<span class="string">" "</span>+y);</span><br><span class="line">&#125;</span><br><span class="line">print(&#123;<span class="attr">y</span>:<span class="number">1</span>&#125;);</span><br><span class="line"><span class="comment">//在没有输入参数时，参数的默认值为&#123; x: 0, y: 0 &#125;，而不是解构的默认值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">move</span>(<span class="params">&#123;x, y&#125; = &#123; x: <span class="number">0</span>, y: <span class="number">0</span> &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1. 交换两个数据</span></span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>,b=<span class="number">2</span>;</span><br><span class="line">[b,a] = [a,b];</span><br><span class="line"><span class="comment">//2. 返回对象，数组更好取值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getData</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        name:<span class="string">'zz'</span>,</span><br><span class="line">        age:<span class="number">12</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#123;name,age&#125; = getData();</span><br><span class="line"><span class="comment">//3. 传参 更方便的将变量名 和一组参数对应</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printData</span>(<span class="params">&#123;name,age&#125;</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(name+<span class="string">" "</span>+age);</span><br><span class="line">&#125;</span><br><span class="line">printData(&#123;<span class="attr">name</span>:<span class="string">'zz'</span>,<span class="attr">age</span>:<span class="number">12</span>&#125;);</span><br><span class="line"><span class="comment">//4. 函数默认值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params">&#123;x=<span class="number">0</span>,y=<span class="number">0</span>&#125; = &#123;&#125;</span>)</span>&#123; <span class="comment">// = &#123;&#125; 避免没有参数的情况 默认参数为&#123;&#125;</span></span><br><span class="line">    <span class="built_in">console</span>.log(x+<span class="string">" "</span>+y);</span><br><span class="line">&#125;</span><br><span class="line">print(&#123;<span class="attr">y</span>:<span class="number">1</span>&#125;);</span><br><span class="line"><span class="comment">//5.Map遍历</span></span><br><span class="line"><span class="keyword">var</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">map.set(<span class="number">1</span>,<span class="string">"1"</span>);</span><br><span class="line">map.set(<span class="number">2</span>,<span class="string">"2"</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> [key,value] <span class="keyword">of</span> map)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(key+<span class="string">" "</span>+value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//6. 加载模块时，往往需要指定输入哪些方法</span></span><br><span class="line"><span class="keyword">var</span> &#123;getData,printData&#125; = <span class="built_in">require</span>(<span class="string">""</span>);</span><br></pre></td></tr></table></figure>
+
+                                    
+
+                                      <!-- copyright -->
+                                      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+  
+
+</article>
+    
     <article id="post-express" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
